@@ -12,7 +12,7 @@
   
 3. Install expo client using the following command line: npm install --global expo-cli
 4. Clone or fork this repo to your computer
-5. Install expo local server using : yarn add expo in the directory that contains app.js
+5. Install expo local server using : yarn add expo in the directory that contains app.js \
 5.1 Install firebase using yarn add firebase 
 6. Go to src/firebase/config.js and enter API keys info (This is where we connect react native to firebase)
 7. Go back to directory that contain app.js and run the command: expo start
