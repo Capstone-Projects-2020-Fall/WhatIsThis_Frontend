@@ -1,9 +1,12 @@
 # Installation Instruction
 
-1. Connect your phone to your computer and enable developer mode
+1. Connect your phone to your computer and enable developer mode (for iPhone, enable developer mode by  
+   connecting an iPhone while Xcode is running on a Mac) 
 2. Install yarn, node, and git if not installed \
   *yarn: https://classic.yarnpkg.com/en/docs/install/#windows-stable \
   *node: https://nodejs.org/en/download/ 
+  
+  yarn and node.js can also be installed on Mac/Linux through the homebrew command brew install yarn 
   
     *Check if these are installed!
     ![CheckTools](https://github.com/annguyen2790/firebase-reactnative/blob/master/Tools.PNG)
