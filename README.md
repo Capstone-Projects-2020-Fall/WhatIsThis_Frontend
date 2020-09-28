@@ -6,11 +6,11 @@
   *yarn: https://classic.yarnpkg.com/en/docs/install/#windows-stable \
   *node: https://nodejs.org/en/download/ 
   
-  yarn and node.js can also be installed on Mac/Linux through the homebrew command brew install yarn 
+  2.1 yarn and node.js can also be installed on Mac/Linux through the homebrew command brew install yarn \
   
-    *Check if these are installed!
-    ![CheckTools](https://github.com/annguyen2790/firebase-reactnative/blob/master/Tools.PNG)
-  
+ 
+  *Check if these are installed
+  ![CheckTools](https://github.com/annguyen2790/firebase-reactnative/blob/master/Tools.PNG)
   
   
 3. Install expo client using the following command line: npm install --global expo-cli
