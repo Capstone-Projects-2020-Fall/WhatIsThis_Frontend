@@ -14,7 +14,8 @@ export default function HomeScreen ({navigation}) {
     
 
     const onGetIDPress = () => {
-        ToastAndroid.show("Getting it!", ToastAndroid.SHORT);
+        ToastAndroid.show("Send it on the way!", ToastAndroid.SHORT);
+        console.log("Hello beautiful people!")
      
 
     }
