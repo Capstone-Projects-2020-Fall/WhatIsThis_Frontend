@@ -5,22 +5,8 @@ export default function HomeScreen ({navigation}) {
     const onReturnPress = () => {
         navigation.navigate('Login')
     }
-    // firebase.firestore().collection('users').get().then(  (snapshot) =>  { snapshot.docs
-    //     .forEach( doc => {console.log(doc.id)})
-    // });
 
-    // const usersRef = firebase.firestore().collection("users");
-    // usersRef.get().then(
-    //     (snapshot) => {
-    //         const data = snapshot.docs.map(                 
-    //             (doc) => ({id:doc.id, ...doc.data()})
-    //         )
-    //         console.log(data);
-    //     }
-
-    // );
-    
-
+    //checking if git working
    
     
     const usersRef = firebase.firestore().collection("users");
