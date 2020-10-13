@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import {firebase} from '../../firebase/config';
+import {Toast} from 'react-native-tiny-toast';
 
 export default function Reg({navigation}) {
     const [email, setEmail] = useState('');
@@ -45,7 +46,8 @@ export default function Reg({navigation}) {
             alert(error);
         });
 
-        ToastAndroid.show("Account Created Successfully!", ToastAndroid.SHORT);
+        //ToastAndroid.show("Account Created Successfully!", ToastAndroid.SHORT);
+        Toast.show("Account Created Successfully!", Toast.durations.SHORT);
         navigation.navigate("Login");
 
 

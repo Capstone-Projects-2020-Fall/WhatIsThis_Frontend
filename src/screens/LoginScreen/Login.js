@@ -1,7 +1,8 @@
 import { firestore } from 'firebase';
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import {firebase} from '../../firebase/config'
+import {Toast} from 'react-native-tiny-toast';
 
 function Login({navigation}){
     const [email, setEmail] = useState('');
@@ -13,7 +14,8 @@ function Login({navigation}){
     }
 
     const onLoginPress = () => {
-        ToastAndroid.show("All your base are belong to us", ToastAndroid.SHORT);
+        //ToastAndroid.show("All your base are belong to us", ToastAndroid.SHORT);
+        Toast.show("All your base are belong to us", Toast.durations.SHORT);
         //navigation.navigate('HomeScreen')
         firebase.
             auth().

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import {firebase} from '../../firebase/config';
+import {Toast} from 'react-native-tiny-toast';
 export default function HomeScreen ({navigation}) {
     const onReturnPress = () => {
         navigation.navigate('Login')
@@ -14,7 +15,8 @@ export default function HomeScreen ({navigation}) {
     
 
     const onGetIDPress = () => {
-        ToastAndroid.show("Send it on the way!", ToastAndroid.SHORT);
+        //ToastAndroid.show("Send it on the way!", ToastAndroid.SHORT);
+        Toast.show("Send it on the way!", Toast.durations.SHORT);
         console.log("Hello beautiful people!")
      
 
