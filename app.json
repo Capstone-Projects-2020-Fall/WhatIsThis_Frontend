@@ -1,6 +1,5 @@
 {
   "expo": {
-    "sdkVersion": "39.0.3",
     "name": "firebase-react-native",
     "slug": "firebase-react-native",
     "version": "1.0.0",
