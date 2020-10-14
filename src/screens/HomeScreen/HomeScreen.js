@@ -7,7 +7,7 @@ export default function HomeScreen ({navigation}) {
     }
 
     //checking if git working
-   
+    //checking in twice
     
     const usersRef = firebase.firestore().collection("users");
    
