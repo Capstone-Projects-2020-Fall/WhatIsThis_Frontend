@@ -15,7 +15,7 @@ function Login({navigation}){
 
     const onLoginPress = () => {
         //ToastAndroid.show("All your base are belong to us", ToastAndroid.SHORT);
-        Toast.show("All your base are belong to us", Toast.durations.SHORT);
+        Toast.show("All your base are belong to us");
         //navigation.navigate('HomeScreen')
         firebase.
             auth().

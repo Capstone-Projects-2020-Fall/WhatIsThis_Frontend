@@ -47,7 +47,8 @@ export default function Reg({navigation}) {
         });
 
         //ToastAndroid.show("Account Created Successfully!", ToastAndroid.SHORT);
-        Toast.show("Account Created Successfully!", Toast.durations.SHORT);
+        //Toast.show("Account Created Successfully!", Toast.durations.SHORT);
+        Toast.show("Account Created Successfully!")
         navigation.navigate("Login");
 
 
