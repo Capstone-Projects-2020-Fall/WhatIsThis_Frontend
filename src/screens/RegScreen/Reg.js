@@ -9,7 +9,10 @@ export default function Reg({navigation}) {
     
     const onRegistrationPress = () => {
         //ToastAndroid.show("Never gonna give you up! Never gonna let you down!", ToastAndroid.SHORT);
-
+        if(email == '' || password == '' || confirmPass == ''){
+            alert("Please enter all the info")
+            return
+        }
         if(password !== confirmPass){
             alert("Passwords do not match")
             return
@@ -32,9 +35,7 @@ export default function Reg({navigation}) {
                 usersRef
                     .doc(uid)
                     .set(data)
-                    .then(  () =>{ navigation.navigate('HomeScreen')
-                                .catch( (error) => {alert(error)});
-                                }
+                    .then(() =>{ navigation.navigate('HomeScreen').catch( (error) => {alert(error)}); }
                         );
             }        
             
@@ -43,6 +44,7 @@ export default function Reg({navigation}) {
         )
         .catch( (error) => {
             alert(error);
+            
         });
 
         ToastAndroid.show("Account Created Successfully!", ToastAndroid.SHORT);
