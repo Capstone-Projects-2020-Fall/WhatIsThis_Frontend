@@ -1,28 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react'
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, View } from 'react-native';
-import {Login, HomeScreen, Reg} from './src/screens';
-import {decode, encode} from 'base-64';
-import { NavigationContainer } from '@react-navigation/native';
-const Stack = createStackNavigator();
+import React,{Component} from 'react';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
+import LoadingScreen from './screens/LoadingScreen';
+import DashboardScreen from './screens/DashboardScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import firebase from 'firebase';
+import {firebaseConfig} from './config';
+import AppStack from './AppStack'
 
-export default function App() {
-
-  const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState(null)
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        { 
-          <>
-            <Stack.Screen name = "HomeScreen" component = {HomeScreen} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Registration" component={Reg} />
-          </>
-        }
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
+export default class App extends React.Component {
+  render() {
+    return (
+      <AppNavigator/>
+    );
+  }
+}
+//DashboardScreen will be HomeScreen
+const AppSwitchNavigator = createSwitchNavigator({
+  LoadingScreen: LoadingScreen,
+  LoginScreen: LoginScreen,
+  DashboardScreen: DashboardScreen,
+  SignUpScreen: SignUpScreen
+})
+
+const AppNavigator = createAppContainer(AppSwitchNavigator);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
