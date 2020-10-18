@@ -49,3 +49,8 @@ Remember, everytime you wish to create a new feature, branch off of develop. Thi
 If there is any confusion, see the link above, or talk to the team leader.
 
 If you need a refresher on git, there is a good cheatsheet [here](https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet).
+
+## For Milestone Demo 1
+* First run the command: `expo install expo-google-sign-in`
+* Then run the command: `yarn add react-navigation`
+* Then run the command: `yarn add react-navigation-stack @react-native-community/masked-view react-native-safe-area-context`
