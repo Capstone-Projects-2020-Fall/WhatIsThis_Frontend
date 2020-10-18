@@ -1,32 +1,30 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import {firebase} from '../../firebase/config';
-import {Toast} from 'react-native-tiny-toast';
+//import {Toast} from 'react-native-tiny-toast';
 export default function HomeScreen ({navigation}) {
     const onReturnPress = () => {
         navigation.navigate('Login')
     }
 
     //checking if git working
-   
+    //checking in twice
     
     const usersRef = firebase.firestore().collection("users");
    
     
-
+    /*
     const onGetIDPress = () => {
         //ToastAndroid.show("Send it on the way!", ToastAndroid.SHORT);
         Toast.show("Send it on the way!");
         console.log("Hello beautiful people!")
-     
-
-    }
+    }*/
 
   return (
     
     
     <View style={styles.regform}>
-        <Text>Home Sweet Home!</Text>
+        <Text>WhatIsThis App</Text>
 
         <TouchableOpacity style = {styles.button} onPress = {() => onGetIDPress()}>
 

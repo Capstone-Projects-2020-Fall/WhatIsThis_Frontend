@@ -1,5 +1,5 @@
-export { default as Login } from './LoginScreen/Login'
+export { default as Login } from './Login'
 
-export { default as HomeScreen } from './HomeScreen/HomeScreen'
+export { default as HomeScreen } from './HomeScreen'
 
-export { default as Reg } from './RegScreen/Reg'
+export { default as Reg } from './Reg'

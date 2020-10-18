@@ -2,7 +2,7 @@ import { firestore } from 'firebase';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import {firebase} from '../../firebase/config'
-import {Toast} from 'react-native-tiny-toast';
+//import {Toast} from 'react-native-tiny-toast';
 
 function Login({navigation}){
     const [email, setEmail] = useState('');
