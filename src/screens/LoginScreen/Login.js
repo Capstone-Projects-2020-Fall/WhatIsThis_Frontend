@@ -2,6 +2,7 @@ import { firestore } from 'firebase';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import {firebase} from '../../firebase/config'
+import {workoutInfoByMachine} from '../../../helpers'
 
 function Login({navigation}){
     const [email, setEmail] = useState('');
@@ -9,11 +10,12 @@ function Login({navigation}){
 
     const onFooterLinkPress = () =>{
         navigation.navigate('Registration')
+		
 
     }
 
     const onLoginPress = () => {
-        ToastAndroid.show("All your base are belong to us", ToastAndroid.SHORT);
+        //ToastAndroid.show("All your base are belong to us", ToastAndroid.SHORT);
         //navigation.navigate('HomeScreen')
         firebase.
             auth().
