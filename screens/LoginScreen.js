@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import {Container, Content, Header, Input, Item, Button, Label, Form} from 'native-base';
-import DismissKeyboard from '../DismissKeyboard'
+import DismissKeyboard from '../DismissKeyboard';
+import GoogleIcon from '../icons/googleLogo';
 class LoginScreen extends Component {
 
     isUserEqual = (googleUser, firebaseUser) => {
@@ -77,8 +78,8 @@ class LoginScreen extends Component {
         try {
           const result = await Google.logInAsync({
             //behavior:"web",
-            androidClientId: '870205563550-5u6voh4jpq89002thptsbqhe3sg9auv3.apps.googleusercontent.com',
-            iosClientId: '870205563550-d3jabnatdh7b6a4ugkgicor2nfb0imsa.apps.googleusercontent.com',
+            androidClientId: '491143214913-8u24n15pkkvc99n59udpkolh1mdis048.apps.googleusercontent.com',
+            iosClientId: '491143214913-jfs5toc3rvj7n66trfhri9duif1nphle.apps.googleusercontent.com',
             scopes: ['profile', 'email'],
           });
       
@@ -118,26 +119,7 @@ class LoginScreen extends Component {
         }
     }
     
-   /*signUpUser = (email, password) => {
-        try{
-                
-            if(this.state.password.length<6){
-                alert("Please enter at least 6 characters.")
-                return;
-            }
-            firebase.auth().createUserWithEmailAndPassword(email, password).then((user) =>{
-                user.sendEmailVerification()
-                handleStatusMessage(AUTH_SUCCESS)
-            }).catch((error)=>{
-                log.console(error.toString())
-            })
-        }
-        
-        catch(error){
-            console.log(error.toString())
-        }
-   }*/
-
+ 
 
 
     loginUser = (email, password) => {
@@ -189,9 +171,15 @@ class LoginScreen extends Component {
                     >
                     <Text style={{color: "white"}}>Sign Up</Text>
                     </Button>
-                    <TouchableOpacity style={styles.googleButton} onPress={()=>this.signInWithGoogleAsync()}>
-                        <Text>Sign on with Google.</Text>
-                    </TouchableOpacity>
+                    
+                    <Button style={styles.googleButton} 
+                        full
+                        rounded
+                        onPress={()=>this.signInWithGoogleAsync()}
+                    >
+                    <View style={styles.iconWrapper}><GoogleIcon/></View>
+                    <Text>Sign on with Google.</Text>
+                    </Button>
                 </Form>   
             </Container>
             </DismissKeyboard>
@@ -226,7 +214,56 @@ const styles = StyleSheet.create({
       padding: 20
     },
     googleButton: {
-        alignItems: 'center',
+        //alignItems: 'center',
         marginTop: 10,
+        width: '100%',
+        //backgroundColor: '#2e64e5',
+        backgroundColor: '#ffff',
+        padding: 10,
+        flexDirection: 'row',
+        borderRadius: 50,
+        elevation: 6,
+        borderWidth: 0.2, 
+        borderColor: '#d7d7d7',
+        borderLeftColor: "#d7d7d7",
+        borderRightColor: "#d7d7d7",
+    },
+    iconWrapper: {
+        width: 30,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
     },
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*signUpUser = (email, password) => {
+        try{
+                
+            if(this.state.password.length<6){
+                alert("Please enter at least 6 characters.")
+                return;
+            }
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((user) =>{
+                user.sendEmailVerification()
+                handleStatusMessage(AUTH_SUCCESS)
+            }).catch((error)=>{
+                log.console(error.toString())
+            })
+        }
+        
+        catch(error){
+            console.log(error.toString())
+        }
+   }*/
