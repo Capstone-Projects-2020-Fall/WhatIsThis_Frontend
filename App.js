@@ -14,7 +14,6 @@ import CalendarScreen from './screens/CalendarScreen';
 import MuscleSelectorScreen from './screens/MuscleSelectorScreen';
 import firebase from 'firebase';
 import {firebaseConfig} from './config';
-import AppStack from './AppStack'
 import Icon from '@expo/vector-icons/Ionicons';
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -28,8 +27,10 @@ export default class App extends React.Component {
   }
 }
 
-
-
+/* 
+Creating stack navigators for each screens that have features as well as the Home Screen.
+The stack navigators will help users to go back to previous pages.
+*/
 const HomeStack = createStackNavigator(
   {
     Home: {
@@ -65,6 +66,7 @@ const CameraStack = createStackNavigator({
     }
   }
 });
+
 const MuscleSelectorStack = createStackNavigator({
   MuscleSelector: {
     screen: MuscleSelectorScreen,
@@ -78,6 +80,7 @@ const MuscleSelectorStack = createStackNavigator({
     }
   }
 });
+
 const CalendarStack = createStackNavigator({
   Settings: {
     screen: CalendarScreen,
@@ -91,6 +94,12 @@ const CalendarStack = createStackNavigator({
     }
   }
 });
+
+/*
+The Dashboard tab navigator allows users to easily switch between pages.
+The reason there is a tab navigator is because I couldn't seem to use the HomeStack as the
+main navigation console.
+*/
 const DashboardTabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
@@ -108,6 +117,8 @@ const DashboardTabNavigator = createBottomTabNavigator(
     }
   }
 );
+
+//Wrap the dashboard tab navigator with a dashboard stack navigator 
 const DashboardStackNavigator = createStackNavigator(
   {
     DashboardTabNavigator: DashboardTabNavigator
@@ -123,13 +134,18 @@ const DashboardStackNavigator = createStackNavigator(
   }
 );
 
+/* Created an app drawer for future use (menu that slides from the left when tapping "hamburger menu") */
 const AppDrawerNavigator = createDrawerNavigator({
   Dashboard: {
     screen: DashboardStackNavigator
   }
 });
 
-
+/*
+App switch navigator helps the app switch screens.
+It is working with the LoadingScreen in order to check if
+the user is signed in the app.
+*/ 
 const AppSwitchNavigator = createSwitchNavigator({
   Loading: {screen:LoadingScreen},
   Login: {screen:LoginScreen},
