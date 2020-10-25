@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import {Container, Content, Header, Input, Item, Button, Label, Form} from 'native-base';
