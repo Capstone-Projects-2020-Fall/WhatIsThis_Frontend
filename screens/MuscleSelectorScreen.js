@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Button, View, Text, Alert } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import {firestore} from 'firebase/firestore';
+import {firestore} from 'firebase';
 
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
@@ -23,7 +23,7 @@ export default class MuscleSelectorScreen extends Component {
         title="Biceps"
 
         //onPress={() => Alert.alert("BICEPS CURL")}
-        onPress={() => workoutInfoByMuscle(this.state.muscleID)}
+        onPress={() => workoutInfoByMuscle('biceps brachii')}
       />
       </View>
     )
@@ -33,33 +33,66 @@ export default class MuscleSelectorScreen extends Component {
 
 
 
-export function workoutInfoByMachine(machineInput){
+function workoutInfoByMachine(machineID){
 	
 	firestore()
 	.collection('exercises')
-	.where('\machine', 'array-contains', machineInput)
+	.where('\machine', 'array-contains', machineID)
 	.get()
 	.then(querySnapshot => {
 		console.log('Output: ', querySnapshot.size);
 		
 		querySnapshot.forEach(documentSnapshot => {
-		console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-    });
+			console.log('Exercise Name: ', documentSnapshot.get('name'));
+		});
 										
 	});
 
 	
 }
 
-export function workoutInfoByMuscle(muscleID){
+function workoutInfoByMuscle(muscleID){
+	
+	const testArray = new Array();
 	
 	firestore()
 	.collection('exercises')
-	.where('\machine', 'array-contains', machineInput)
+	.where('\muscle', 'array-contains', muscleID)
 	.get()
 	.then(querySnapshot => {
 		console.log('Output: ', querySnapshot.size);
+		
+		querySnapshot.forEach(documentSnapshot => {
+			
+			
+			
+			let copy = JSON.parse(JSON.stringify(documentSnapshot.data(), getCircularReplacer()));
+			
+			var parsed = JSON.parse(JSON.stringify(copy));
+			
+			//console.log(parsed.name);
+			
+			//console.log('Exercise Name: ', documentSnapshot.get('name'));
+			testArray.push(parsed.name);
+			//console.log(testArray[0]);
+		});
+		
 										
 	});
+	
+	//console.log(testArray[0]);
 }
+
+const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+            return;
+        }
+        seen.add(value);
+    }
+    return value;
+    };
+};
 //biceps brachii
