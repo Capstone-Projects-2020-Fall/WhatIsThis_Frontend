@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Button, View, Text, Alert } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
+import {testReturn, getExerciseArrayFromFirestore, returnExerciseList} from '../helpers';
 
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
@@ -23,7 +24,7 @@ export default class MuscleSelectorScreen extends Component {
         title="Biceps"
 
         //onPress={() => Alert.alert("BICEPS CURL")}
-        onPress={() => foo()}
+        onPress={() => testReturn()}
       />
       </View>
     )
@@ -31,100 +32,4 @@ export default class MuscleSelectorScreen extends Component {
 }
 
 
-function sample(){
-		const array = foo();
-		console.log(array[0]);
-}
 
-
-function workoutInfoByMachine(machineID){
-	
-	firestore()
-	.collection('exercises')
-	.where('\machine', 'array-contains', machineID)
-	.get()
-	.then(querySnapshot => {
-		console.log('Output: ', querySnapshot.size);
-		
-		querySnapshot.forEach(documentSnapshot => {
-			console.log('Exercise Name: ', documentSnapshot.get('name'));
-		});
-										
-	});
-	
-
-	
-}
-
-
-async function foo() {
-	
-	const testArray = new Array();
-	
-    console.log("start")
-    var citiesRef = firestore().collection('exercises');
-    try {
-        var allCitiesSnapShot = await citiesRef.get();
-        allCitiesSnapShot.forEach(doc => {
-            
-			//console.log(doc.id, '=>', doc.data().name);
-
-			testArray.push(doc.data().name);
-			
-        });
-        console.log("end");
-    }
-    catch (err) {
-        console.log('Error getting documents', err);
-    }
-	
-	console.log(testArray[0]);
-	
-	return testArray;
-}
-
-
-function workoutInfoByMuscle(muscleID){
-	
-	const testArray = new Array();
-	
-	firestore()
-	.collection('exercises')
-	.where('\muscle', 'array-contains', muscleID)
-	.get()
-	.then(querySnapshot => {
-		console.log('Output: ', querySnapshot.size);
-		
-		querySnapshot.forEach(documentSnapshot => {
-			
-			
-			let copy = JSON.parse(JSON.stringify(documentSnapshot.data(), getCircularReplacer()));
-			
-			var parsed = JSON.parse(JSON.stringify(copy));
-			
-			//console.log(parsed.name);
-			
-			//console.log('Exercise Name: ', documentSnapshot.get('name'));
-			testArray.push(parsed.name);
-			//console.log(testArray[0]);
-		});
-		
-										
-	});
-	
-	console.log(testArray[0]);
-}
-
-const getCircularReplacer = () => {
-    const seen = new WeakSet();
-    return (key, value) => {
-    if (typeof value === "object" && value !== null) {
-        if (seen.has(value)) {
-            return;
-        }
-        seen.add(value);
-    }
-    return value;
-    };
-};
-//biceps brachii
