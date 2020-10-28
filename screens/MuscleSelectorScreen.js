@@ -23,7 +23,7 @@ export default class MuscleSelectorScreen extends Component {
         title="Biceps"
 
         //onPress={() => Alert.alert("BICEPS CURL")}
-        onPress={() => workoutInfoByMuscle('biceps brachii')}
+        onPress={() => foo()}
       />
       </View>
     )
@@ -31,6 +31,10 @@ export default class MuscleSelectorScreen extends Component {
 }
 
 
+function sample(){
+		const array = foo();
+		console.log(array[0]);
+}
 
 
 function workoutInfoByMachine(machineID){
@@ -47,9 +51,41 @@ function workoutInfoByMachine(machineID){
 		});
 										
 	});
+	
 
 	
 }
+
+
+async function foo() {
+	
+	const testArray = new Array();
+	
+    console.log("start")
+    var exerciseList = firestore().collection('exercises');
+    try {
+        var exerciseListSnapshot = await exerciseList.get();
+        exerciseListSnapShot.forEach(doc => {
+            
+			//console.log(doc.id, '=>', doc.data().name);
+			let copy = JSON.parse(JSON.stringify(doc.data(), getCircularReplacer()));
+			
+			var parsed = JSON.parse(JSON.stringify(copy));
+			
+			testArray.push(parsed.name);
+			
+        });
+        console.log("end");
+    }
+    catch (err) {
+        console.log('Error getting documents', err);
+    }
+	
+	console.log(typeof testArray[0]);
+	
+	return testArray;
+}
+
 
 function workoutInfoByMuscle(muscleID){
 	
@@ -63,7 +99,6 @@ function workoutInfoByMuscle(muscleID){
 		console.log('Output: ', querySnapshot.size);
 		
 		querySnapshot.forEach(documentSnapshot => {
-			
 			
 			
 			let copy = JSON.parse(JSON.stringify(documentSnapshot.data(), getCircularReplacer()));
@@ -80,7 +115,7 @@ function workoutInfoByMuscle(muscleID){
 										
 	});
 	
-	//console.log(testArray[0]);
+	console.log(testArray[0]);
 }
 
 const getCircularReplacer = () => {
