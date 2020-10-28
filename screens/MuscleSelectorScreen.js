@@ -62,17 +62,14 @@ async function foo() {
 	const testArray = new Array();
 	
     console.log("start")
-    var exerciseList = firestore().collection('exercises');
+    var citiesRef = firestore().collection('exercises');
     try {
-        var exerciseListSnapshot = await exerciseList.get();
-        exerciseListSnapShot.forEach(doc => {
+        var allCitiesSnapShot = await citiesRef.get();
+        allCitiesSnapShot.forEach(doc => {
             
 			//console.log(doc.id, '=>', doc.data().name);
-			let copy = JSON.parse(JSON.stringify(doc.data(), getCircularReplacer()));
-			
-			var parsed = JSON.parse(JSON.stringify(copy));
-			
-			testArray.push(parsed.name);
+
+			testArray.push(doc.data().name);
 			
         });
         console.log("end");
@@ -81,7 +78,7 @@ async function foo() {
         console.log('Error getting documents', err);
     }
 	
-	console.log(typeof testArray[0]);
+	console.log(testArray[0]);
 	
 	return testArray;
 }
