@@ -33,7 +33,7 @@ export async function getExerciseArrayFromFirestore() {
 export function testReturn(){
 	
 	(async () => {
-		const result =await returnExerciseList();
+		const result = await returnExerciseList()
 		return result;
 	})()
 	
