@@ -13,7 +13,7 @@ export default class MuscleSelectorScreen extends Component {
         muscleID: ""
     })
   }
-  muscleID="biceps brachii"
+  //muscleID="biceps brachii"
 
   render() {
     return (
@@ -86,7 +86,7 @@ async function foo() {
 	return testArray;
 }
 
-
+/*
 function workoutInfoByMuscle(muscleID){
 	
 	const testArray = new Array();
@@ -116,7 +116,7 @@ function workoutInfoByMuscle(muscleID){
 	});
 	
 	console.log(testArray[0]);
-}
+}*/
 
 const getCircularReplacer = () => {
     const seen = new WeakSet();
