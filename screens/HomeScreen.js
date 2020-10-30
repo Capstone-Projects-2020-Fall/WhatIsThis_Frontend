@@ -2,7 +2,8 @@ import React, {Component
 } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import {Container, Content, Header, Input, Item, Button, Label, Form} from 'native-base';
-import firebase from 'firebase';
+//import firebase from 'firebase';
+import {firebase} from '@firebase/firestore';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 class HomeScreen extends Component {
     render() {

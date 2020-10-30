@@ -30,6 +30,3 @@ export default class MuscleSelectorScreen extends Component {
     )
   }
 }
-
-
-
