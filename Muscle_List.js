@@ -1,60 +1,115 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 
 import React, { Component } from 'react';
-import { Text, Image, View, StyleSheet, ScrollView } from 'react-native';
+import { 
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Modal
+} from 'react-native';
 
-class ScrollViewExample extends Component {
-   state = {
-      names: [
-         {'name': 'Abs', 'id': 1},
-         {'name': 'Biceps', 'id': 2},
-         {'name': 'Calves', 'id': 3},
-         {'name': 'Deltoids', 'id': 4},
-         {'name': 'Glutes', 'id': 5},
-         {'name': 'Hamstrings', 'id': 6},
-         {'name': 'Lats', 'id': 7},
-         {'name': 'Lower back', 'id': 8},
-         {'name': 'Pectorals', 'id': 9},
-         {'name': 'Triceps', 'id': 10},
-         {'name': 'Quadriceps', 'id': 11},
+export default class App extends Component {
+  // initial state
+  state = {
+    isVisible: false
+  };
 
-      ]
-   }
-   render() {
-      return (
-         <View>
-            <ScrollView>
-               {
-                  this.state.names.map((item, index) => (
-                     <View key = {item.id} style = {styles.item}>
-                        <Text>{item.name}</Text>
-                     </View>
-                  ))
-               }
-            </ScrollView>
-         </View>
-      )
-   }
-}
-export default ScrollViewExample
+  // hide show modal
+  displayModal(show){
+    this.setState({isVisible: show})
+  }
 
-const styles = StyleSheet.create ({
-   item: {
-      flexDirection: 'row',
-      textAlign: 'center',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 30,
-      margin: 2,
-      borderColor: '#2a4944',
-      borderWidth: 1,
-      backgroundColor: '#fff0f5'
-   }
-})
+  render() {
+    return (
+      <View style = { styles.container }>
+        <Modal
+            animationType = {"slide"}
+            transparent={false}
+            visible={this.state.isVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has now been closed.');
+            }}>
+
+            <Image 
+           
+              style = { styles.image }/>
+
+
+              <Text 
+                style={styles.text}
+                onPress={() => {
+                  this.displayModal(!this.state.isVisible);}}>Bicep Curl</Text>
+          </Modal>
+            
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Biceps</Text>
+          </TouchableOpacity>          
+        </View>
+      );
+  }
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 25,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    display: 'flex',
+    height: 60,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#2AC062',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: { 
+      height: 10, 
+      width: 0 
+    },
+    shadowRadius: 25,
+  },
+  closeButton: {
+    display: 'flex',
+    height: 60,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF3974',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: { 
+      height: 10, 
+      width: 0 
+    },
+    shadowRadius: 25,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 22,
+  },
+  image: {
+    marginTop: 150,
+    marginBottom: 10,
+    width: '100%',
+    height: 350,
+  },
+  text: {
+    fontSize: 24,
+    marginBottom: 30,
+    padding: 40,
+  },
+  closeText: {
+    fontSize: 24,
+    color: '#00479e',
+    textAlign: 'center',
+  }
+});
