@@ -33,13 +33,15 @@ export async function getExerciseArrayFromFirestore() {
 export function testReturn(){
 	
 	(async () => {
-		const result =await returnExerciseList();
+        const result =await returnExerciseList();
+        console.log(result)
 		return result;
 	})()
 	
 
 	
 }
+
 
 
 
