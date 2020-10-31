@@ -1,35 +1,10 @@
-// Aboutscreen.js
+
 import React, { Component } from 'react';
 import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
-import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
-/*
-//import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
-export default class MuscleSelectorScreen extends Component {
-  constructor(props){
-    super(props)
+//import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 
-    this.state = ({
-        muscleID: ""
-    })
-  }
-  //muscleID="biceps brachii"
-
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Muscle Selector</Text>
-        <Button style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-        title="Biceps"
-
-        //onPress={() => Alert.alert("BICEPS CURL")}
-        onPress={() => testReturn('biceps brachii')}
-      />
-      </View>
-    )
-  }
-}*/
 
 
 class MuscleSelectorScreen extends Component {
@@ -58,10 +33,6 @@ class MuscleSelectorScreen extends Component {
 						this.setState({exercises: data});
 					});
   }
-
-  
-  
-  
 
   render() {
 	  const {exercises} = this.state;
@@ -95,13 +66,105 @@ class MuscleSelectorScreen extends Component {
                   }}>{exerciseNames}</Text>
           </Modal>
             
+          
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Abs</Text>
+
+          </TouchableOpacity> 
+            
+
           <TouchableOpacity
               style={styles.button}
               onPress={() => {
                 this.displayModal(true);
               }}>
               <Text style={styles.buttonText}>Biceps</Text>
-          </TouchableOpacity>          
+          </TouchableOpacity>  
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Calves</Text>
+
+          </TouchableOpacity> 
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Deltoids</Text>
+
+          </TouchableOpacity> 
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Glutes</Text>
+
+          </TouchableOpacity> 
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Hamstrings</Text>
+
+          </TouchableOpacity> 
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Lats</Text>
+          </TouchableOpacity> 
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Lower Back</Text>
+
+          </TouchableOpacity> 
+          
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Pectorals</Text>
+
+          </TouchableOpacity> 
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Triceps</Text>
+
+          </TouchableOpacity> 
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Quadriceps</Text>
+
+          </TouchableOpacity> 
+                 
         </View>
       );
   }
@@ -168,3 +231,4 @@ const styles = StyleSheet.create({
 });
 
 export default MuscleSelectorScreen;
+
