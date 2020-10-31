@@ -63,7 +63,7 @@ export default class MuscleSelectorScreen extends Component {
               <Text 
                 style={styles.text}
                 onPress={() => {
-                  this.displayModal(!this.state.isVisible);}}>Bicep Curl</Text>
+                  this.displayModal(!this.state.isVisible);}}>{testReturn('biceps brachii')}</Text>
           </Modal>
             
           <TouchableOpacity
