@@ -9,7 +9,7 @@ import { CAMERA } from 'expo-permissions';
 import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 import { Toast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
-
+import * as MediaLibrary from 'expo-media-library';
 export default class CameraScreen extends Component {
 
   state = {
@@ -41,7 +41,9 @@ export default class CameraScreen extends Component {
     
     if(this.camera){
       let photo = await this.camera.takePictureAsync();
-      console.log(photo)
+      console.log(photo);
+      MediaLibrary.saveToLibraryAsync(photo.uri);
+      
     }
   }
 
