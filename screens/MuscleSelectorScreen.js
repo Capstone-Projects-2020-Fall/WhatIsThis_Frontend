@@ -31,6 +31,7 @@ export default class MuscleSelectorScreen extends Component {
   }
 }*/
 
+//firestore().collection("exercises").doc()
 
 export default class MuscleSelectorScreen extends Component {
   // initial state
@@ -62,8 +63,9 @@ export default class MuscleSelectorScreen extends Component {
               <Text 
                 style={styles.text}
                 onPress={() => {
-                  this.displayModal(!this.state.isVisible);}}>Bicep Curl</Text>
-          </Modal>
+                //this.displayModal(!this.state.isVisible);}}>Biscep Curl</Text>
+                this.displayModal(!this.state.isVisible);}}>{testReturn('biceps brachii')}</Text>
+            </Modal>
             
           <TouchableOpacity
               style={styles.button}
