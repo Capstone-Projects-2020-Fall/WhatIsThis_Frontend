@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Button, View, Text, Alert } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
-import {testReturn, getExerciseArrayFromFirestore, returnExerciseList} from '../helpers';
+import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
@@ -24,7 +24,7 @@ export default class MuscleSelectorScreen extends Component {
         title="Biceps"
 
         //onPress={() => Alert.alert("BICEPS CURL")}
-        onPress={() => testReturn()}
+        onPress={() => testReturn('biceps brachii')}
       />
       </View>
     )

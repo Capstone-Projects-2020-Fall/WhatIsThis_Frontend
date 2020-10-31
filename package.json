@@ -30,7 +30,8 @@
     "react-navigation": "^4.4.3",
     "react-navigation-drawer": "^2.6.0",
     "react-navigation-stack": "^2.9.0",
-    "react-navigation-tabs": "^2.10.0"
+    "react-navigation-tabs": "^2.10.0",
+    "tflite-react-native": "0.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
