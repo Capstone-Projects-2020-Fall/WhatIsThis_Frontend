@@ -5,7 +5,6 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 /*
-
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
   constructor(props){
@@ -33,18 +32,47 @@ export default class MuscleSelectorScreen extends Component {
 }*/
 
 
-export default class MuscleSelectorScreen extends Component {
-  // initial state
-  state = {
-    isVisible: false
-  };
+class MuscleSelectorScreen extends Component {
+  
+  constructor(props){
+		super(props);
+		
+		this.state = {
+			exercises: [],
+			isVisible : false,
+		};
+	}
 
   // hide show modal
   displayModal(show){
     this.setState({isVisible: show})
   }
+  
+  componentDidMount(){
+	let queryRef = firestore()
+					.collection('exercises')
+					.get()
+					.then(querySnapshot => {
+						const data = querySnapshot.docs.map(doc => doc.data());
+						//console.log(data);
+						this.setState({exercises: data});
+					});
+  }
+
+  
+  
+  
 
   render() {
+	  const {exercises} = this.state;
+		//console.log(exercises[0]);
+		const exerciseNames = new Array();
+		
+		exercises.forEach(exercise => {
+			exerciseNames.push(exercise.name);
+		});
+		
+		
     return (
       <View style = { styles.container }>
         <Modal
@@ -63,7 +91,8 @@ export default class MuscleSelectorScreen extends Component {
               <Text 
                 style={styles.text}
                 onPress={() => {
-                  this.displayModal(!this.state.isVisible);}}>Bicep Curl</Text>
+					console.log(exercises[0]);
+                  }}>{exerciseNames}</Text>
           </Modal>
             
           <TouchableOpacity
@@ -137,3 +166,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
+
+export default MuscleSelectorScreen;

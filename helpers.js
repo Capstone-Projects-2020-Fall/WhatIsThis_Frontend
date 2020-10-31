@@ -42,7 +42,7 @@ export async function getExerciseArrayByMuscle(muscleID){
 	
 	var exerciseListRef = firestore().collection('exercises');
 	try{
-		const exerciseListSnapshot = await exerciseListRef.where('\muscle', 'array-contains', 'biceps brachii').get();
+		const exerciseListSnapshot = await exerciseListRef.where('\muscle', 'array-contains', muscleID).get();
 		exerciseListSnapshot.forEach(docSnapshot => {            
 
 			exerciseListArray.push(docSnapshot.data().name);
