@@ -1,9 +1,10 @@
 // Aboutscreen.js
 import React, { Component } from 'react';
-import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet } from 'react-native';
+import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet, FlatList, } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
 import {testReturn, getExerciseArrayFromFirestore, returnExerciseList} from '../helpers';
+import { ListItem } from 'native-base';
 /*
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
@@ -33,48 +34,71 @@ export default class MuscleSelectorScreen extends Component {
 
 //firestore().collection("exercises").doc()
 
+export async function getExercises(exercisesReceived){
+
+  var exerciseArray = [];
+
+  var snapshot = await firestore()
+  .collection('exercies')
+  .get()
+
+  snapshot.forEach((doc) =>{
+    exerciseArray.push(doc.data());
+  });
+  console.log(exerciseArray);
+  exercisesReceived(exerciseArray);
+} 
+
+
 export default class MuscleSelectorScreen extends Component {
+
+
+  state = {
+    exerciseList: [],
+    currentExerciseDoc: null,
+  }
+
+  onExercisesReceived = (exerciseList) => {
+    console.log(exerciseList);
+    this.setState(prevState => ({
+      exerciseList: prevState.exerciseList = exerciseList
+    }));
+  }
+
+
+
+  componentDidMount() {
+    getExercises(this.onExercisesReceived);
+  }
+  /*
   // initial state
   state = {
     isVisible: false
-  };
+  };*/
 
-  // hide show modal
-  displayModal(show){
-    this.setState({isVisible: show})
-  }
+
 
   render() {
     return (
-      <View style = { styles.container }>
-        <Modal
-            animationType = {"slide"}
-            transparent={false}
-            visible={this.state.isVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has now been closed.');
-            }}>
-
-            <Image 
-           
-              style = { styles.image }/>
-
-
-              <Text 
-                style={styles.text}
-                onPress={() => {
-                //this.displayModal(!this.state.isVisible);}}>Biscep Curl</Text>
-                this.displayModal(!this.state.isVisible);}}>{testReturn('biceps brachii')}</Text>
-            </Modal>
-            
-          <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                this.displayModal(true);
-              }}>
-              <Text style={styles.buttonText}>Biceps</Text>
-          </TouchableOpacity>          
-        </View>
+      <View style={styles.container}>
+        <Text>MuscleSelectorScreen</Text>
+      
+      <FlatList
+        data={this.state.exerciseList}
+        keyExtractor={({item}) => {
+          console.log(item);
+          return(
+            <ListItem
+              title={item.name}
+              description={item.description}
+              muscle={item.muscle}
+              machine={item.machine}
+              onPress={() => { }}
+            />
+          );
+        }}
+      />
+      </View>
       );
   }
 };
