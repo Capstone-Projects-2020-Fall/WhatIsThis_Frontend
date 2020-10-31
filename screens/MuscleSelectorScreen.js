@@ -1,29 +1,25 @@
 // Aboutscreen.js
 import React, { Component } from 'react';
-import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet, FlatList, } from 'react-native';
+import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 /*
-
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
   constructor(props){
     super(props)
-
     this.state = ({
         muscleID: ""
     })
   }
   //muscleID="biceps brachii"
-
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Muscle Selector</Text>
         <Button style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         title="Biceps"
-
         //onPress={() => Alert.alert("BICEPS CURL")}
         onPress={() => testReturn('biceps brachii')}
       />
@@ -32,53 +28,48 @@ export default class MuscleSelectorScreen extends Component {
   }
 }*/
 
-//firestore().collection("exercises").doc()
 
-export async function getExercises(exercisesReceived){
+class MuscleSelectorScreen extends Component {
+  
+  constructor(props){
+		super(props);
+		
+		this.state = {
+			exercises: [],
+			isVisible : false,
+		};
+	}
 
-  var exerciseArray = [];
-
-  var snapshot = await firestore()
-  .collection('exercies')
-  .get()
-
-  snapshot.forEach((doc) =>{
-    exerciseArray.push(doc.data());
-  });
-  console.log(exerciseArray);
-  exercisesReceived(exerciseArray);
-} 
-
-
-export default class MuscleSelectorScreen extends Component {
-
-
-  state = {
-    exerciseList: [],
-    currentExerciseDoc: null,
+  // hide show modal
+  displayModal(show){
+    this.setState({isVisible: show})
+  }
+  
+  componentDidMount(){
+	let queryRef = firestore()
+					.collection('exercises')
+					.get()
+					.then(querySnapshot => {
+						const data = querySnapshot.docs.map(doc => doc.data());
+						//console.log(data);
+						this.setState({exercises: data});
+					});
   }
 
-  onExercisesReceived = (exerciseList) => {
-    console.log(exerciseList);
-    this.setState(prevState => ({
-      exerciseList: prevState.exerciseList = exerciseList
-    }));
-  }
-
-
-
-  componentDidMount() {
-    getExercises(this.onExercisesReceived);
-  }
-  /*
-  // initial state
-  state = {
-    isVisible: false
-  };*/
-
-
+  
+  
+  
 
   render() {
+	  const {exercises} = this.state;
+		//console.log(exercises[0]);
+		const exerciseNames = new Array();
+		
+		exercises.forEach(exercise => {
+			exerciseNames.push(exercise.name);
+		});
+		
+		
     return (
       <View style = { styles.container }>
         <Modal
@@ -97,7 +88,8 @@ export default class MuscleSelectorScreen extends Component {
               <Text 
                 style={styles.text}
                 onPress={() => {
-                  this.displayModal(!this.state.isVisible);}}>{testReturn('biceps brachii')}</Text>
+					console.log(exercises[0]);
+                  }}>{exerciseNames}</Text>
           </Modal>
             
           <TouchableOpacity
@@ -171,3 +163,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
+
+export default MuscleSelectorScreen;
