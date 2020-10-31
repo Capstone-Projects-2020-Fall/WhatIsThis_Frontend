@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet, FlatList, } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
-import {testReturn, getExerciseArrayFromFirestore, returnExerciseList} from '../helpers';
-import { ListItem } from 'native-base';
+import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 /*
+
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
   constructor(props){
@@ -25,7 +25,7 @@ export default class MuscleSelectorScreen extends Component {
         title="Biceps"
 
         //onPress={() => Alert.alert("BICEPS CURL")}
-        onPress={() => testReturn()}
+        onPress={() => testReturn('biceps brachii')}
       />
       </View>
     )
@@ -80,25 +80,34 @@ export default class MuscleSelectorScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>MuscleSelectorScreen</Text>
-      
-      <FlatList
-        data={this.state.exerciseList}
-        keyExtractor={({item}) => {
-          console.log(item);
-          return(
-            <ListItem
-              title={item.name}
-              description={item.description}
-              muscle={item.muscle}
-              machine={item.machine}
-              onPress={() => { }}
-            />
-          );
-        }}
-      />
-      </View>
+      <View style = { styles.container }>
+        <Modal
+            animationType = {"slide"}
+            transparent={false}
+            visible={this.state.isVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has now been closed.');
+            }}>
+
+            <Image 
+           
+              style = { styles.image }/>
+
+
+              <Text 
+                style={styles.text}
+                onPress={() => {
+                  this.displayModal(!this.state.isVisible);}}>{testReturn('biceps brachii')}</Text>
+          </Modal>
+            
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModal(true);
+              }}>
+              <Text style={styles.buttonText}>Biceps</Text>
+          </TouchableOpacity>          
+        </View>
       );
   }
 };

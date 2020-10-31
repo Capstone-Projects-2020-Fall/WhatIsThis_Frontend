@@ -9,6 +9,12 @@ export async function returnExerciseList(muscleID){
 		return response;
 }
 
+export async function returnMuscleExerciseList(muscleID){
+		
+		const response = await getExerciseArrayByMuscle(muscleID);
+		return response;
+}
+
 
 export async function getExerciseArrayFromFirestore() {
 	
@@ -23,6 +29,7 @@ export async function getExerciseArrayFromFirestore() {
 			
         });
     }
+	
     catch (err) {
         console.log('Error getting documents', err);
     }
@@ -30,7 +37,6 @@ export async function getExerciseArrayFromFirestore() {
 	return exerciseListArray;
 }
 
-//'biceps brachii'
 export async function getExerciseArrayByMuscle(muscleID){
 	const exerciseListArray = new Array();
 	
@@ -52,7 +58,8 @@ export async function getExerciseArrayByMuscle(muscleID){
 export function testReturn(muscleID){
 	
 	(async () => {
-		const result =await returnExerciseList(muscleID);
+		const result =await returnMuscleExerciseList(muscleID);
+		console.log(result);
 		return result;
 	})()
 	
