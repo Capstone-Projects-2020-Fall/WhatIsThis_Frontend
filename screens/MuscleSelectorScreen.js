@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet } from 'react-native';
+import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore} from 'firebase';
 //import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
@@ -45,7 +45,7 @@ class MuscleSelectorScreen extends Component {
 		
 		
     return (
-      <View style = { styles.container }>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         <Modal
             animationType = {"slide"}
             transparent={false}
@@ -165,7 +165,7 @@ class MuscleSelectorScreen extends Component {
 
           </TouchableOpacity> 
                  
-        </View>
+        </ScrollView>
       );
   }
 };
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#00479e',
     textAlign: 'center',
-  }
+  }, 
 });
 
 export default MuscleSelectorScreen;
