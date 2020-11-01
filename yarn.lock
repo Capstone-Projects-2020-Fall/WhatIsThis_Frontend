@@ -6259,7 +6259,7 @@ temp@0.8.3:
     os-tmpdir "^1.0.0"
     rimraf "~2.2.6"
 
-tflite-react-native@0.0.5:
+tflite-react-native@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/tflite-react-native/-/tflite-react-native-0.0.5.tgz#bb2a78579e84371bddc455a79bd39d28c98a218b"
   integrity sha512-aBajq5yQQ8UiB92tIk+v9BIKZTFGwCTHegfefISgnXwqPiPAAvKhdX6Vb80kJFPTUjXB53w/NZQT9qCyVBYMyA==

@@ -17,6 +17,7 @@
     "expo-status-bar": "~1.0.2",
     "firebase": "^8.0.0",
     "native-base": "^2.13.14",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
@@ -31,7 +32,7 @@
     "react-navigation-drawer": "^2.6.0",
     "react-navigation-stack": "^2.9.0",
     "react-navigation-tabs": "^2.10.0",
-    "tflite-react-native": "0.0.5"
+    "tflite-react-native": "^0.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
