@@ -1,7 +1,7 @@
 // Aboutscreen.js
 import React, { Component , useState, useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import { Button, View, Text , TouchableOpacity, StyleSheet, Platform} from 'react-native';
+import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert} from 'react-native';
 import { createStackNavigator, createAppContainer, withNavigationFocus, NavigationEvents} from 'react-navigation';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -48,9 +48,20 @@ export default class CameraScreen extends Component {
   }
 
   pickImage = async() => {
-    let image = await ImagePicker.launchImageLibraryAsync(
-      {mediaTypes: ImagePicker.MediaTypeOptions.Images}
-    )
+    let image = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.Images})
+    if(!image.cancelled){
+      Alert.alert('Picture Selection', 'Use this picture?', [
+        {
+          text: 'Yes',
+          onPress: () => console.log('Ok')
+        },
+        {
+          text: 'No',
+          onPress: () => console.log('not ok')
+        }
+
+      ])
+    }
     console.log(image)
   }
 
