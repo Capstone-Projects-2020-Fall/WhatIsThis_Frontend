@@ -50,7 +50,7 @@ export default class CameraScreen extends Component {
     if (Platform.OS === 'android') {
       ToastAndroid.show(msg, ToastAndroid.LONG)
     } else {
-      AlertIOS.alert(msg);
+      Alert.prompt("Image Recognition not connect yet.");
     }
     //Communicate with db implementation
    
@@ -61,7 +61,7 @@ export default class CameraScreen extends Component {
     if (Platform.OS === 'android') {
       ToastAndroid.show(msg, ToastAndroid.LONG)
     } else {
-      AlertIOS.alert(msg);
+      Alert.prompt("Selection cancelled. Choose another.");
     }
     
   }
