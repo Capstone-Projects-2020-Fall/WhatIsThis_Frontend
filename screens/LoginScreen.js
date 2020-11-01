@@ -119,8 +119,11 @@ class LoginScreen extends Component {
         }
     }
     
+    alertError = () => {
+        alert('Not good!')
+    }
  
-
+    
 
     loginUser = (email, password) => {
         try{

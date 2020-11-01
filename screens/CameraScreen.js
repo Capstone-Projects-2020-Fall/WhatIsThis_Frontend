@@ -1,7 +1,7 @@
 // Aboutscreen.js
 import React, { Component , useState, useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import { Button, View, Text , TouchableOpacity, StyleSheet, Platform} from 'react-native';
+import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS} from 'react-native';
 import { createStackNavigator, createAppContainer, withNavigationFocus, NavigationEvents} from 'react-navigation';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -35,22 +35,52 @@ export default class CameraScreen extends Component {
     this.setState({hasPermission : status === 'granted'});
     // this.getPermissionAsync();
   }
-  state = {loaded : true};
-  
   takePicture = async () =>{
     
     if(this.camera){
-      let photo = await this.camera.takePictureAsync();
+      var photo = await this.camera.takePictureAsync();
       console.log(photo);
       MediaLibrary.saveToLibraryAsync(photo.uri);
       
     }
   }
+  communicateWithDatabase = ()  =>{
+    var msg = "Sending Data to Server!"
+    console.log('Selected')
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(msg, ToastAndroid.LONG)
+    } else {
+      AlertIOS.alert(msg);
+    }
+    //Communicate with db implementation
+   
+  }
+
+  cancelledPicSelected = () =>{
+    var msg = "Pictured Not Selected. Please pick another one"
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(msg, ToastAndroid.LONG)
+    } else {
+      AlertIOS.alert(msg);
+    }
+    
+  }
 
   pickImage = async() => {
-    let image = await ImagePicker.launchImageLibraryAsync(
-      {mediaTypes: ImagePicker.MediaTypeOptions.Images}
-    )
+    var image = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.Images})
+    if(!image.cancelled){
+      Alert.alert('Picture Selection', 'Use this picture?', [
+        {
+          text: 'Yes',
+          onPress: () => this.communicateWithDatabase()
+        },
+        {
+          text: 'No',
+          onPress: () => this.cancelledPicSelected()
+        }
+
+      ])
+    }
     console.log(image)
   }
 
