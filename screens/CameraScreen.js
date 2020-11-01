@@ -32,11 +32,8 @@ export default class CameraScreen extends Component {
   }
   async componentDidMount(){
     const{status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
-    this.setState({hasPermission : status === 'granted'});
-    
+    this.setState({hasPermission : status === 'granted'});  
   }
-  state = {loaded : true};
-  
   takePicture = async () =>{
     
     if(this.camera){
@@ -54,17 +51,18 @@ export default class CameraScreen extends Component {
     } else {
       AlertIOS.alert(msg);
     }
+    //Communicate with db implementation
    
   }
 
   cancelledPicSelected = () =>{
     var msg = "Pictured Not Selected. Please pick another one"
-    console.log('Selected')
     if (Platform.OS === 'android') {
       ToastAndroid.show(msg, ToastAndroid.LONG)
     } else {
       AlertIOS.alert(msg);
     }
+    
   }
 
   pickImage = async() => {
