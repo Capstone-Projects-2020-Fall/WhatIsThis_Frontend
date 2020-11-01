@@ -37,13 +37,21 @@ class MuscleSelectorScreen extends Component {
 		
 		this.state = {
 			exercises: [],
-			isVisible : false,
+      isVisible : false,
+      formalName: "blank" 
 		};
 	}
 
   // hide show modal
   displayModal(show){
     this.setState({isVisible: show})
+  }
+
+  displayModalMod(show, chosenMuscle){
+    this.setState({isVisible: show})
+    this.setState({formalName: chosenMuscle})
+    // console.log(this.num)
+    // console.log(this.isVisible)
   }
   
   componentDidMount(){
@@ -85,7 +93,7 @@ class MuscleSelectorScreen extends Component {
      */
 		
     return (
-      <View style = { styles.container }>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>
         <Modal
             animationType = {"slide"}
             transparent={true}
@@ -111,7 +119,7 @@ class MuscleSelectorScreen extends Component {
                 
               >
                 
-                {buildArray('quadriceps femoris')}
+                {buildArray(this.state.formalName)}
                 
               </Text>
                 </View>
@@ -123,11 +131,68 @@ class MuscleSelectorScreen extends Component {
           <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                this.displayModal(true);
+                this.displayModalMod(true, "rectus abdominus");
+              }}>
+              <Text style={styles.buttonText}>Abs</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModalMod(true, "biceps brachii");
               }}>
               <Text style={styles.buttonText}>Biceps</Text>
-          </TouchableOpacity>          
-        </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModalMod(true, "gastrocnemius");
+              }}>
+              <Text style={styles.buttonText}>Calves</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModalMod(true, "anterior deltoid");
+              }}>
+              <Text style={styles.buttonText}>Deltoids</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModalMod(true, "gluteus maximus");
+              }}>
+              <Text style={styles.buttonText}>Glutes</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModalMod(true, "latissimus dorsi");
+              }}>
+              <Text style={styles.buttonText}>Lats</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModalMod(true, "pectoralis major");
+              }}>
+              <Text style={styles.buttonText}>Pectorals</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.displayModalMod(true, "quadriceps femoris");
+              }}>
+              <Text style={styles.buttonText}>Quadriceps</Text>
+          </TouchableOpacity>
+
+        </ScrollView>
         
       );
   }
