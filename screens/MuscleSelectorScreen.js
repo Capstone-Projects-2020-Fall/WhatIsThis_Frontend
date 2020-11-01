@@ -125,6 +125,14 @@ class MuscleSelectorScreen extends Component {
                 </View>
               
               </TouchableWithoutFeedback>
+
+              <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {
+                    this.displayModal(false)
+                  }}>
+                  <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
             </TouchableOpacity>
           </Modal>
             
