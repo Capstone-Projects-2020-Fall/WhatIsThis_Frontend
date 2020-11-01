@@ -32,7 +32,8 @@ export default class CameraScreen extends Component {
   }
   async componentDidMount(){
     const{status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
-    this.setState({hasPermission : status === 'granted'});  
+    this.setState({hasPermission : status === 'granted'});
+    // this.getPermissionAsync();
   }
   takePicture = async () =>{
     

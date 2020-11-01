@@ -3,9 +3,15 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 
 
-export async function returnExerciseList(){
+export async function returnExerciseList(muscleID){
 		
-		const response = await getExerciseArrayFromFirestore();
+		const response = await getExerciseArrayByMuscle(muscleID);
+		return response;
+}
+
+export async function returnMuscleExerciseList(muscleID){
+		
+		const response = await getExerciseArrayByMuscle(muscleID);
 		return response;
 }
 
@@ -23,6 +29,7 @@ export async function getExerciseArrayFromFirestore() {
 			
         });
     }
+	
     catch (err) {
         console.log('Error getting documents', err);
     }
@@ -30,11 +37,29 @@ export async function getExerciseArrayFromFirestore() {
 	return exerciseListArray;
 }
 
-export function testReturn(){
+export async function getExerciseArrayByMuscle(muscleID){
+	const exerciseListArray = new Array();
+	
+	var exerciseListRef = firestore().collection('exercises');
+	try{
+		const exerciseListSnapshot = await exerciseListRef.where('\muscle', 'array-contains', 'biceps brachii').get();
+		exerciseListSnapshot.forEach(docSnapshot => {            
+
+			exerciseListArray.push(docSnapshot.data().name);
+		});
+	}
+	catch (err) {
+        console.log('Error getting documents', err);
+    }
+	
+	return exerciseListArray;
+}
+
+export function testReturn(muscleID){
 	
 	(async () => {
-        const result =await returnExerciseList();
-        console.log(result)
+		const result =await returnMuscleExerciseList(muscleID);
+		console.log(result);
 		return result;
 	})()
 	

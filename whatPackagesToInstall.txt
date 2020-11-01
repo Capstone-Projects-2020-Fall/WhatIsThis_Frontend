@@ -9,7 +9,8 @@ npm install react-navigation-stack
 npm install react-navigation-tabs
 npm install react-navigation-drawer
 npm install react-native-svg
-
+npm install prop-types
+npm install 
 NOTE
 If you haven't used this app during Milestone Demo 1 then make sure to install:
 
