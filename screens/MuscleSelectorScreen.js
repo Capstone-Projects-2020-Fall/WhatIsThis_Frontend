@@ -67,18 +67,11 @@ class MuscleSelectorScreen extends Component {
     const exerciseMachine = new Array();
 
     const muscleExerciseList = new Array();
-		exercises.forEach(exercise => {
-      exerciseNames.push(exercise.name);
-      exerciseDes.push(exercise.description);
-      //exerciseMuscle.push(exercise.muscle[2]);
-      //exerciseMachine.push(exercise.machine);
-    });
     
     function buildArray(muscleID){
       exercises.forEach(exercise => {
-        if(exercise.muscle == muscleID){
+        if(exercise.muscle.includes(muscleID)){
             muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
-          
         }
       })
       return muscleExerciseList;
@@ -118,7 +111,7 @@ class MuscleSelectorScreen extends Component {
                 
               >
                 
-                {buildArray('biceps brachii')}
+                {buildArray('quadriceps femoris')}
                 
               </Text>
                 </View>
