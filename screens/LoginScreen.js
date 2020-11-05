@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import * as Google from 'expo-google-app-auth';
-import firebase from 'firebase';
+import firebase, {firestore} from 'firebase';
 import {Container, Content, Header, Input, Item, Button, Label, Form} from 'native-base';
 import DismissKeyboard from '../DismissKeyboard';
 import GoogleIcon from '../icons/googleLogo';
@@ -21,7 +21,10 @@ class LoginScreen extends Component {
         return false;
       }
 
-
+    /*
+    * When storing Google Account users to Cloud Firestore, you need to use 
+    * result.user.uid and result.user.email maybe use googleUser.user.email or google.user.id
+    */
     onSignIn = googleUser => {
         console.log('Google Auth Response', googleUser);
         // We need to register an Observer on Firebase Auth to make sure auth is initialized.
@@ -34,27 +37,26 @@ class LoginScreen extends Component {
                 googleUser.idToken,
                 googleUser.accessToken
             );
+            
+            //googleUser.email or googleUser.id are needed for the Firestore 
+            //console.log(googleUser.user.email,'\n');
+            //console.log(googleUser.user.id, '\n\n\n\n');
+            
+            
             // Sign in with credential from the Google user.
-            firebase.auth().signInWithCredential(credential).then(function(){
+            // Use the result variable for the user email and id, then pass them
+            // to the firestore user document.
+            firebase.auth().signInWithCredential(credential).then(function(result){
                 console.log('User signed in.')
-                if(result.additionalUserInfo.isNewUser){
-                    firebase
-                    .database
-                    .ref('/users/' + result.user.uid)
-                    .set({
-                        gmail: result.user.email,
-                        first_name: result.additionalUserInfo.profile.given_name,
-                        last_name: result.additionalUserInfo.profile.family_name,
-                        create_at: Date.now() 
-                    })
-                }else{
-                    firebase
-                        .database()
-                        .ref('/users/' + result.user.uid).update({
-                            last_logged_in: Date.now()
-                        })
-                }
+                //if(result.additionalUserInfo.isNewUser){
+                const userID = result.user.uid
+                const userEmail = result.user.email
                 
+                firestore().collection('user').doc(userID).set({
+                    email: userEmail,
+                    id: userID
+                })
+                //}
             })
             
             .catch(function(error) {
@@ -103,6 +105,8 @@ class LoginScreen extends Component {
         })
     }
 
+    // Added the firestore functionality once the user signs up on the app.
+
     signUpUser = (email, password) => {
         try{
             
@@ -110,7 +114,16 @@ class LoginScreen extends Component {
                 alert("Please enter at least 6 characters.")
                 return;
             }
-            firebase.auth().createUserWithEmailAndPassword(email, password)
+            
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((users)=>{
+                const usersID = users.user.uid;
+                console.log('Registered user ID: ', usersID);
+                const userRef = firestore().collection('user').doc(usersID);
+                userRef.set({
+                    email: email,
+                    id: usersID,
+                });
+            })
         }
         
         catch(error){
