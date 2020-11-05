@@ -986,3 +986,92 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*if(result.additionalUserInfo.isNewUser){
+                    firebase
+                    .database
+                    .ref('/users/' + result.user.uid)
+                    .set({
+                        gmail: result.user.email,
+                        first_name: result.additionalUserInfo.profile.given_name,
+                        last_name: result.additionalUserInfo.profile.family_name,
+                        create_at: Date.now() 
+                    })
+                }else{
+                    firebase
+                        .database()
+                        .ref('/users/' + result.user.uid).update({
+                            last_logged_in: Date.now()
+                        })
+                }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if(result.additionalUserInfo.isNewUser){
+                    firebase
+                    .database
+                    .ref('/users/' + result.user.uid)
+                    .set({
+                        gmail: result.user.email,
+                        first_name: result.additionalUserInfo.profile.given_name,
+                        last_name: result.additionalUserInfo.profile.family_name,
+                        create_at: Date.now() 
+                    })
+                }

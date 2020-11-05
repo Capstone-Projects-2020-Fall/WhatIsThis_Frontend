@@ -1,0 +1,16 @@
+firestore().collection('user').doc(result.user.uid).set({
+                        email: result.user.email.toString(),
+                        id: result.user.uid.toString()
+                    })
+
+
+
+firebase.auth().signInWithCredential(credential).then(function(result){
+                console.log('User signed in.')
+                if(result.additionalUserInfo.isNewUser){
+                    
+                    firestore().collection('user').doc(result.user.uid).set({
+                        email: result.user.email.toString(),
+                        id: result.user.uid.toString()
+                    })
+                }
