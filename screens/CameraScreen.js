@@ -10,6 +10,7 @@ import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 import { Toast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+
 export default class CameraScreen extends Component {
 
   state = {
@@ -48,9 +49,24 @@ export default class CameraScreen extends Component {
   }
 
   pickImage = async() => {
-    let image = await ImagePicker.launchImageLibraryAsync(
-      {mediaTypes: ImagePicker.MediaTypeOptions.Images}
+    let image = await ImagePicker.launchImageLibraryAsync({
+	  mediaTypes: ImagePicker.MediaTypeOptions.Images
+	  allowsEditing:true,
+	  aspect: [3,3],
+	  quality: 1,
+	  base64:true,}
     )
+	
+	fetch('http://192.168.2.111:8080/', {
+	  method: 'POST',
+	  headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+	  },
+	  body: JSON.stringify({
+		imgsource: image.base64,
+	  }),
+})
     console.log(image)
   }
 
