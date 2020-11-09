@@ -104,12 +104,18 @@ class MuscleSelectorScreen extends Component {
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
+<<<<<<< HEAD
             muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
 			
+=======
+            //muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+            muscleExerciseList.push(exercise.name, "\n\n");
+>>>>>>> added skeleton code for counting dates
         }
       })
       return muscleExerciseList;
     }
+<<<<<<< HEAD
 
   
     function buildImages(muscleID){
@@ -128,6 +134,12 @@ class MuscleSelectorScreen extends Component {
       res.push({ region: key, value: val });
     });
      */
+=======
+    
+    function makeListIntoButtons(muscleExerciseList){
+      return buttonArray
+    }
+>>>>>>> added skeleton code for counting dates
 		
     return (
       <View contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>

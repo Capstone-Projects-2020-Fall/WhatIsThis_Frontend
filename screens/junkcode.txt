@@ -308,3 +308,33 @@ const styles = StyleSheet.create({
     fontSize: 14
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+    var res = [];
+    map.forEach(function(val, key) {
+      res.push({ region: key, value: val });
+    });
+     */
