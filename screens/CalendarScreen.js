@@ -35,6 +35,13 @@ function getPastDate(days) {
   return new Date(Date.now() - (864e5 * days)).toISOString().split('T')[0];
 }
 
+// Pass in the date, something like 11/24/2020 or whatever format that works
+// then return the index number for that day for the date array.
+function countDates(day){
+  
+  return indexDay;
+}
+
 const ITEMS = [
   {title: dates[0], data: [{hour: '12am', duration: '1h', title: 'First Yoga'}]},
   {title: dates[1], data: [{hour: '4pm', duration: '1h', title: 'Pilates ABC'}, {hour: '5pm', duration: '1h', title: 'Vinyasa Yoga'}]},
@@ -48,6 +55,8 @@ const ITEMS = [
   {title: dates[9], data: [{hour: '1pm', duration: '1h', title: 'Ashtanga Yoga'}, {hour: '2pm', duration: '1h', title: 'Deep Streches'}, {hour: '3pm', duration: '1h', title: 'Private Yoga'}]},
   {title: dates[10], data: [{hour: '12am', duration: '1h', title: 'Last Yoga'}]}
 ];
+
+
 
 export default class ExpandableCalendarScreen extends Component {
 

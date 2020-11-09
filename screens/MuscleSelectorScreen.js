@@ -79,18 +79,16 @@ class MuscleSelectorScreen extends Component {
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
-            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+            //muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+            muscleExerciseList.push(exercise.name, "\n\n");
         }
       })
       return muscleExerciseList;
     }
     
-    /**
-    var res = [];
-    map.forEach(function(val, key) {
-      res.push({ region: key, value: val });
-    });
-     */
+    function makeListIntoButtons(muscleExerciseList){
+      return buttonArray
+    }
 		
     return (
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>
