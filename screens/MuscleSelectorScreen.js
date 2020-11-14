@@ -114,7 +114,7 @@ class MuscleSelectorScreen extends Component {
      */
 		
     return (
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>
+      <View contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>
         <Modal
             animationType = {"slide"}
             transparent={true}
@@ -126,6 +126,8 @@ class MuscleSelectorScreen extends Component {
             }}
             }          
             >
+
+              <ScrollView>
             <TouchableOpacity 
             style={styles.container} 
             activeOpacity={1} 
@@ -155,8 +157,9 @@ class MuscleSelectorScreen extends Component {
                   <Text style={styles.buttonText}>Close</Text>
               </TouchableOpacity>
             </TouchableOpacity>
+            </ScrollView>
           </Modal>
-            
+            <ScrollView>
           <TouchableOpacity
               style={styles.button}
               onPress={() => {
@@ -220,8 +223,8 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonText}>Quadriceps</Text>
           </TouchableOpacity>
-
-        </ScrollView>
+              </ScrollView>
+        </View>
         
       );
   }
