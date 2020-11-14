@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import {firestore} from 'firebase';
+import {firestore, storage} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 
 /*
@@ -37,10 +37,14 @@ class MuscleSelectorScreen extends Component {
 		
 		this.state = {
 			exercises: [],
-      isVisible : false,
-      formalName: "blank" 
+			exerciseDiagramURL: [],
+			  isVisible : false,
+			  formalName: "blank" 
 		};
 	}
+	
+	
+	
 
   // hide show modal
   displayModal(show){
@@ -55,14 +59,30 @@ class MuscleSelectorScreen extends Component {
   }
   
   componentDidMount(){
+	  
+	const imageURLList = new Array();
+	  
 	let queryRef = firestore()
 					.collection('exercises')
 					.get()
 					.then(querySnapshot => {
 						const data = querySnapshot.docs.map(doc => doc.data());
+						data.forEach(exercise => {
+							
+							if(exercise.imgpath !== undefined){
+								//console.log(exercise.imgpath);
+								var storageRef = storage().ref(exercise.imgpath);
+								storageRef.getDownloadURL().then(url => {
+									imageURLList.push(url);
+								});							
+							}
+						});
 						//console.log(data);
 						this.setState({exercises: data});
+						this.setState({exerciseDiagramURL: imageURLList});
 					});
+	
+				
   }
   
 
@@ -80,6 +100,7 @@ class MuscleSelectorScreen extends Component {
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
             muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+			
         }
       })
       return muscleExerciseList;
