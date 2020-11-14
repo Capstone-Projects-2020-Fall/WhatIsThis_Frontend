@@ -5,30 +5,6 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore, storage} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 
-/*
-//import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
-export default class MuscleSelectorScreen extends Component {
-  constructor(props){
-    super(props)
-    this.state = ({
-        muscleID: ""
-    })
-  }
-  //muscleID="biceps brachii"
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Muscle Selector</Text>
-        <Button style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-        title="Biceps"
-        //onPress={() => Alert.alert("BICEPS CURL")}
-        onPress={() => testReturn('biceps brachii')}
-      />
-      </View>
-    )
-  }
-}*/
-
 
 class MuscleSelectorScreen extends Component {
   

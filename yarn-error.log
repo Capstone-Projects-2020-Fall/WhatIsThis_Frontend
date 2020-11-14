@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add react-native-papere
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add ract-native-calendar-events
 
 PATH: 
-  C:\Python39\Scripts\;C:\Python39\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Amazon\AWSCLIV2\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Users\parth\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\parth\AppData\Local\Programs\Python\Python39\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Python\Python38\Scripts\;C:\Python\Python38\;C:\Users\parth\AppData\Local\Microsoft\WindowsApps;C:\Users\parth\AppData\Local\GitHubDesktop\bin;C:\Users\parth\AppData\Roaming\Python\Python38\scripts;C:\Users\parth\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\parth\AppData\Local\Yarn\bin;C:\Users\parth\AppData\Roaming\npm
+  C:\Python39\Scripts\;C:\Python39\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Yarn\bin\;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Amazon\AWSCLIV2\;C:\Program Files\Git\cmd;C:\Users\parth\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\parth\AppData\Local\Programs\Python\Python39\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Python\Python38\Scripts\;C:\Python\Python38\;C:\Users\parth\AppData\Local\Microsoft\WindowsApps;C:\Users\parth\AppData\Local\GitHubDesktop\bin;C:\Users\parth\AppData\Roaming\Python\Python38\scripts;C:\Users\parth\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\parth\AppData\Local\Yarn\bin;C:\Users\parth\AppData\Roaming\npm
 
 Yarn version: 
   1.22.5
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-native-papere: Not found
+  Error: https://registry.yarnpkg.com/ract-native-calendar-events: Not found
       at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66097:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140749:22)
       at Request.emit (events.js:314:20)
@@ -58,6 +58,7 @@ npm manifest:
       "react-native-calendars": "^1.403.0",
       "react-native-gesture-handler": "~1.7.0",
       "react-native-keyboard-aware-scroll-view": "^0.9.2",
+      "react-native-paper": "^4.3.1",
       "react-native-reanimated": "~1.13.0",
       "react-native-safe-area-context": "3.1.4",
       "react-native-screens": "~2.10.1",
@@ -1063,6 +1064,14 @@ Lockfile:
       "@babel/helper-validator-identifier" "^7.10.4"
       lodash "^4.17.19"
       to-fast-properties "^2.0.0"
+  
+  "@callstack/react-theme-provider@^3.0.5":
+    version "3.0.5"
+    resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.5.tgz#a173e455e9603c9c45357a3b6ace1273086527ca"
+    integrity sha512-Iec+ybWN0FvNj87sD3oWo/49edGUP0UOSdMnzCJEFJIDYr992ECIuOV89burAAh2/ibPCxgLiK6dmgv2mO/8Tg==
+    dependencies:
+      deepmerge "^3.2.0"
+      hoist-non-react-statics "^3.3.0"
   
   "@cnakazawa/watch@^1.0.3":
     version "1.0.4"
@@ -3695,7 +3704,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
     integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
   
-  hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
+  hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
     version "3.3.2"
     resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
     integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -5607,6 +5616,15 @@ Lockfile:
     dependencies:
       prop-types "^15.6.2"
       react-native-iphone-x-helper "^1.0.3"
+  
+  react-native-paper@^4.3.1:
+    version "4.3.1"
+    resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.3.1.tgz#2c230a29b077fe0a89c2d192c22f91f300311b27"
+    integrity sha512-3UYPtTJrRZz0OJFFZcD/Nzd7oIUBSiZkavLtPch+FzOSGEezvL0nV9P2VPvGHjFidel0VmDAMptX95UY3qSzPw==
+    dependencies:
+      "@callstack/react-theme-provider" "^3.0.5"
+      color "^3.1.2"
+      react-native-safe-area-view "^0.14.9"
   
   react-native-reanimated@~1.13.0:
     version "1.13.1"
