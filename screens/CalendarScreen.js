@@ -14,12 +14,22 @@ import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 're
 
 
 
+
 const today = new Date().toISOString().split('T')[0];
+const todayArray = today.split('-');
+
 const fastDate = getPastDate(3);
 const futureDates = getFutureDates(9);
 const dates = [fastDate, today].concat(futureDates);
 const themeColor = '#00AAAF';
 const lightThemeColor = '#EBF9F9';
+
+const xiYear = todayArray[0];
+const xiMonth = todayArray[1];
+const xiDate = todayArray[2]; 
+
+//const dateEST = new Date(xiYear, xiMonth, xiDate);
+//const todayEST = dateEST.setTime(dateEST.getTime() - dateEST.getTimezoneOffset()*60*1000);
 
 function getFutureDates(days) {
   const array = [];
@@ -62,8 +72,23 @@ const ITEMS = [
 ];
 
 
-const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title, ITEMS.data);
+const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
+
+const todaysDate = new Date();
+const UTCOffset =  todaysDate.getTimezoneOffset();
+const todayDate = todaysDate;
+todayDate.setMinutes(todayDate.getMinutes() + UTCOffset);
+
+const USA_EST_Offset = 5*60;
+todayDate.setMinutes(todayDate.getMinutes() - USA_EST_Offset);
+
+
 console.log(eventArrExercise);
+console.log(fastDate);
+console.log("Today in UTC: " + today);
+console.log("UTC Offset: " + UTCOffset);
+console.log("USA EST: " + todayDate);
+
 
 function addEvent(){
   eventExercise = {title: dates[21], data: [{hour: hour, duration: duration, title: title}]}
