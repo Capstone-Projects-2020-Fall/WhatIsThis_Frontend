@@ -16,7 +16,23 @@ import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 're
 
 
 const today = new Date().toISOString().split('T')[0];
-const todayArray = today.split('-');
+
+const todaysDate = new Date();
+const UTCOffset =  todaysDate.getTimezoneOffset();
+const dateToday = todaysDate;
+const USA_EST_Offset = 5*60; //UTCOffset = 300
+
+//dateToday.setMinutes(dateToday.getMinutes() - USA_EST_Offset);
+todaysDate.setMinutes(todaysDate.getMinutes() - USA_EST_Offset);
+
+// Convert long date format (Sat Nov 14 2020...) to ISO date format (2020-11-14...)
+//const todayEST = new Date(dateToday).toISOString().split('T')[0]; 
+const todayEST = new Date(todaysDate).toISOString().split('T')[0];
+
+console.log("Today in UTC: " + today);
+console.log("UTC Offset: " + UTCOffset);
+console.log("Today in EST: " + todayEST + "\n\n");
+
 
 const fastDate = getPastDate(3);
 const futureDates = getFutureDates(9);
@@ -24,12 +40,6 @@ const dates = [fastDate, today].concat(futureDates);
 const themeColor = '#00AAAF';
 const lightThemeColor = '#EBF9F9';
 
-const xiYear = todayArray[0];
-const xiMonth = todayArray[1];
-const xiDate = todayArray[2]; 
-
-//const dateEST = new Date(xiYear, xiMonth, xiDate);
-//const todayEST = dateEST.setTime(dateEST.getTime() - dateEST.getTimezoneOffset()*60*1000);
 
 function getFutureDates(days) {
   const array = [];
@@ -74,21 +84,8 @@ const ITEMS = [
 
 const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
 
-const todaysDate = new Date();
-const UTCOffset =  todaysDate.getTimezoneOffset();
-const todayDate = todaysDate;
-todayDate.setMinutes(todayDate.getMinutes() + UTCOffset);
-
-const USA_EST_Offset = 5*60;
-todayDate.setMinutes(todayDate.getMinutes() - USA_EST_Offset);
-
-
-console.log(eventArrExercise);
-console.log(fastDate);
-console.log("Today in UTC: " + today);
-console.log("UTC Offset: " + UTCOffset);
-console.log("USA EST: " + todayDate);
-
+//console.log(eventArrExercise);
+//console.log(fastDate);
 
 function addEvent(){
   eventExercise = {title: dates[21], data: [{hour: hour, duration: duration, title: title}]}
