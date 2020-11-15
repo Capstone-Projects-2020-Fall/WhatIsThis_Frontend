@@ -86,38 +86,86 @@ const ITEMS = [
 ];
 
 
-const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
+//const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
+//.map(o => { return {name: o.name, id: o.id} })
 
-//console.log(eventArrExercise);
-//console.log(fastDate);
+//const eventArrExercise = ITEMS.map(ITEMS => {return {date: ITEMS.title, exercise: ITEMS.data.title}});
+
 /*
-function addEvent(){
-  eventExercise = {title: dates[21], data: [{hour: hour, duration: duration, title: title}]}
-  hourTime='2pm'
-  duraction='1h'
-  title='Dumbells'
-  ITEMS.push(eventExercise);
-  return ITEMS;
-}*/
+const eventArrExercise = ITEMS.map(events => {
+  events.title,
+  events.data.map(itemEvent=> {itemEvent.title});
+});*/
 
-function updateEventsToFirestore(eventsArray){
+const eventArrExercise = ITEMS.map(events => {
+  console.log(events.title),
+  events.data.map(itemEvent=> {
+    console.log(itemEvent.title);
+  });
+});
+
+console.log(eventArrExercise);
+
+
+function addEventsToFirestore(eventsArray){
   const user =  firebase.auth().currentUser;
-  const workoutEvents = [];
+  //const workoutEvents = [];
   var index = 0;
-  for (index = 0; index < eventsArray.length; index++) { 
+  //for (index = 0; index < eventsArray.length; index++) { 
     //console.log(eventsArray[index]); 
-    console.log(eventsArray[index][0]);
-} 
-  firestore().collection('user').doc(user.uid).upadate(workoutEvents)
-  return successPrompt;
+    //console.log(eventsArray[index][0]);
+  //}
+  
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      console.log("User is signed in.\n");
+      console.log(user.uid);
+      firestore().collection('user').doc(user.uid).update({
+        workoutEvents: firebase.firestore.FieldValue.arrayUnion("2020-11-15||Running")});
+    } else {
+      // No user is signed in.
+      console.log("No user is signed in.\n");
+    }
+  }); 
+  
+  return console.log("update");
 }
 
-updateEventsToFirestore(ITEMS);
+/*
+var washingtonRef = db.collection("cities").doc("DC");
+
+// Atomically add a new region to the "regions" array field.
+washingtonRef.update({
+    regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+});
+
+// Atomically remove a region from the "regions" array field.
+washingtonRef.update({
+    regions: firebase.firestore.FieldValue.arrayRemove("east_coast")
+});
+*/
+
+
+addEventsToFirestore(ITEMS);
+
+//function retrieveEventsFromUserDatabase()
 
 // Checking the current user's ID. 
 // The document names are user ID in the user database in FireStore. 
-const user = firebase.auth().currentUser;
-console.log(user.uid);
+//const user = firebase.auth().currentUser;
+/*firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    console.log("User is signed in.\n");
+    console.log(user.uid);
+  } else {
+    // No user is signed in.
+    console.log("No user is signed in.\n");
+  }
+});*/
+
+
 
 export default class ExpandableCalendarScreen extends Component {
 
