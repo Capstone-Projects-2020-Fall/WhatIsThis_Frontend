@@ -51,10 +51,11 @@ class LoginScreen extends Component {
                 //if(result.additionalUserInfo.isNewUser){
                 const userID = result.user.uid
                 const userEmail = result.user.email
-                
+                const workoutEvents = [];
                 firestore().collection('user').doc(userID).set({
                     email: userEmail,
-                    id: userID
+                    id: userID,
+                    workoutEvents: workoutEvents,
                 })
                 //}
             })
@@ -118,10 +119,12 @@ class LoginScreen extends Component {
             firebase.auth().createUserWithEmailAndPassword(email, password).then((users)=>{
                 const usersID = users.user.uid;
                 console.log('Registered user ID: ', usersID);
+                const workoutEvents = []; // may result in undefined
                 const userRef = firestore().collection('user').doc(usersID);
                 userRef.set({
                     email: email,
                     id: usersID,
+                    workoutEvents: workoutEvents,
                 });
             })
         }
