@@ -40,7 +40,7 @@ console.log("Today in EST: " + todayEST + "\n\n");
 
 const fastDate = getPastDate(3);
 const futureDates = getFutureDates(9);
-const dates = [fastDate, today].concat(futureDates);
+const dates = [fastDate, todayEST].concat(futureDates);
 const themeColor = '#00AAAF';
 const lightThemeColor = '#EBF9F9';
 
@@ -66,26 +66,41 @@ function getPastDate(days) {
   return indexDay;
 }*/
 
-
-
 /**
  * The ITEMS array holds the events
 */
+
 const ITEMS = [
-  {title: dates[0], data: [{hour: '12am', duration: '1h', title: 'First Yoga'}]},
-  {title: dates[1], data: [{hour: '4pm', duration: '1h', title: 'Pilates ABC'}, {hour: '5pm', duration: '1h', title: 'Vinyasa Yoga'}]},
-  {title: dates[2], data: [{hour: '1pm', duration: '1h', title: 'Ashtanga Yoga'}, {hour: '2pm', duration: '1h', title: 'Deep Streches'}, {hour: '3pm', duration: '1h', title: 'Private Yoga'}]},
-  {title: dates[3], data: [{hour: '12am', duration: '1h', title: 'Ashtanga Yoga'}]},
-  {title: dates[4], data: [{hour: '6pm', duration:'1h', title: "Running"}]},
-  {title: dates[5], data: [{hour: '9pm', duration: '1h', title: 'Middle Yoga'}, {hour: '10pm', duration: '1h', title: 'Ashtanga'}, {hour: '11pm', duration: '1h', title: 'TRX'}, {hour: '12pm', duration: '1h', title: 'Running Group'}]},
-  {title: dates[6], data: [{hour: '12am', duration: '1h', title: 'Ashtanga Yoga'}]},
+  {title: dates[0], data: [{name: 'First Yoga'}]},
+  {title: dates[1], data: [{name: 'Pilates ABC'}, {name: 'Vinyasa Yoga'}]},
+  {title: dates[2], data: [{name: 'Ashtanga Yoga'}, {name: 'Deep Streches'}, {name: 'Private Yoga'}]},
+  {title: dates[3], data: [{name: 'Ashtanga Yoga'}]},
+  {title: dates[4], data: [{name: "Running"}]},
+  {title: dates[5], data: [{name: 'Middle Yoga'}, {name: 'Ashtanga'}, {name: 'TRX'}, {name: 'Running Group'}]},
+  {title: dates[6], data: [{name: 'Ashtanga Yoga'}]},
   //{title: dates[7], data: [{}]},
-  {title: dates[8], data: [{hour: '9pm', duration: '1h', title: 'Pilates Reformer'}, {hour: '10pm', duration: '1h', title: 'Ashtanga'}, {hour: '11pm', duration: '1h', title: 'TRX'}, {hour: '12pm', duration: '1h', title: 'Running Group'}]},
-  {title: dates[9], data: [{hour: '1pm', duration: '1h', title: 'Ashtanga Yoga'}, {hour: '2pm', duration: '1h', title: 'Deep Streches'}, {hour: '3pm', duration: '1h', title: 'Private Yoga'}]},
-  {title: dates[10], data: [{hour: '12am', duration: '1h', title: 'Last Yoga'}]}
+  {title: dates[7], data: [{name: 'Bench Press'}]},
+  {title: dates[8], data: [{name: 'Pilates Reformer'}, {name: 'Ashtanga'}, {name: 'TRX'}, {name: 'Running Group'}]},
+  {title: dates[9], data: [{name: 'Ashtanga Yoga'}, {name: 'Deep Streches'}, {name: 'Private Yoga'}]},
+  {title: dates[10], data: [{ name: 'Last Yoga'}]}
 ];
 
 
+/*
+const ITEMS = [
+  {title: dates[0], data: ['First Yoga']},
+  {title: dates[1], data: ['Pilates ABC','Vinyasa Yoga']},
+  {title: dates[2], data: ['Ashtanga Yoga','Deep Streches','Private Yoga']},
+  {title: dates[3], data: ['Ashtanga Yoga']},
+  {title: dates[4], data: ['Running']},
+  {title: dates[5], data: ['Middle Yoga', 'Ashtanga', 'TRX', 'Running Group']},
+  {title: dates[6], data: ['Ashtanga Yoga']},
+  //{title: dates[7], data: [{}]},
+  {title: dates[8], data: ['Pilates Reformer', 'Ashtanga', 'TRX', 'Running Group']},
+  {title: dates[9], data: ['Ashtanga Yoga', 'Deep Streches', 'Private Yoga']},
+  {title: dates[10], data: ['Last Yoga']}
+];
+*/
 //const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
 //.map(o => { return {name: o.name, id: o.id} })
 
@@ -95,7 +110,8 @@ const ITEMS = [
 const eventArrExercise = ITEMS.map(events => {
   events.title,
   events.data.map(itemEvent=> {itemEvent.title});
-});*/
+});
+*/
 
 const eventArrExercise = ITEMS.map(events => {
   console.log(events.title),
@@ -104,66 +120,61 @@ const eventArrExercise = ITEMS.map(events => {
   });
 });
 
-console.log(eventArrExercise);
+//console.log(eventArrExercise);
+function retrieveEventsFromUserDatabase(){
+
+  return console.log("Retreive user information");
+}
 
 
 function addEventsToFirestore(eventsArray){
-  const user =  firebase.auth().currentUser;
+  //const user =  firebase.auth().currentUser;
   //const workoutEvents = [];
-  var index = 0;
+  //var index = 0;
   //for (index = 0; index < eventsArray.length; index++) { 
     //console.log(eventsArray[index]); 
     //console.log(eventsArray[index][0]);
   //}
   
+// Checking the current user's ID. 
+// The document names are user ID in the user database in FireStore. 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // User is signed in.
       console.log("User is signed in.\n");
-      console.log(user.uid);
+      console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        workoutEvents: firebase.firestore.FieldValue.arrayUnion("2020-11-15||Running")});
+        workoutEvents: firebase.firestore.FieldValue.arrayUnion("2020-11-15||Bench Press")});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
     }
   }); 
   
-  return console.log("update");
+  return console.log("\n\n Added event to user's database \n\n");
 }
 
-/*
-var washingtonRef = db.collection("cities").doc("DC");
 
-// Atomically add a new region to the "regions" array field.
-washingtonRef.update({
-    regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
-});
-
-// Atomically remove a region from the "regions" array field.
-washingtonRef.update({
-    regions: firebase.firestore.FieldValue.arrayRemove("east_coast")
-});
-*/
+function removeEventsFromFirestore(eventsArray) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      console.log("User is signed in.\n");
+      console.log("Current User ID: " + user.uid);
+      firestore().collection('user').doc(user.uid).update({
+        workoutEvents: firebase.firestore.FieldValue.arrayRemove("2020-11-15||Bench Press")});
+    } else {
+      // No user is signed in.
+      console.log("No user is signed in.\n");
+    }
+  }); 
+  return console.log("\n\n Added event to user's database \n\n");
+}
 
 
 addEventsToFirestore(ITEMS);
 
-//function retrieveEventsFromUserDatabase()
-
-// Checking the current user's ID. 
-// The document names are user ID in the user database in FireStore. 
-//const user = firebase.auth().currentUser;
-/*firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    console.log("User is signed in.\n");
-    console.log(user.uid);
-  } else {
-    // No user is signed in.
-    console.log("No user is signed in.\n");
-  }
-});*/
+removeEventsFromFirestore(ITEMS);
 
 
 
@@ -201,15 +212,12 @@ export default class ExpandableCalendarScreen extends Component {
 
     return (
       <TouchableOpacity
-        onPress={() => this.itemPressed(item.title)}
+        onPress={() => this.itemPressed(item.name)}
         style={styles.item}
         
       >
-        <View>
-          <Text style={styles.itemHourText}>{item.hour}</Text>
-          <Text style={styles.itemDurationText}>{item.duration}</Text>
-        </View>
-        <Text style={styles.itemTitleText}>{item.title}</Text>
+      
+    <Text style={styles.itemTitleText}>{item.name}</Text>
         <View style={styles.itemButtonContainer}>
           <Button color={'grey'} title={'Info'} onPress={this.buttonPressed}/>
         </View>
@@ -223,8 +231,10 @@ export default class ExpandableCalendarScreen extends Component {
       // NOTE: only mark dates with data
       if (item.data && item.data.length > 0 && !_.isEmpty(item.data[0])) {
         marked[item.title] = {marked: true};
+        //console.log("\n\n" + item.title + "\n\n");
       } else {
         marked[item.title] = {disabled: true};
+        //console.log("\n\n" + item.title + "\n\n");
       }
     });
     return marked;
