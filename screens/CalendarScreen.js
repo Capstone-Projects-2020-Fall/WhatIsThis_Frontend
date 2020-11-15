@@ -11,8 +11,12 @@ import {
 } from 'react-native';
 import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 'react-native-calendars';
 
+import firebase, {firestore} from 'firebase';
+import {firebaseConfig} from '../config';
 
-
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 
 const today = new Date().toISOString().split('T')[0];
@@ -86,7 +90,7 @@ const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
 
 //console.log(eventArrExercise);
 //console.log(fastDate);
-
+/*
 function addEvent(){
   eventExercise = {title: dates[21], data: [{hour: hour, duration: duration, title: title}]}
   hourTime='2pm'
@@ -94,8 +98,26 @@ function addEvent(){
   title='Dumbells'
   ITEMS.push(eventExercise);
   return ITEMS;
+}*/
+
+function updateEventsToFirestore(eventsArray){
+  const user =  firebase.auth().currentUser;
+  const workoutEvents = [];
+  var index = 0;
+  for (index = 0; index < eventsArray.length; index++) { 
+    //console.log(eventsArray[index]); 
+    console.log(eventsArray[index][0]);
+} 
+  firestore().collection('user').doc(user.uid).upadate(workoutEvents)
+  return successPrompt;
 }
 
+updateEventsToFirestore(ITEMS);
+
+// Checking the current user's ID. 
+// The document names are user ID in the user database in FireStore. 
+const user = firebase.auth().currentUser;
+console.log(user.uid);
 
 export default class ExpandableCalendarScreen extends Component {
 
