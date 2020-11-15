@@ -1,6 +1,6 @@
 // Aboutscreen.js
 import React, { Component } from 'react';
-import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { Button, View, Text, Alert, Image, ImageBackground, Modal, TouchableOpacity, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore, storage} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
@@ -60,7 +60,9 @@ class MuscleSelectorScreen extends Component {
   
   componentDidMount(){
 	  
-	const imageURLList = new Array();
+    const imageURLList = new Array();
+ 
+
 	  
 	let queryRef = firestore()
 					.collection('exercises')
@@ -99,13 +101,23 @@ class MuscleSelectorScreen extends Component {
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
-            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n", "\n\n", exercise.imgpath, "\n\n\n");
 			
         }
       })
       return muscleExerciseList;
     }
-    
+
+    const imageArray = new Array();
+    function buildImages(muscleID){
+      exercises.forEach(exercise => {
+        if(exercise.muscle.includes(muscleID)){
+            imageArray.push(exercise.imageURLList, "\n\n\n");
+			
+        }
+      })
+      return imageArray;
+    }
     /**
     var res = [];
     map.forEach(function(val, key) {
@@ -141,13 +153,23 @@ class MuscleSelectorScreen extends Component {
                 style={styles.modelText}
                 
               >
-                
+             
                 {buildArray(this.state.formalName)}
                 
+                
               </Text>
+              
+              
                 </View>
               
               </TouchableWithoutFeedback>
+
+            <Image
+            styles= {styles.image}
+            source={{uri: this.imageURLList[0]}}
+          />
+
+              
 
               <TouchableOpacity
                   style={styles.button}
