@@ -134,67 +134,115 @@ class MuscleSelectorScreen extends Component {
           </Modal>
             <ScrollView>
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "rectus abdominus");
               }}>
-              <Text style={styles.buttonText}>Abs</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-abs.png')}
+                  style={{ width: 120, height: 120}}
+                />
+                {'   '}Abs
+              </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "biceps brachii");
               }}>
-              <Text style={styles.buttonText}>Biceps</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-biceps.png')}
+                  style={{ width: 120, height: 120}}
+                />
+                {'   '}Biceps
+              </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "gastrocnemius");
               }}>
-              <Text style={styles.buttonText}>Calves</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-calves.png')}
+                  style={{ width: 120, height: 120}}
+                />
+                {'   '}Calves
+              </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "anterior deltoid");
               }}>
-              <Text style={styles.buttonText}>Deltoids</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-deltoids.png')}
+                  style={{ width: 120, height: 120}}
+                />
+                {'   '}Deltoids
+              </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "gluteus maximus");
               }}>
-              <Text style={styles.buttonText}>Glutes</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-glutes.png')}
+                  style={{width: 120, height: 120}}
+                />
+                {'   '}Glutes
+              </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "latissimus dorsi");
               }}>
-              <Text style={styles.buttonText}>Lats</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-lats.png')}
+                  style={{ width: 120, height: 120}}
+                />
+                {'   '}Lats
+              </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "pectoralis major");
               }}>
-              <Text style={styles.buttonText}>Pectorals</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-pectorals.png')}
+                  style={{ width: 120, height: 120}}
+                />
+                {'   '}Pectorals
+              </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonMod}
               onPress={() => {
                 this.displayModalMod(true, "quadriceps femoris");
               }}>
-              <Text style={styles.buttonText}>Quadriceps</Text>
+              <Text style={styles.buttonTextMod}>
+                <Image
+                  source={require('./musclegroup-quadriceps.jpg')}
+                  style={{ width: 120, height: 120}}
+                />
+                {'   '}Quadriceps
+              </Text>
           </TouchableOpacity>
               </ScrollView>
         </View>
@@ -226,6 +274,22 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 25,
   },
+  buttonMod: {
+    display: 'flex',
+    height: 138,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#2AC062',
+    shadowColor: '#2AC062',
+    shadowOpacity: 0.5,
+    shadowOffset: { 
+      height: 10, 
+      width: 0 
+    },
+    shadowRadius: 25,
+  },
   closeButton: {
     display: 'flex',
     height: 60,
@@ -242,6 +306,10 @@ const styles = StyleSheet.create({
     shadowRadius: 25,
   },
   buttonText: {
+    color: '#FFFFFF',
+    fontSize: 22,
+  },
+  buttonTextMod: {
     color: '#FFFFFF',
     fontSize: 22,
   },
