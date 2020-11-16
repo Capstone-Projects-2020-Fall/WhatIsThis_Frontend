@@ -31,8 +31,12 @@
     "react-dom": "^16.13.1",
 <<<<<<< HEAD
     "react-native": "^0.63.3",
+<<<<<<< HEAD
 =======
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
+=======
+    "react-native-calendar": "^0.13.1",
+>>>>>>> Establishing new branch.
     "react-native-calendars": "^1.403.0",
 >>>>>>> Added CalendarList example for testing
     "react-native-gesture-handler": "~1.7.0",
