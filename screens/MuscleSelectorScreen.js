@@ -88,6 +88,8 @@ class MuscleSelectorScreen extends Component {
 	
 				
   }
+
+  
   
 
   render() {
@@ -98,9 +100,20 @@ class MuscleSelectorScreen extends Component {
     const exerciseDes = new Array();
     const exerciseMuscle = new Array();
     const exerciseMachine = new Array();
+    var testArray = [
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Frunning.png?alt=media&token=f3139617-afd3-4403-be53-95ca186b863e",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fbicep_curls_dumbbell.jpg?alt=media&token=0e3c03ca-c0e2-42dd-8540-12a687dfb825",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fcycling.png?alt=media&token=fa9ec058-5ac7-4938-8981-6af59647fa6d",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fbench.png?alt=media&token=22438c6f-7e1b-40bf-83db-5a43479f1036",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fbent_over_row_barbell.png?alt=media&token=a49c124f-6c1d-4be8-a3b4-faede31eb7e5",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fpullup.png?alt=media&token=7903b9f3-ac98-4cec-b2d6-560a1d92f3f0",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fsquat.png?alt=media&token=20205192-f6f1-4cd7-86ea-45913841f855",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fleg_raise.png?alt=media&token=394f2fb1-6e2a-4591-9fe9-2a7f2f61a295",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fkb_clean_and_press.png?alt=media&token=82fcd651-50b4-426b-9164-e75684b097a5",
+      "https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fleg_press.png?alt=media&token=fe0d41e2-8467-483d-95c0-f59eed7b9d08",
+    ];
 
     const muscleExerciseList = new Array();
-      const imageArray = new Array();
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
@@ -111,17 +124,49 @@ class MuscleSelectorScreen extends Component {
       return muscleExerciseList;
     }
 
-  
+    // Remove this 
+    
+    
     function buildImages(muscleID){
-      exercises.forEach(exercise => {
-        if(exercise.muscle.includes(muscleID)){
-            imageArray.push(exercise.exerciseDiagramURL);
-			
-        }
-      })
       console.log(exerciseDiagramURL);
       return exerciseDiagramURL;
     }
+    
+    const exerciseImageList = new Array()
+    // For each muscle, search for exactly one exercise 
+    function buildImages(muscleID){
+      /*
+      exerciseDiagramURL.forEach(exercise => {
+        if(exercise.muscle.includes(muscleID)){
+            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+      
+        }
+      })
+      */
+      // How to do a normal, non arrow notation for-each; doesn't exist, actually 
+      
+      testArray.forEach(image => {
+        
+        if(image.search("bench") && muscleID == "pectoralis major"){
+          exerciseImageList.push(image); 
+          console.log(image); 
+        }
+        // console.log(image);
+        
+        // exerciseImageList.push(image); 
+
+        /*
+        if(image.search("jogging") && muscleID == "gastrocnemius"){
+          exerciseImageList.push(image); 
+        }
+        */
+      })
+      
+      return exerciseImageList;
+    }
+
+    
+    
     /**
     var res = [];
     map.forEach(function(val, key) {
