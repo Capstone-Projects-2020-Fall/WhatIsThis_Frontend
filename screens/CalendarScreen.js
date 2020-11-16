@@ -315,7 +315,7 @@ export default class ExpandableCalendarScreen extends Component {
         // }}
         // todayBottomMargin={16}
       >
-        <TouchableOpacity></TouchableOpacity>
+        
         {this.props.weekView ?
           <WeekCalendar
             
