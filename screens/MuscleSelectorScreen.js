@@ -36,7 +36,7 @@ class MuscleSelectorScreen extends Component {
 		super(props);
 		
 		this.state = {
-			exercises: [],
+      exercises: [],
 			exerciseDiagramURL: [],
 			  isVisible : false,
 			  formalName: "blank" 
@@ -60,11 +60,11 @@ class MuscleSelectorScreen extends Component {
   
   componentDidMount(){
 	  
-    const imageURLList = new Array();
- 
-
+    
+ const imageURLList = new Array();
 	  
-	let queryRef = firestore()
+  let queryRef = firestore()
+          
 					.collection('exercises')
 					.get()
 					.then(querySnapshot => {
@@ -72,16 +72,18 @@ class MuscleSelectorScreen extends Component {
 						data.forEach(exercise => {
 							
 							if(exercise.imgpath !== undefined){
-								//console.log(exercise.imgpath);
 								var storageRef = storage().ref(exercise.imgpath);
 								storageRef.getDownloadURL().then(url => {
-									imageURLList.push(url);
+                  imageURLList.push(url);
+                  //console.log(url);
+                 
 								});							
 							}
 						});
-						//console.log(data);
+						
 						this.setState({exercises: data});
-						this.setState({exerciseDiagramURL: imageURLList});
+            this.setState({exerciseDiagramURL: imageURLList});
+            
 					});
 	
 				
@@ -89,7 +91,8 @@ class MuscleSelectorScreen extends Component {
   
 
   render() {
-	  const {exercises} = this.state;
+    const {exercises} = this.state;
+    const {exerciseDiagramURL} = this.state;
 		//console.log(exercises[0]);
 		const exerciseNames = new Array();
     const exerciseDes = new Array();
@@ -97,26 +100,27 @@ class MuscleSelectorScreen extends Component {
     const exerciseMachine = new Array();
 
     const muscleExerciseList = new Array();
-    
+      const imageArray = new Array();
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
-            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n", "\n\n", exercise.imgpath, "\n\n\n");
+            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
 			
         }
       })
       return muscleExerciseList;
     }
 
-    const imageArray = new Array();
+  
     function buildImages(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
-            imageArray.push(exercise.imageURLList, "\n\n\n");
+            imageArray.push(exercise.exerciseDiagramURL);
 			
         }
       })
-      return imageArray;
+      console.log(exerciseDiagramURL);
+      return exerciseDiagramURL;
     }
     /**
     var res = [];
@@ -139,7 +143,7 @@ class MuscleSelectorScreen extends Component {
             }          
             >
 
-              <ScrollView>
+            <ScrollView>
             <TouchableOpacity 
             style={styles.container} 
             activeOpacity={1} 
@@ -164,12 +168,15 @@ class MuscleSelectorScreen extends Component {
               
               </TouchableWithoutFeedback>
 
-            <Image
-            styles= {styles.image}
-            source={{uri: this.imageURLList[0]}}
-          />
-
+            
+              <Image
               
+              style = {styles.image}
+              source ={buildImages(this.state.formalName)}
+              
+             
+              />
+
 
               <TouchableOpacity
                   style={styles.button}
