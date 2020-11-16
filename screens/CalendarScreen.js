@@ -71,7 +71,7 @@ function getPastDate(days) {
 */
 
 const ITEMS = [
-  {title: dates[0], data: [{name: 'First Yoga'}]},
+  {title: dates[0], data: [{name: 'Bench Press'}]},
   {title: dates[1], data: [{name: 'Pilates ABC'}, {name: 'Vinyasa Yoga'}]},
   {title: dates[2], data: [{name: 'Ashtanga Yoga'}, {name: 'Deep Streches'}, {name: 'Private Yoga'}]},
   {title: dates[3], data: [{name: 'Ashtanga Yoga'}]},
@@ -315,6 +315,7 @@ export default class ExpandableCalendarScreen extends Component {
         // }}
         // todayBottomMargin={16}
       >
+        <TouchableOpacity></TouchableOpacity>
         {this.props.weekView ?
           <WeekCalendar
             
