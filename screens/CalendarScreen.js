@@ -71,18 +71,18 @@ function getPastDate(days) {
 */
 
 const ITEMS = [
-  {title: dates[0], data: [{name: 'First Yoga'}]},
-  {title: dates[1], data: [{name: 'Pilates ABC'}, {name: 'Vinyasa Yoga'}]},
-  {title: dates[2], data: [{name: 'Ashtanga Yoga'}, {name: 'Deep Streches'}, {name: 'Private Yoga'}]},
-  {title: dates[3], data: [{name: 'Ashtanga Yoga'}]},
-  {title: dates[4], data: [{name: "Running"}]},
-  {title: dates[5], data: [{name: 'Middle Yoga'}, {name: 'Ashtanga'}, {name: 'TRX'}, {name: 'Running Group'}]},
-  {title: dates[6], data: [{name: 'Ashtanga Yoga'}]},
+  {title: dates[0], data: [{name: 'Bench Press'}]},
+  {title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]},
+  {title: dates[2], data: [{name: 'Bicep Curls with Barbell'}, {name: 'Chin Ups'}, {name: 'Crunches'}]},
+  {title: dates[3], data: [{name: 'Cycling'}]},
+  {title: dates[4], data: [{name: "Deadlift"}]},
+  {title: dates[5], data: [{name: 'Dips Between Two Benches'}, {name: 'Front Squats'}, {name: 'Jogging'}, {name: 'Kettlebell Clean & Press'}]},
+  {title: dates[6], data: [{name: 'Lateral Raises'}]},
   //{title: dates[7], data: [{}]},
-  {title: dates[7], data: [{name: 'Bench Press'}]},
-  {title: dates[8], data: [{name: 'Pilates Reformer'}, {name: 'Ashtanga'}, {name: 'TRX'}, {name: 'Running Group'}]},
-  {title: dates[9], data: [{name: 'Ashtanga Yoga'}, {name: 'Deep Streches'}, {name: 'Private Yoga'}]},
-  {title: dates[10], data: [{ name: 'Last Yoga'}]}
+  {title: dates[7], data: [{name: 'Leg Press'}]},
+  {title: dates[8], data: [{name: 'Leg Press(wide)'}, {name: 'Leg Raises, Lying'}, {name: 'Pull Ups'}, {name: 'Squats'}]},
+  {title: dates[9], data: [{name: 'Bench Press'}, {name: 'Bent Over Row'}, {name: 'Chin Ups'}]},
+  {title: dates[10], data: [{ name: 'Deadlift'}]}
 ];
 
 /*
@@ -315,6 +315,7 @@ export default class ExpandableCalendarScreen extends Component {
         // }}
         // todayBottomMargin={16}
       >
+        
         {this.props.weekView ?
           <WeekCalendar
             
