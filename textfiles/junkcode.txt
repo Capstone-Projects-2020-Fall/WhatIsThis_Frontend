@@ -932,3 +932,55 @@ const styles = StyleSheet.create({
     fontSize: 14
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+const ITEMS = [
+  {title: dates[0], data: ['First Yoga']},
+  {title: dates[1], data: ['Pilates ABC','Vinyasa Yoga']},
+  {title: dates[2], data: ['Ashtanga Yoga','Deep Streches','Private Yoga']},
+  {title: dates[3], data: ['Ashtanga Yoga']},
+  {title: dates[4], data: ['Running']},
+  {title: dates[5], data: ['Middle Yoga', 'Ashtanga', 'TRX', 'Running Group']},
+  {title: dates[6], data: ['Ashtanga Yoga']},
+  //{title: dates[7], data: [{}]},
+  {title: dates[8], data: ['Pilates Reformer', 'Ashtanga', 'TRX', 'Running Group']},
+  {title: dates[9], data: ['Ashtanga Yoga', 'Deep Streches', 'Private Yoga']},
+  {title: dates[10], data: ['Last Yoga']}
+];
+*/
+//const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
+//.map(o => { return {name: o.name, id: o.id} })
+
+//const eventArrExercise = ITEMS.map(ITEMS => {return {date: ITEMS.title, exercise: ITEMS.data.title}});

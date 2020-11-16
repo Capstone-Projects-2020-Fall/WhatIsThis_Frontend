@@ -85,40 +85,65 @@ const ITEMS = [
   {title: dates[10], data: [{ name: 'Last Yoga'}]}
 ];
 
-
-/*
-const ITEMS = [
-  {title: dates[0], data: ['First Yoga']},
-  {title: dates[1], data: ['Pilates ABC','Vinyasa Yoga']},
-  {title: dates[2], data: ['Ashtanga Yoga','Deep Streches','Private Yoga']},
-  {title: dates[3], data: ['Ashtanga Yoga']},
-  {title: dates[4], data: ['Running']},
-  {title: dates[5], data: ['Middle Yoga', 'Ashtanga', 'TRX', 'Running Group']},
-  {title: dates[6], data: ['Ashtanga Yoga']},
-  //{title: dates[7], data: [{}]},
-  {title: dates[8], data: ['Pilates Reformer', 'Ashtanga', 'TRX', 'Running Group']},
-  {title: dates[9], data: ['Ashtanga Yoga', 'Deep Streches', 'Private Yoga']},
-  {title: dates[10], data: ['Last Yoga']}
-];
-*/
-//const eventArrExercise = ITEMS.map(ITEMS => ITEMS.title);
-//.map(o => { return {name: o.name, id: o.id} })
-
-//const eventArrExercise = ITEMS.map(ITEMS => {return {date: ITEMS.title, exercise: ITEMS.data.title}});
-
 /*
 const eventArrExercise = ITEMS.map(events => {
   events.title,
-  events.data.map(itemEvent=> {itemEvent.title});
+  events.data.map(itemEvent=> {itemEvent.name});
 });
+console.log(eventArrExercise);
+*/
+const valuesOfITEMS = ITEMS.values();
+
+console.log(valuesOfITEMS.next().value.title);
+console.log("\n");
+console.log(valuesOfITEMS.next().value);
+
+/*
+const eventArrExercise = ITEMS.map(events => {
+  //console.log(events.title),
+  events.title,
+  events.data.map(itemEvent=> {
+    //console.log(itemEvent.name);
+    itemEvent.name
+  });
+});*/
+
+function parseArray(arrayOfMap){
+  
+  
+  return parsedArray;
+}
+
+
+
+console.log("\n\n");
+console.log();
+
+let names = ITEMS.reduce((str, itemEvents) => `${str} ${itemEvents.name}`, '||');
+//console.log(names);
+/*
+const authors = [ { id: 1, name: 'Steven'}, {id: 2, name: 'Nick'}]
+let names = authors.map( (a, i) => `${a.name} is cool`).join(' ');
+console.log(names);
 */
 
-const eventArrExercise = ITEMS.map(events => {
-  console.log(events.title),
-  events.data.map(itemEvent=> {
-    console.log(itemEvent.title);
-  });
-});
+const workoutList = new Array();
+
+function buildArray(eventsArray){
+  ITEMS.forEach(itemEvent => {
+    if(itemEvent.data[0].name.includes('First Yoga')){
+        //muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+        workoutList.push(itemEvent.data[0].name, "\n\n");
+    }
+  })
+  console.log(workoutList);
+  return workoutList;
+  //return console.log(workoutList);
+}
+
+buildArray(ITEMS);
+
+console.log("\n\nhello world \n\n")
 
 //console.log(eventArrExercise);
 function retrieveEventsFromUserDatabase(){
@@ -175,6 +200,7 @@ function removeEventsFromFirestore(eventsArray) {
 addEventsToFirestore(ITEMS);
 
 removeEventsFromFirestore(ITEMS);
+
 
 
 
