@@ -5,6 +5,30 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore, storage} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
 
+/*
+//import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
+export default class MuscleSelectorScreen extends Component {
+  constructor(props){
+    super(props)
+    this.state = ({
+        muscleID: ""
+    })
+  }
+  //muscleID="biceps brachii"
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Muscle Selector</Text>
+        <Button style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        title="Biceps"
+        //onPress={() => Alert.alert("BICEPS CURL")}
+        onPress={() => testReturn('biceps brachii')}
+      />
+      </View>
+    )
+  }
+}*/
+
 
 class MuscleSelectorScreen extends Component {
   
@@ -80,18 +104,12 @@ class MuscleSelectorScreen extends Component {
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
-<<<<<<< HEAD
             muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
 			
-=======
-            //muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
-            muscleExerciseList.push(exercise.name, "\n\n");
->>>>>>> added skeleton code for counting dates
         }
       })
       return muscleExerciseList;
     }
-<<<<<<< HEAD
 
   
     function buildImages(muscleID){
@@ -110,12 +128,6 @@ class MuscleSelectorScreen extends Component {
       res.push({ region: key, value: val });
     });
      */
-=======
-    
-    function makeListIntoButtons(muscleExerciseList){
-      return buttonArray
-    }
->>>>>>> added skeleton code for counting dates
 		
     return (
       <View contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>
@@ -178,115 +190,67 @@ class MuscleSelectorScreen extends Component {
           </Modal>
             <ScrollView>
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "rectus abdominus");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-abs.png')}
-                  style={{ width: 120, height: 120}}
-                />
-                {'   '}Abs
-              </Text>
+              <Text style={styles.buttonText}>Abs</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "biceps brachii");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-biceps.png')}
-                  style={{ width: 120, height: 120}}
-                />
-                {'   '}Biceps
-              </Text>
+              <Text style={styles.buttonText}>Biceps</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "gastrocnemius");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-calves.png')}
-                  style={{ width: 120, height: 120}}
-                />
-                {'   '}Calves
-              </Text>
+              <Text style={styles.buttonText}>Calves</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "anterior deltoid");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-deltoids.png')}
-                  style={{ width: 120, height: 120}}
-                />
-                {'   '}Deltoids
-              </Text>
+              <Text style={styles.buttonText}>Deltoids</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "gluteus maximus");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-glutes.png')}
-                  style={{width: 120, height: 120}}
-                />
-                {'   '}Glutes
-              </Text>
+              <Text style={styles.buttonText}>Glutes</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "latissimus dorsi");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-lats.png')}
-                  style={{ width: 120, height: 120}}
-                />
-                {'   '}Lats
-              </Text>
+              <Text style={styles.buttonText}>Lats</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "pectoralis major");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-pectorals.png')}
-                  style={{ width: 120, height: 120}}
-                />
-                {'   '}Pectorals
-              </Text>
+              <Text style={styles.buttonText}>Pectorals</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-              style={styles.buttonMod}
+              style={styles.button}
               onPress={() => {
                 this.displayModalMod(true, "quadriceps femoris");
               }}>
-              <Text style={styles.buttonTextMod}>
-                <Image
-                  source={require('./musclegroup-quadriceps.jpg')}
-                  style={{ width: 120, height: 120}}
-                />
-                {'   '}Quadriceps
-              </Text>
+              <Text style={styles.buttonText}>Quadriceps</Text>
           </TouchableOpacity>
               </ScrollView>
         </View>
@@ -318,22 +282,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 25,
   },
-  buttonMod: {
-    display: 'flex',
-    height: 138,
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: '#2AC062',
-    shadowColor: '#2AC062',
-    shadowOpacity: 0.5,
-    shadowOffset: { 
-      height: 10, 
-      width: 0 
-    },
-    shadowRadius: 25,
-  },
   closeButton: {
     display: 'flex',
     height: 60,
@@ -350,10 +298,6 @@ const styles = StyleSheet.create({
     shadowRadius: 25,
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 22,
-  },
-  buttonTextMod: {
     color: '#FFFFFF',
     fontSize: 22,
   },
