@@ -1,6 +1,6 @@
 // Aboutscreen.js
 import React, { Component } from 'react';
-import { Button, View, Text, Alert, Image, Modal, TouchableOpacity, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { Button, View, Text, Alert, Image, ImageBackground, Modal, TouchableOpacity, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore, storage} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
@@ -12,7 +12,7 @@ class MuscleSelectorScreen extends Component {
 		super(props);
 		
 		this.state = {
-			exercises: [],
+      exercises: [],
 			exerciseDiagramURL: [],
 			  isVisible : false,
 			  formalName: "blank" 
@@ -36,9 +36,11 @@ class MuscleSelectorScreen extends Component {
   
   componentDidMount(){
 	  
-	const imageURLList = new Array();
+    
+ const imageURLList = new Array();
 	  
-	let queryRef = firestore()
+  let queryRef = firestore()
+          
 					.collection('exercises')
 					.get()
 					.then(querySnapshot => {
@@ -46,16 +48,18 @@ class MuscleSelectorScreen extends Component {
 						data.forEach(exercise => {
 							
 							if(exercise.imgpath !== undefined){
-								//console.log(exercise.imgpath);
 								var storageRef = storage().ref(exercise.imgpath);
 								storageRef.getDownloadURL().then(url => {
-									imageURLList.push(url);
+                  imageURLList.push(url);
+                  //console.log(url);
+                 
 								});							
 							}
 						});
-						//console.log(data);
+						
 						this.setState({exercises: data});
-						this.setState({exerciseDiagramURL: imageURLList});
+            this.setState({exerciseDiagramURL: imageURLList});
+            
 					});
 	
 				
@@ -63,7 +67,8 @@ class MuscleSelectorScreen extends Component {
   
 
   render() {
-	  const {exercises} = this.state;
+    const {exercises} = this.state;
+    const {exerciseDiagramURL} = this.state;
 		//console.log(exercises[0]);
 		const exerciseNames = new Array();
     const exerciseDes = new Array();
@@ -71,7 +76,7 @@ class MuscleSelectorScreen extends Component {
     const exerciseMachine = new Array();
 
     const muscleExerciseList = new Array();
-    
+      const imageArray = new Array();
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
@@ -85,6 +90,24 @@ class MuscleSelectorScreen extends Component {
     function makeListIntoButtons(muscleExerciseList){
       return buttonArray
     }
+
+  
+    function buildImages(muscleID){
+      exercises.forEach(exercise => {
+        if(exercise.muscle.includes(muscleID)){
+            imageArray.push(exercise.exerciseDiagramURL);
+			
+        }
+      })
+      console.log(exerciseDiagramURL);
+      return exerciseDiagramURL;
+    }
+    /**
+    var res = [];
+    map.forEach(function(val, key) {
+      res.push({ region: key, value: val });
+    });
+     */
 		
     return (
       <View contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>
@@ -100,7 +123,7 @@ class MuscleSelectorScreen extends Component {
             }          
             >
 
-              <ScrollView>
+            <ScrollView>
             <TouchableOpacity 
             style={styles.container} 
             activeOpacity={1} 
@@ -114,13 +137,26 @@ class MuscleSelectorScreen extends Component {
                 style={styles.modelText}
                 
               >
-                
+             
                 {buildArray(this.state.formalName)}
                 
+                
               </Text>
+              
+              
                 </View>
               
               </TouchableWithoutFeedback>
+
+            
+              <Image
+              
+              style = {styles.image}
+              source ={buildImages(this.state.formalName)}
+              
+             
+              />
+
 
               <TouchableOpacity
                   style={styles.button}
