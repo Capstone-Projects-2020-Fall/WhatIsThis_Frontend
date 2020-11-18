@@ -7,7 +7,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Button
+  Button,
+  Image
 } from 'react-native';
 import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 'react-native-calendars';
 
@@ -18,7 +19,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-
+// Original today data variable -> UTC -> EST (Philly)
 const today = new Date().toISOString().split('T')[0];
 
 const todaysDate = new Date();
@@ -38,9 +39,12 @@ console.log("UTC Offset: " + UTCOffset);
 console.log("Today in EST: " + todayEST + "\n\n");
 
 
-const fastDate = getPastDate(3);
+const pastDate = getPastDate(3);
+console.log(pastDate)
 const futureDates = getFutureDates(9);
-const dates = [fastDate, todayEST].concat(futureDates);
+const dates = [pastDate, todayEST].concat(futureDates);
+console.log(dates)
+
 const themeColor = '#00AAAF';
 const lightThemeColor = '#EBF9F9';
 
@@ -69,6 +73,7 @@ function getPastDate(days) {
 /**
  * The ITEMS array holds the events
 */
+// Array -> Map(title, data->Array-> Map(name))
 
 const ITEMS = [
   {title: dates[0], data: [{name: 'Bench Press'}]},
@@ -85,6 +90,21 @@ const ITEMS = [
   {title: dates[10], data: [{ name: 'Deadlift'}]}
 ];
 
+
+// store date string such as 2020-11-20
+const date = [];
+
+// ITEMS =[{title: date[0], data: [{name: 'Bench Press'}, {name: 'Deadlift'}]}]
+const items = [];
+
+/* Adding 
+
+Pressed "+" 
+[]
+
+
+*/
+
 /*
 const eventArrExercise = ITEMS.map(events => {
   events.title,
@@ -92,11 +112,11 @@ const eventArrExercise = ITEMS.map(events => {
 });
 console.log(eventArrExercise);
 */
-const valuesOfITEMS = ITEMS.values();
+//const valuesOfITEMS = ITEMS.values();
 
-console.log(valuesOfITEMS.next().value.title);
-console.log("\n");
-console.log(valuesOfITEMS.next().value);
+//console.log(valuesOfITEMS.next().value.title);
+//console.log("\n");
+//console.log(valuesOfITEMS.next().value);
 
 /*
 const eventArrExercise = ITEMS.map(events => {
@@ -151,6 +171,15 @@ function retrieveEventsFromUserDatabase(){
   return console.log("Retreive user information");
 }
 
+//{title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]}
+function addEventToArray(eventArray,date,eventName) {
+  date
+  eventName
+  eventArray
+  eventArray.push({title: date[0]})
+  return console.log("add events");
+}
+
 
 function addEventsToFirestore(eventsArray){
   //const user =  firebase.auth().currentUser;
@@ -187,7 +216,7 @@ function removeEventsFromFirestore(eventsArray) {
       console.log("User is signed in.\n");
       console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        workoutEvents: firebase.firestore.FieldValue.arrayRemove("2020-11-15||Bench Press")});
+        workoutEvents: firebase.firestore.FieldValue.arrayRemove("2020-11-15||Leg Press")});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
@@ -346,6 +375,25 @@ export default class ExpandableCalendarScreen extends Component {
           renderItem={this.renderItem}
           // sectionStyle={styles.section}
         />
+        <TouchableOpacity
+          onPress={() =>
+            /*navigation.navigate('CreateTask', {
+            updateCurrentTask: this._updateCurrentTask,
+            currentDate,
+            createNewCalendar: this._createNewCalendar,
+            })*/
+            Alert.alert('Adding events button')
+          }
+          style={styles.viewTask}
+        >
+          <Image
+            source={require('../assets/plus.png')}
+            style={{
+              height: 30,
+              width: 30,
+            }}
+          />
+        </TouchableOpacity>
       </CalendarProvider>
     );
   }
@@ -397,5 +445,27 @@ const styles = StyleSheet.create({
   emptyItemText: {
     color: 'lightgrey',
     fontSize: 14
+  },
+  viewTask: {
+    position: 'absolute',
+    bottom: 40,
+    right: 17,
+    height: 60,
+    width: 60,
+    //backgroundColor: '#2E66E7',
+    backgroundColor: '#00acee',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //shadowColor: '#2E66E7',
+    shadowColor: '#00acee',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowRadius: 30,
+    shadowOpacity: 0.5,
+    elevation: 5,
+    zIndex: 999,
   }
 });

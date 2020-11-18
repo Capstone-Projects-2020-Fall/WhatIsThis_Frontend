@@ -984,3 +984,50 @@ const ITEMS = [
 //.map(o => { return {name: o.name, id: o.id} })
 
 //const eventArrExercise = ITEMS.map(ITEMS => {return {date: ITEMS.title, exercise: ITEMS.data.title}});
+
+
+
+
+
+
+
+
+viewTask: {
+    position: 'absolute',
+    bottom: 40,
+    right: 17,
+    height: 60,
+    width: 60,
+    backgroundColor: '#2E66E7',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#2E66E7',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowRadius: 30,
+    shadowOpacity: 0.5,
+    elevation: 5,
+    zIndex: 999,
+  }
+
+<TouchableOpacity
+    onPress={() =>
+      navigation.navigate('CreateTask', {
+        updateCurrentTask: this._updateCurrentTask,
+        currentDate,
+        createNewCalendar: this._createNewCalendar,
+      })
+    }
+    style={styles.viewTask}
+  >
+    <Image
+      source={require('../assets/plus.png')}
+      style={{
+        height: 30,
+        width: 30,
+      }}
+    />
+</TouchableOpacity>
