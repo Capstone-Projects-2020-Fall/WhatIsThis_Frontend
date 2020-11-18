@@ -38,7 +38,7 @@ const HomeStack = createStackNavigator(
       navigationOptions: ({ navigation }) => {
         return {
           headerTitle: 'Home',
-          headerLeft: (
+          headerLeft: ()=> (
             <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
           )
         };
@@ -53,13 +53,14 @@ const HomeStack = createStackNavigator(
 );
 
 
+
 const CameraStack = createStackNavigator({
   Camera: {
     screen: CameraScreen,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Camera',
-        headerLeft: (
+        headerLeft: () => (
           <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
         )
       };
@@ -73,7 +74,7 @@ const MuscleSelectorStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Muscle Selector',
-        headerLeft: (
+        headerLeft: ()=> (
           <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
         )
       };
@@ -87,7 +88,7 @@ const CalendarStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Calendar',
-        headerLeft: (
+        headerLeft: ()=> (
           <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
         )
       };
@@ -111,7 +112,7 @@ const DashboardTabNavigator = createBottomTabNavigator(
     navigationOptions: ({ navigation }) => {
       const { routeName } = navigation.state.routes[navigation.state.index];
       return {
-        header: null,
+        headerMode: false,
         headerTitle: routeName
       };
     }
@@ -126,7 +127,7 @@ const DashboardStackNavigator = createStackNavigator(
   {
     defaultNavigationOptions: ({ navigation }) => {
       return {
-        headerLeft: (
+        headerLeft: ()=> (
           <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
         )
       };
