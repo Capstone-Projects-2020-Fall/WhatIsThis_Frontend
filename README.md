@@ -50,7 +50,16 @@ If there is any confusion, see the link above, or talk to the team leader.
 
 If you need a refresher on git, there is a good cheatsheet [here](https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet).
 
-## For Milestone Demo 1
-* First run the command: `expo install expo-google-sign-in`
-* Then run the command: `yarn add react-navigation`
-* Then run the command: `yarn add react-navigation-stack @react-native-community/masked-view react-native-safe-area-context`
+## Additional Libraries to Install
+* For Google Sign - In: `expo install expo-google-sign-in`
+* For React Navigation: `yarn add react-navigation` then `yarn add react-navigation-stack @react-native-community/masked-view react-native-safe-area-context`
+
+* Expo camera module: `expo install expo-camera`
+* React Native Calendar: `npm install react-calendar / yarn add react-calendar`
+
+## Known Bugs 
+* Testing on Android sometimes throws up the error: Error while updating property 'src' of a view managed by: RCImageView; sometimes this error can be circumvented by simply       dismissing it; otherwise, removing the image tag spanning lines 172 - 178 on MuscleSelectorScreen.js should suffice, though doing so will remove the corresponding images from 
+the muscle group modals. 
+* Testing on iOS sometimes throws up the error: Invariant Violation: Tried to register two views with the same name RNCSafeAreaProvider; this can be resolved by: 1) Deleting 
+node_modules and the lockfile (package-lock.json / yarn.lock) 2) Removing react-native-safe-area-context from package.json (being sure to remove both the field and the value)
+3) run `yarn or npm install` 4) run `expo install react-native-safe-area-context` 
