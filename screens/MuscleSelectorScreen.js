@@ -60,8 +60,6 @@ class MuscleSelectorScreen extends Component {
   
   componentDidMount(){
 	  
-    
- const imageURLList = new Array();
 	  
   let queryRef = firestore()
           
@@ -69,32 +67,18 @@ class MuscleSelectorScreen extends Component {
 					.get()
 					.then(querySnapshot => {
 						const data = querySnapshot.docs.map(doc => doc.data());
-						data.forEach(exercise => {
-							
-							if(exercise.imgpath !== undefined){
-								var storageRef = storage().ref(exercise.imgpath);
-								storageRef.getDownloadURL().then(url => {
-                  imageURLList.push(url);
-                  //console.log(url);
-                 
-								});							
-							}
-						});
-						
 						this.setState({exercises: data});
-            this.setState({exerciseDiagramURL: imageURLList});
-            
 					});
 	
 				
   }
-  
+   
 
   render() {
     const {exercises} = this.state;
-    const {exerciseDiagramURL} = this.state;
-		//console.log(exercises[0]);
-		const exerciseNames = new Array();
+	
+	
+	const exerciseNames = new Array();
     const exerciseDes = new Array();
     const exerciseMuscle = new Array();
     const exerciseMachine = new Array();
@@ -104,24 +88,15 @@ class MuscleSelectorScreen extends Component {
     function buildArray(muscleID){
       exercises.forEach(exercise => {
         if(exercise.muscle.includes(muscleID)){
-            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
+			console.log(exercise.imgurl);
+            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n", exercise.imgurl, "\n\n");
 			
         }
       })
       return muscleExerciseList;
     }
 
-  
-    function buildImages(muscleID){
-      exercises.forEach(exercise => {
-        if(exercise.muscle.includes(muscleID)){
-            imageArray.push(exercise.exerciseDiagramURL);
-			
-        }
-      })
-      console.log(exerciseDiagramURL);
-      return exerciseDiagramURL;
-    }
+
     /**
     var res = [];
     map.forEach(function(val, key) {
@@ -172,7 +147,7 @@ class MuscleSelectorScreen extends Component {
               <Image
               
               style = {styles.image}
-              source ={buildImages(this.state.formalName)}
+              //source ={}
               
              
               />
