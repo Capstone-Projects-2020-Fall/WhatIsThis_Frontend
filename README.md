@@ -64,5 +64,5 @@ the muscle group modals.
 node_modules and the lockfile (package-lock.json / yarn.lock) 2) Removing react-native-safe-area-context from package.json (being sure to remove both the field and the value)
 3) run `yarn or npm install` 4) run `expo install react-native-safe-area-context` 
 
-## Link to Expo Project Page
+## Link to Expo Project Page (NOTE: iOS does not support sharing of Expo QR code)
 https://expo.io/@mant642/firebase-react-native
