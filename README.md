@@ -26,7 +26,7 @@
     ![ScrrenExample](https://github.com/annguyen2790/firebase-reactnative/blob/master/screenEx.PNG)
     
 8. Click on Run Android/emulator, or any other option of your devices, etc.
-9. On your device, a home screen like this should appear
+9. On your device, a home screen like this should appears
     ![HomeScreen](https://github.com/annguyen2790/firebase-reactnative/blob/master/Screenshot_20200920-020003.jpg)
 
 ## Version Control
