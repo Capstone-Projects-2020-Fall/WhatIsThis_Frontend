@@ -63,3 +63,6 @@ the muscle group modals.
 * Testing on iOS sometimes throws up the error: Invariant Violation: Tried to register two views with the same name RNCSafeAreaProvider; this can be resolved by: 1) Deleting 
 node_modules and the lockfile (package-lock.json / yarn.lock) 2) Removing react-native-safe-area-context from package.json (being sure to remove both the field and the value)
 3) run `yarn or npm install` 4) run `expo install react-native-safe-area-context` 
+
+## Link to Expo Project Page
+https://expo.io/@mant642/firebase-react-native
