@@ -55,7 +55,7 @@ If you need a refresher on git, there is a good cheatsheet [here](https://www.at
 * For React Navigation: `yarn add react-navigation` then `yarn add react-navigation-stack @react-native-community/masked-view react-native-safe-area-context`
 
 * Expo camera module: `expo install expo-camera`
-* React Native Calendar: `npm install react-calendar / yarn add react-calendar`
+* React Native Calendar: `npm install react-native-calendars / yarn add react-native-calendars`
 
 ## Known Bugs 
 * Testing on Android sometimes throws up the error: Error while updating property 'src' of a view managed by: RCImageView; sometimes this error can be circumvented by simply       dismissing it; otherwise, removing the image tag spanning lines 172 - 178 on MuscleSelectorScreen.js should suffice, though doing so will remove the corresponding images from 
