@@ -27,7 +27,7 @@
     
 8. Click on Run Android/emulator, or any other option of your devices, etc.
 9. On your device, a home screen like this should appear
-    ![HomeScreen](https://github.com/annguyen2790/firebase-reactnative/blob/master/Screenshot_20200920-020003.jpg)
+    ![LoginScreenshot](https://user-images.githubusercontent.com/54753472/99623739-bc247200-29fa-11eb-980f-b0ec59baa860.jpg)
 
 ## Version Control
 For the course of this project, the branching strategy will involve using [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
@@ -64,5 +64,5 @@ the muscle group modals.
 node_modules and the lockfile (package-lock.json / yarn.lock) 2) Removing react-native-safe-area-context from package.json (being sure to remove both the field and the value)
 3) run `yarn or npm install` 4) run `expo install react-native-safe-area-context` 
 
-## Link to Expo Project Page
+## Link to Expo Project Page (NOTE: iOS does not support sharing of Expo QR code)
 https://expo.io/@mant642/firebase-react-native
