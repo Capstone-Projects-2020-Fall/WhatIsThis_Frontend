@@ -172,22 +172,34 @@ function retrieveEventsFromUserDatabase(){
   return console.log("Retreive user information");
 }
 
-//this would have to be an array of an array of objects (LOL)
+
+
+
+
+//This would have to be an array of an array of objects.
 //Have an array of objects that the events get stored when creating them 
-const exerciseArray = ["Running", "Bench Press"];
+const exerciseArray = [["Running", "Bench Press"], ["Leg Press", "Deadlift"]];
 
 const dateArray = ["2020-11-29", "2020-12-01"];
 
-
 //{title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]}
 function addEventToArray(eventArray,date,exerciseArray) {
-  //date
-  //exerciseObjArr
-  //eventArray
-  eventArray.push({title: date[0], data: exerciseArray[0]})
-  return eventArray
+  for(var i = 0; i < date.length; i++){
+    for(var j = 0; j < exerciseArray[i].length; j++){
+      eventArray.push({title: date[i], data: [{name: exerciseArray[i][j]}]});
+    }
+  }
+  
+  //console.log(eventArray);
+  return eventArray;
 }
 
+// Iterate through the array of events and pop of the exercise e.g. {name: "Running"}
+function removeEventFromArray(eventArray){
+  
+  
+  return eventArray;
+}
 //items = addEventToArray(items, dateArray, exerciseArray);
 
 function addEventsToFirestore(eventsArray){
@@ -304,7 +316,7 @@ export default class ExpandableCalendarScreen extends Component {
   }
   
   items = addEventToArray(items, dateArray, exerciseArray); 
-
+  //items = addEventToArray(items, dateArray, exerciseObjArray);
   getTheme = () => {
     const disabledColor = 'grey';
 
@@ -344,7 +356,7 @@ export default class ExpandableCalendarScreen extends Component {
   render() {
     return (
       <CalendarProvider
-        date={ITEMS[0].title}
+        date={items[0].title}
         onDateChanged={this.onDateChanged}
         onMonthChange={this.onMonthChange}
         showTodayButton
@@ -380,7 +392,7 @@ export default class ExpandableCalendarScreen extends Component {
           />
         }
         <AgendaList
-          sections={ITEMS}
+          sections={items}
           extraData={this.state}
           renderItem={this.renderItem}
           // sectionStyle={styles.section}
