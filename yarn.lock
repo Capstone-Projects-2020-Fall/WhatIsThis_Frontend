@@ -1259,13 +1259,6 @@
     "@firebase/util" "0.3.4"
     tslib "^1.11.1"
 
-"@firebase/util@0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.3.3.tgz#f85db70ca6ededd3d67c05c5f63c6da78a8aec00"
-  integrity sha512-VBuyR+6QAvrumzEtp3hMTRYkDnvsWuDMzqObca2Phn30RJTEV24P1RSMG5fw8LbSE+KkD9WiiiMJN++YoeyFaA==
-  dependencies:
-    tslib "^1.11.1"
-
 "@firebase/util@0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.3.4.tgz#e389d0e0e2aac88a5235b06ba9431db999d4892b"
@@ -4855,7 +4848,7 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-moment@>=2.10.3, moment@^2.24.0:
+moment@>=2.10.3, moment@^2.18.1, moment@^2.24.0:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -5519,6 +5512,14 @@ react-native-easy-grid@0.2.2:
   integrity sha512-MlYrNIldnEMKn6TVatQN1P64GoVlwGIuz+8ncdfJ0Wq/xtzUkQwlil8Uksyp7MhKfENE09MQnGNcba6Mx3oSAA==
   dependencies:
     lodash "^4.17.15"
+
+react-native-events-calendar@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-events-calendar/-/react-native-events-calendar-1.0.8.tgz#e0e15179d025fe1c0ea923308218497c79d65945"
+  integrity sha512-2jMFWaNLA45+6qe230WpxZ1+DtrvlvW8XWCIhUzJ3rejiulKTNrc55QPM+Xm+cpZH2gRGfSykyJwY1XzDZgj/A==
+  dependencies:
+    lodash "^4.17.4"
+    moment "^2.18.1"
 
 react-native-gesture-handler@~1.7.0:
   version "1.7.0"
