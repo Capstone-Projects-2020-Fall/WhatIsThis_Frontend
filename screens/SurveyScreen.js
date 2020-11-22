@@ -7,7 +7,7 @@ class SurveyScreen extends Component {
         return (
             <View style={styles.container}>
                     <NativeForms
-                        form="https://my.nativeforms.com/YDVslDbp1jZm4WTNBDVy0Db"
+                        form="https://my.nativeforms.com/Ydnd20jZm4WTNBDVy0Db"
                     />
             </View>
         );
