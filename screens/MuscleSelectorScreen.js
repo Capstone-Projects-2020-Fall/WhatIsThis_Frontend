@@ -176,7 +176,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-abs.png')}
+                  source={require('../assets/images/musclegroup-abs.png')}
                   style={{ width: 120, height: 120}}
                 />
                 {'   '}Abs
@@ -190,7 +190,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-biceps.png')}
+                  source={require('../assets/images/musclegroup-biceps.png')}
                   style={{ width: 120, height: 120}}
                 />
                 {'   '}Biceps
@@ -204,7 +204,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-calves.png')}
+                  source={require('../assets/images/musclegroup-calves.png')}
                   style={{ width: 120, height: 120}}
                 />
                 {'   '}Calves
@@ -218,7 +218,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-deltoids.png')}
+                  source={require('../assets/images/musclegroup-deltoids.png')}
                   style={{ width: 120, height: 120}}
                 />
                 {'   '}Deltoids
@@ -232,7 +232,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-glutes.png')}
+                  source={require('../assets/images/musclegroup-glutes.png')}
                   style={{width: 120, height: 120}}
                 />
                 {'   '}Glutes
@@ -246,7 +246,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-lats.png')}
+                  source={require('../assets/images/musclegroup-lats.png')}
                   style={{ width: 120, height: 120}}
                 />
                 {'   '}Lats
@@ -260,7 +260,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-pectorals.png')}
+                  source={require('../assets/images/musclegroup-pectorals.png')}
                   style={{ width: 120, height: 120}}
                 />
                 {'   '}Pectorals
@@ -274,7 +274,7 @@ class MuscleSelectorScreen extends Component {
               }}>
               <Text style={styles.buttonTextMod}>
                 <Image
-                  source={require('./musclegroup-quadriceps.jpg')}
+                  source={require('../assets/images/musclegroup-quadriceps.jpg')}
                   style={{ width: 120, height: 120}}
                 />
                 {'   '}Quadriceps

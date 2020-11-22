@@ -99,11 +99,8 @@ const date = [];
 const items = [];
 
 /* Adding 
-
 Pressed "+" 
 []
-
-
 */
 
 /*
