@@ -12,6 +12,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import CameraScreen from './screens/CameraScreen';
 import CalendarScreen from './screens/CalendarScreen';
 import MuscleSelectorScreen from './screens/MuscleSelectorScreen';
+import SurveyScreen from './screens/SurveyScreen'; 
 import firebase from 'firebase';
 import {firebaseConfig} from './config';
 import Icon from '@expo/vector-icons/Ionicons';
@@ -70,7 +71,7 @@ const CameraStack = createStackNavigator({
 
 const MuscleSelectorStack = createStackNavigator({
   MuscleSelector: {
-    screen: MuscleSelectorScreen,
+    screen: SurveyScreen,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: 'Muscle Selector',
