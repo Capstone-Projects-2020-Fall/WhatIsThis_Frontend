@@ -217,8 +217,7 @@ function printAddEventToArray(eventArray, date, exerciseArray){
 
 printAddEventToArray(items, date, exerciseArray);
 
-const dateString = "2020-12-01";
-const exerciseName = "Deadlift";
+
 var removedResult;
 const resultArray = [];
 const arrayEvents = [
@@ -285,6 +284,53 @@ for(var i=0; i < ar.length; i++) {
 console.log("\nar length AFTER splice: " + ar.length);
 console.log("\nar: " + JSON.stringify(ar));
 console.log("ar[1]: " + ar[1].value);
+const valuesOfAr = ar.values();
+for(let arValues of valuesOfAr){
+  console.log(arValues);
+}
+const workoutEvents =[
+  {
+    title: "2020-11-30", 
+    data: [
+      {name: 'Bent Over Row'}, 
+      {name: 'Bicep Curl with Dumbbells'}
+    ]
+  },
+  {
+    title: "2020-12-03",
+    data: [
+      {name: 'Running'},
+      {name:'Cycling'}
+    ]
+  }
+]; 
+//Doing splice with events
+
+/*const valuesOfWorkoutEvents = workoutEvents.values();
+for(let workoutEventsValues of valuesOfWorkoutEvents){
+  console.log(workoutEventsValues);
+}*/
+
+for(var i=0; i < workoutEvents.length; i++){
+  //for(var j=0; j <workoutEvents[i].data.length; j++){
+  console.log("i = " + i);
+  console.log("workout event date: " + workoutEvents[i].title);
+  for(var j=0; j < workoutEvents[i].data.length; j++){
+    if(workoutEvents[i].title == '2020-12-03' && workoutEvents[i].data[j].name === 'Running'){
+      console.log("Getting match date: " + workoutEvents[i].title);
+      console.log("Getting match exercise: " + workoutEvents[i].data[j].name);
+      workoutEvents[i].data.splice(j,1);
+      console.log(JSON.stringify(workoutEvents));
+    }
+  }
+  //}
+}
+
+//console.log("\n\nWorkout Events AFTER Splice:\n");
+//const valuesOfWorkoutEvents = workoutEvents.values();
+//for(let workoutEventsValues of valuesOfWorkoutEvents){
+//  console.log(workoutEventsValues);
+//}
 //arr.splice(ar.findIndex(matchesEl), 1);
 
 //function matchesEl(el) {
@@ -302,9 +348,17 @@ console.log("ar[1]: " + ar[1].value);
 //console.log(resultArray);
 //console.log("ARRAY ARRAY ARRAY");
 
+
+
+
+
+const dateString = "2020-12-01";
+const exerciseName = "Deadlift";
+
+
 // Iterate through the array of events and pop of the exercise e.g. {name: "Running"}
 function removeEventFromArray(eventArray,dateString,exerciseName){
-  for(var i = 0; i < eventArray.length; i++){
+  /*for(var i = 0; i < eventArray.length; i++){
     for(var j = 0; j < eventArray[i].data.length; j++){
       if (eventArray[i].data[j].name === exerciseName) {
         console.log(eventArray[i].data[j].name);
@@ -313,7 +367,23 @@ function removeEventFromArray(eventArray,dateString,exerciseName){
     }
   }
   
-  return console.log(eventArray[i].data[j].name);
+  return console.log(eventArray[i].data[j].name);*/
+  for(var i=0; i < eventArray.length; i++){
+    //for(var j=0; j <workoutEvents[i].data.length; j++){
+    console.log("i = " + i);
+    console.log("event array date: " + eventArray[i].title);
+    for(var j=0; j < eventArray[i].data.length; j++){
+      if(eventArray[i].title == dateString && eventArray[i].data[j].name === exerciseName){
+        console.log("Getting match date: " + eventArray[i].title);
+        console.log("Getting match exercise: " + eventArray[i].data[j].name);
+        eventArray[i].data.splice(j,1);
+        
+      }
+    }
+    //}
+  }
+  console.log(JSON.stringify(eventArray));
+  return eventArray;
 }
 
 //items = addEventToArray(items, dateArray, exerciseArray);
@@ -432,7 +502,7 @@ export default class ExpandableCalendarScreen extends Component {
   }
   
   items = addEventToArray(items, dateArray, exerciseArray); 
-  //result = removeEventFromArray(items, dateString, exerciseName);
+  items = removeEventFromArray(items, dateString, exerciseName);
 
 
   getTheme = () => {
