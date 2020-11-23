@@ -118,7 +118,16 @@ console.log(eventArrExercise);
 //console.log(valuesOfITEMS.next().value.title);
 //console.log("\n");
 //console.log(valuesOfITEMS.next().value);
+const valuesOfITEMS = ITEMS.values();
 
+//console.log(valuesOfITEMS.next().value.title);
+//console.log("\n");
+//console.log(valuesOfITEMS.next().value);
+//console.log("ITEMS values:\n");
+//console.log(valuesOfITEMS.next());
+//for(let valueITEMS of valuesOfITEMS){
+//  console.log(valueITEMS);
+//}
 /*
 const eventArrExercise = ITEMS.map(events => {
   //console.log(events.title),
@@ -203,7 +212,7 @@ function printAddEventToArray(eventArray, date, exerciseArray){
       
     }
   }
-  return conosle.log(eventArray);
+  return console.log(eventArray);
 }
 
 printAddEventToArray(items, date, exerciseArray);
@@ -252,7 +261,15 @@ for(var i=0; i < arrayEvents.length; i++){
   arrayEvents.pop(arrayEvents[i].data);
   
 }*/
-console.log(JSON.stringify(arrayEvents))
+const valueOfEvents = arrayEvents.values();
+for(let eventValues of valueOfEvents){
+  console.log(eventValues);
+}
+console.log(JSON.stringify(arrayEvents));
+
+console.log("Using values() function:\n");
+console.log();
+
 //console.log(arrayEvents.length);
 //console.log("result array:");
 //console.log(resultArray);
@@ -263,7 +280,7 @@ function removeEventFromArray(eventArray,dateString,exerciseName){
   for(var i = 0; i < eventArray.length; i++){
     for(var j = 0; j < eventArray[i].data.length; j++){
       if (eventArray[i].data[j].name === exerciseName) {
-        conosle.log(eventArray[i].data[j].name);
+        console.log(eventArray[i].data[j].name);
         break;
       }
     }
