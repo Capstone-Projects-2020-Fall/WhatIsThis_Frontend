@@ -14,7 +14,7 @@ import CalendarScreen from './screens/CalendarScreen';
 import MuscleSelectorScreen from './screens/MuscleSelectorScreen';
 import firebase from 'firebase';
 import {firebaseConfig} from './config';
-import Icon from '@expo/vector-icons/Ionicons';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -39,7 +39,7 @@ const HomeStack = createStackNavigator(
         return {
           headerTitle: 'Home',
           headerLeft: ()=> (
-            <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+            <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
           )
         };
       }
@@ -61,7 +61,7 @@ const CameraStack = createStackNavigator({
       return {
         headerTitle: 'Camera',
         headerLeft: () => (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
         )
       };
     }
@@ -75,7 +75,7 @@ const MuscleSelectorStack = createStackNavigator({
       return {
         headerTitle: 'Muscle Selector',
         headerLeft: ()=> (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
         )
       };
     }
@@ -89,7 +89,7 @@ const CalendarStack = createStackNavigator({
       return {
         headerTitle: 'Calendar',
         headerLeft: ()=> (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
         )
       };
     }
@@ -103,10 +103,63 @@ main navigation console.
 */
 const DashboardTabNavigator = createBottomTabNavigator(
   {
-    Home: HomeStack,
-    Camera: CameraStack,
-    'Muscle Selector': MuscleSelectorStack,
-    Calendar: CalendarStack,
+    //Home: HomeStack,
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="home" color={tintColor} size={24}/>
+        ),
+        headerTitle: 'Home',
+        headerLeft: ()=> (
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
+        )
+        
+      }
+    },
+    Camera:{
+      screen: CameraScreen,
+      navigationOptions: {
+        tabBarLabel: 'Camera',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="camera" color={tintColor} size={24}/>
+        ),
+        headerTitle: 'Camera',
+        headerLeft: ()=> (
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
+        )
+        
+      }
+    },
+    Muscles: {
+      screen: MuscleSelectorScreen,
+      navigationOptions: {
+        tabBarLabel: 'Muscles',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="account-search" color={tintColor} size={24}/>
+        ),
+        headerTitle: 'Muscle Selector',
+        headerLeft: ()=> (
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
+        )
+        
+      }
+    },
+    Calendar: {
+      screen: CalendarScreen,
+      navigationOptions: {
+        tabBarLabel: 'Calendar',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="calendar" color={tintColor} size={24}/>
+        ),
+        headerTitle: 'Calendar',
+        headerLeft: ()=> (
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
+        )
+        
+      }
+    },
   },
   {
     navigationOptions: ({ navigation }) => {
@@ -128,7 +181,7 @@ const DashboardStackNavigator = createStackNavigator(
     defaultNavigationOptions: ({ navigation }) => {
       return {
         headerLeft: ()=> (
-          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="md-menu" size={30} />
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
         )
       };
     }

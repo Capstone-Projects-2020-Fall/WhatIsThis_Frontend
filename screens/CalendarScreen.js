@@ -261,19 +261,46 @@ for(var i=0; i < arrayEvents.length; i++){
   arrayEvents.pop(arrayEvents[i].data);
   
 }*/
+console.log("Using values() function:");
 const valueOfEvents = arrayEvents.values();
 for(let eventValues of valueOfEvents){
   console.log(eventValues);
 }
-console.log(JSON.stringify(arrayEvents));
+console.log("Using JSON stringify:");
+const stringJSONEvents = JSON.stringify(arrayEvents); 
+console.log("stringJSONEvents: " + stringJSONEvents);
 
-console.log("Using values() function:\n");
-console.log();
+console.log("\nStringify JSON, remove name object, then use values():");
+
+
+
+var ar = [{"value":"14","label":"7"},{"value":"14","label":"7"},{"value":"18","label":"7"}];
+console.log("ar length BEFORE splice: " + ar.length);
+for(var i=0; i < ar.length; i++) {
+   if(ar[i].value == "14" && ar[i].label == "7")
+   {
+      var arrayAR = ar.splice(i,1);
+   }
+}
+console.log("\nar length AFTER splice: " + ar.length);
+console.log("\nar: " + JSON.stringify(ar));
+console.log("ar[1]: " + ar[1].value);
+//arr.splice(ar.findIndex(matchesEl), 1);
+
+//function matchesEl(el) {
+//    return el.value === '14' && el.label === '7';
+//}
+//removeByAttr(arr, 'id', 1);   
+// [{id:2,name:'alfalfa'}, {id:3,name:'joe'}]
+
+//removeByAttr(arr, 'name', 'joe');
+// [{id:2,name:'alfalfa'}]
+
 
 //console.log(arrayEvents.length);
 //console.log("result array:");
 //console.log(resultArray);
-console.log("ARRAY ARRAY ARRAY");
+//console.log("ARRAY ARRAY ARRAY");
 
 // Iterate through the array of events and pop of the exercise e.g. {name: "Running"}
 function removeEventFromArray(eventArray,dateString,exerciseName){
