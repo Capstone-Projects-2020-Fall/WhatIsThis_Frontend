@@ -94,10 +94,14 @@ console.log(eventArrExercise);
 */
 const valuesOfITEMS = ITEMS.values();
 
-console.log(valuesOfITEMS.next().value.title);
-console.log("\n");
-console.log(valuesOfITEMS.next().value);
-
+//console.log(valuesOfITEMS.next().value.title);
+//console.log("\n");
+//console.log(valuesOfITEMS.next().value);
+//console.log("ITEMS values:\n");
+//console.log(valuesOfITEMS.next());
+for(let valueITEMS of valuesOfITEMS){
+  console.log(valueITEMS);
+}
 /*
 const eventArrExercise = ITEMS.map(events => {
   //console.log(events.title),
