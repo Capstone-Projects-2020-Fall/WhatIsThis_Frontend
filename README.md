@@ -17,6 +17,8 @@
    3.1 If the installation stucks, it is possible that npm is broken and need to be reinstalled, use this command: \
       **npm install -g npm-reinstall**
 
+    Alternatively, if that doesn't work, try running **yarn global add expo-cli**
+
 4. Clone this repo to your computer using this tutorial: https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
 5. Install expo local server using : yarn add expo in the directory that contains app.js \
 5.1 Install firebase using yarn add firebase 
