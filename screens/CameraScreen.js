@@ -67,12 +67,28 @@ export default class CameraScreen extends Component {
   }
 
   pickImage = async() => {
-    var image = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.Images})
+    var image = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.Images, base64: true})
     if(!image.cancelled){
       Alert.alert('Picture Selection', 'Use this picture?', [
         {
           text: 'Yes',
-          onPress: () => this.communicateWithDatabase()
+          onPress: () => {
+			  fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
+				method: "POST",
+				headers:{
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					imgsource: image.base64
+				}),
+			  }).then(response => response.text())
+				.then(data => {
+					Alert.alert(data);
+				}).catch((error) => {
+					console.error('Error: ', error);
+				});
+		  }
         },
         {
           text: 'No',
@@ -81,7 +97,6 @@ export default class CameraScreen extends Component {
 
       ])
     }
-    console.log(image)
   }
 
   render() {
