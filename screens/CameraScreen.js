@@ -84,7 +84,7 @@ export default class CameraScreen extends Component {
 				}),
 			  }).then(response => response.text())
 				.then(data => {
-					console.log('Success: ', data);
+					Alert.alert(data);
 				}).catch((error) => {
 					console.error('Error: ', error);
 				});
