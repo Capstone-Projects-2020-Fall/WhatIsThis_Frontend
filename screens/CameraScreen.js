@@ -134,6 +134,7 @@ export default class CameraScreen extends Component {
   }
 
   displayModal(){
+    const {isVisible} = this.state
     this.setState({isVisible: !isVisible})
   }
 
@@ -169,6 +170,13 @@ export default class CameraScreen extends Component {
                       <Text style={styles.modalText}>
                         {equipmentExerciseList}
                       </Text>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                          this.displayModal()
+                        }}>
+                          <Text style={styles.buttonText}>Close Equipment Description</Text>
+                      </TouchableOpacity>
                     </View>
                   </TouchableWithoutFeedback>
                 </TouchableOpacity>
@@ -242,5 +250,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '100%',
     height: 350,
+  },
+  button: {
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#2AC062',
   }
 })
