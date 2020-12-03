@@ -1,7 +1,7 @@
 // Aboutscreen.js
 import React, { Component , useState, useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS} from 'react-native';
+import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS, Modal, ScrollView, TouchableWithoutFeedback} from 'react-native';
 import { createStackNavigator, createAppContainer, withNavigationFocus, NavigationEvents} from 'react-navigation';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -112,7 +112,7 @@ export default class CameraScreen extends Component {
     //Process the data received from the response from the server in the event a picture is taken
   processEquipmentResponse= (equipment, probability) => {
     //Check if the probability is greater than a certain amount?
-    const {exercises, equipmentExerciseList} = this.state;
+    const {exercises, equipmentExerciseList, isVisible} = this.state;
 
     let exerciseList = []
     
@@ -128,12 +128,13 @@ export default class CameraScreen extends Component {
     })
 
     this.setState({
-      equipmentExerciseList: [...equipmentExerciseList, ...exerciseList]
+      equipmentExerciseList: [...equipmentExerciseList, ...exerciseList],
+      isVisible: !isVisible
     })
+  }
 
-    // equipmentExerciseList.forEach(exercise => {
-    //   console.log(exercise)
-    // })
+  displayModal(){
+    this.setState({isVisible: !isVisible})
   }
 
   render() {
@@ -149,31 +150,51 @@ export default class CameraScreen extends Component {
     }else{
       return (
           <View style={{ flex: 1 }}>
-            
+            <Modal
+              animationType = {"slide"}
+              transparent = {true}
+              visible = {this.state.isVisible}
+              onRequestClose = {() => {
+                {this.displayModal()}
+              }}
+            >
+              <ScrollView>
+                <TouchableOpacity
+                  style = {styles.modalContainer}
+                  activeOpacity= {1}
+                  onPressOut={() => {this.displayModal()}}
+                >
+                  <TouchableWithoutFeedback>
+                    <View style ={styles.modalView}>
+                      <Text style={styles.modalText}>
+                        {equipmentExerciseList}
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </TouchableOpacity>
+              </ScrollView>
+            </Modal>
+
             <NavigationEvents onWillFocus={payload => this.setState({loaded: true})} onDidBlur={payload => this.setState({loaded: false})}/>
             {loaded && <Camera style={{ flex: 1 }} type={this.state.cameraType} ref={ref => {this.camera = ref;}}>
-                    <View style ={{flex: 1, flexDirection: "row", justifyContent:'space-between', margin: 30}}>
+                      <View style ={{flex: 1, flexDirection: "row", justifyContent:'space-between', margin: 30}}>
 
-                    <TouchableOpacity onPress ={()=> this.pickImage()}
-                      style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}} >
-                      <Ionicons name = 'ios-photos' style = {{color: '#fff', fontSize : 40}}/>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress ={()=> this.pickImage()}
+                          style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}} >
+                          <Ionicons name = 'ios-photos' style = {{color: '#fff', fontSize : 40}}/>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.takePicture()}
-                      style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
-                      <FontAwesome name = 'camera' style = {{color: '#fff', fontSize : 40}}/>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.takePicture()}
+                          style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
+                          <FontAwesome name = 'camera' style = {{color: '#fff', fontSize : 40}}/>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
-                      <MaterialCommunityIcons name = 'camera-switch' style = {{color: '#fff', fontSize : 40}}/>
-                    </TouchableOpacity>
-
-                 
-              
-              
-                    </View>
-                     </Camera>}
-
+                        <TouchableOpacity style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
+                          <MaterialCommunityIcons name = 'camera-switch' style = {{color: '#fff', fontSize : 40}}/>
+                        </TouchableOpacity>
+                
+                      </View>
+                    </Camera>}
           </View>
         
       );
@@ -189,8 +210,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  modalContainer: {
+    padding: 25,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   cameraArea : {
     flex: 1,
     margin: 10
+  },
+  modalView: {
+    margin: 5,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    }
+  },
+  modalText: {
+    fontSize: 14,
+    marginBottom: 10,
+    padding: 1,
+  },
+  image: {
+    marginTop: 150,
+    marginBottom: 10,
+    width: '100%',
+    height: 350,
   }
 })
