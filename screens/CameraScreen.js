@@ -10,13 +10,30 @@ import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 import { Toast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+import {firestore} from 'firebase';
 export default class CameraScreen extends Component {
 
   state = {
     hasPermission : null,
     type: Camera.Constants.Type.back,
-    loaded: true
-
+    loaded: true,
+    exercises: [],
+    exerciseDiagramURL: [],
+    isVisible: false,
+    equipmentExerciseList: []
+  }
+ 
+  async componentDidMount(){
+    const{status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    this.setState({hasPermission : status === 'granted'});
+    // this.getPermissionAsync();
+    let queryRef = firestore()
+      .collection('exercises')
+      .get()
+      .then(querySnapshot => {
+        const exerciseData = querySnapshot.docs.map(doc => doc.data());
+        this.setState({exercises: exerciseData})
+      })
   }
 
   getPermissionAsync = async () => {
@@ -30,11 +47,7 @@ export default class CameraScreen extends Component {
       this.setState({hasPermission : status === 'granted'});
     }
   }
-  async componentDidMount(){
-    const{status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
-    this.setState({hasPermission : status === 'granted'});
-    // this.getPermissionAsync();
-  }
+
   takePicture = async () =>{
     
     if(this.camera){
@@ -44,8 +57,9 @@ export default class CameraScreen extends Component {
       
     }
   }
+
   communicateWithServer = (image)  =>{
-      fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
+      fetch("http://192.168.0.101:5000/predict", {
         method: "POST",
         headers:{
           Accept: "application/json",
@@ -55,9 +69,13 @@ export default class CameraScreen extends Component {
           imgsource: image.base64
         }),
       })
-      .then(response => response.text())
-        .then(data => {
-          Alert.alert(data);
+      .then(response => response.json())
+        .then(responseJson => {
+          let equipment = responseJson.equipment
+          let probability = responseJson.probability
+          console.log(equipment)
+          console.log(probability)
+          this.processEquipmentResponse(equipment, probability)
         })
         .catch((error) => {
           console.error('Error: ', error);
@@ -91,10 +109,38 @@ export default class CameraScreen extends Component {
     }
   }
 
+    //Process the data received from the response from the server in the event a picture is taken
+  processEquipmentResponse= (equipment, probability) => {
+    //Check if the probability is greater than a certain amount?
+    const {exercises, equipmentExerciseList} = this.state;
+
+    let exerciseList = []
+    
+    //Realistically, this should be refactored into an exercise class whcih should then be
+    //pushed into the array. The class should contain the 
+    //various fields. This would make it much cleaner and better practice. If time allows, refactor
+    //this here and in muscleselectorscreen
+
+    exercises.forEach(exercise => {
+      if(exercise?.machine?.includes(equipment)){
+        exerciseList.push(exercise.name, "\n\n", exercise.description, "\n\n", exercise.imgurl, "\n\n");
+      }
+    })
+
+    this.setState({
+      equipmentExerciseList: [...equipmentExerciseList, ...exerciseList]
+    })
+
+    // equipmentExerciseList.forEach(exercise => {
+    //   console.log(exercise)
+    // })
+  }
+
   render() {
     
-    const{hasPermission} = this.state;
-    const {loaded} = this.state;
+    const{hasPermission, loaded, equipmentExerciseList} = this.state;
+    
+    console.log(equipmentExerciseList)
 
     if(hasPermission == null){
       return <View></View>
