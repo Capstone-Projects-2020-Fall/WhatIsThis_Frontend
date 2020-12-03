@@ -170,12 +170,10 @@ export default class CameraScreen extends Component {
                       <Text style={styles.modalText}>
                         {equipmentExerciseList}
                       </Text>
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => {
+                      <TouchableOpacity style={styles.button} onPress={() => {
                           this.displayModal()
                         }}>
-                          <Text style={styles.buttonText}>Close Equipment Description</Text>
+                          <Text style={styles.buttonText}>Close</Text>
                       </TouchableOpacity>
                     </View>
                   </TouchableWithoutFeedback>
@@ -256,5 +254,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     backgroundColor: '#2AC062',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 20
   }
 })

@@ -127,39 +127,22 @@ class MuscleSelectorScreen extends Component {
             
             <TouchableWithoutFeedback>
                 
-                <View style={styles.modalView}>
-                <Text 
-                style={styles.modelText}
-                
-              >
-             
-                {buildArray(this.state.formalName)}
-                
-                
-              </Text>
-              
-              
-                </View>
-              
-              </TouchableWithoutFeedback>
-
-            
-              <Image
-              
-              style = {styles.image}
-              //source ={}
-              
-             
-              />
-
-
-              <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => {
+              <View style={styles.modalView}>
+                <Text style={styles.modelText}>
+                  {buildArray(this.state.formalName)}
+                </Text>
+                <TouchableOpacity style={styles.modalButton} onPress={() => {
                     this.displayModal(false)
                   }}>
                   <Text style={styles.buttonText}>Close</Text>
               </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+            
+            {/* <Image
+              style = {styles.image}
+              //source ={}
+            /> */}
             </TouchableOpacity>
             </ScrollView>
           </Modal>
@@ -308,6 +291,12 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2
     }
+  },
+  modalButton:{
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#2AC062',
   },
   centeredView: {
     flex: 1,
