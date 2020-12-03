@@ -44,16 +44,24 @@ export default class CameraScreen extends Component {
       
     }
   }
-  communicateWithDatabase = ()  =>{
-    var msg = "Sending Data to Server!"
-    console.log('Selected')
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.LONG)
-    } else {
-      Alert.prompt("Image Recognition not connect yet.");
-    }
-    //Communicate with db implementation
-   
+  communicateWithServer = (image)  =>{
+      fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
+        method: "POST",
+        headers:{
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imgsource: image.base64
+        }),
+      })
+      .then(response => response.text())
+        .then(data => {
+          Alert.alert(data);
+        })
+        .catch((error) => {
+          console.error('Error: ', error);
+        });
   }
 
   cancelledPicSelected = () =>{
@@ -72,23 +80,7 @@ export default class CameraScreen extends Component {
       Alert.alert('Picture Selection', 'Use this picture?', [
         {
           text: 'Yes',
-          onPress: () => {
-			  fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
-				method: "POST",
-				headers:{
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					imgsource: image.base64
-				}),
-			  }).then(response => response.text())
-				.then(data => {
-					Alert.alert(data);
-				}).catch((error) => {
-					console.error('Error: ', error);
-				});
-		  }
+          onPress: () => this.communicateWithServer(image)
         },
         {
           text: 'No',
