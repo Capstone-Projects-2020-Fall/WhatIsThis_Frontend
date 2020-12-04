@@ -1,7 +1,7 @@
 // Aboutscreen.js
 import React, { Component , useState, useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS} from 'react-native';
+import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS, Modal, ScrollView, TouchableWithoutFeedback} from 'react-native';
 import { createStackNavigator, createAppContainer, withNavigationFocus, NavigationEvents} from 'react-navigation';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -10,13 +10,30 @@ import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 import { Toast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+import {firestore} from 'firebase';
 export default class CameraScreen extends Component {
 
   state = {
     hasPermission : null,
     type: Camera.Constants.Type.back,
-    loaded: true
-
+    loaded: true,
+    exercises: [],
+    exerciseDiagramURL: [],
+    isVisible: false,
+    equipmentExerciseList: []
+  }
+ 
+  async componentDidMount(){
+    const{status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    this.setState({hasPermission : status === 'granted'});
+    // this.getPermissionAsync();
+    let queryRef = firestore()
+      .collection('exercises')
+      .get()
+      .then(querySnapshot => {
+        const exerciseData = querySnapshot.docs.map(doc => doc.data());
+        this.setState({exercises: exerciseData})
+      })
   }
 
   getPermissionAsync = async () => {
@@ -30,30 +47,55 @@ export default class CameraScreen extends Component {
       this.setState({hasPermission : status === 'granted'});
     }
   }
-  async componentDidMount(){
-    const{status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
-    this.setState({hasPermission : status === 'granted'});
-    // this.getPermissionAsync();
-  }
+
   takePicture = async () =>{
     
     if(this.camera){
-      var photo = await this.camera.takePictureAsync();
-      console.log(photo);
-      MediaLibrary.saveToLibraryAsync(photo.uri);
-      
+      // var photo = await this.camera.takePictureAsync();
+      // console.log(photo);
+      // MediaLibrary.saveToLibraryAsync(photo.uri);
+      let image = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [3, 3],
+        quality: 0,
+        base64: true,
+      })
+      Alert.alert('Picture Selection', 'Use this picture?', [
+        {
+          text: 'Yes',
+          onPress: () => this.communicateWithServer(image)
+        },
+        {
+          text: 'No',
+          onPress: () => this.cancelledPicSelected()
+        }
+      ])
     }
   }
-  communicateWithDatabase = ()  =>{
-    var msg = "Sending Data to Server!"
-    console.log('Selected')
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.LONG)
-    } else {
-      Alert.prompt("Image Recognition not connect yet.");
-    }
-    //Communicate with db implementation
-   
+
+  communicateWithServer = (image)  =>{
+      fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
+        method: "POST",
+        headers:{
+          Accept: "application/json",
+          'Content-Type': "application/json",
+        },
+        body: JSON.stringify({
+          imgsource: image.base64
+        }),
+      })
+      .then(response => response.json())
+        .then(responseJson => {
+          let equipment = responseJson.equipment
+          let probability = responseJson.probability
+          console.log(equipment)
+          console.log(probability)
+          this.processEquipmentResponse(equipment, probability)
+        })
+        .catch((error) => {
+          console.error('Error: ', error);
+        });
   }
 
   cancelledPicSelected = () =>{
@@ -72,23 +114,7 @@ export default class CameraScreen extends Component {
       Alert.alert('Picture Selection', 'Use this picture?', [
         {
           text: 'Yes',
-          onPress: () => {
-			  fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
-				method: "POST",
-				headers:{
-					Accept: "application/json",
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					imgsource: image.base64
-				}),
-			  }).then(response => response.text())
-				.then(data => {
-					Alert.alert(data);
-				}).catch((error) => {
-					console.error('Error: ', error);
-				});
-		  }
+          onPress: () => this.communicateWithServer(image)
         },
         {
           text: 'No',
@@ -99,10 +125,38 @@ export default class CameraScreen extends Component {
     }
   }
 
+    //Process the data received from the response from the server in the event a picture is taken
+  processEquipmentResponse= (equipment, probability) => {
+    //Check if the probability is greater than a certain amount?
+    const {exercises, equipmentExerciseList, isVisible} = this.state;
+
+    let exerciseList = []
+    
+    //Realistically, this should be refactored into an exercise class whcih should then be
+    //pushed into the array. The class should contain the 
+    //various fields. This would make it much cleaner and better practice. If time allows, refactor
+    //this here and in muscleselectorscreen
+
+    exercises.forEach(exercise => {
+      if(exercise?.machine?.includes(equipment) && !exerciseList.includes(exercise.name)){
+        exerciseList.push(exercise.name, "\n\n", exercise.description, "\n\n", exercise.imgurl, "\n\n");
+      }
+    })
+
+    this.setState({
+      equipmentExerciseList: [...equipmentExerciseList, ...exerciseList],
+      isVisible: !isVisible
+    })
+  }
+
+  displayModal(){
+    const {isVisible} = this.state
+    this.setState({isVisible: !isVisible})
+  }
+
   render() {
     
-    const{hasPermission} = this.state;
-    const {loaded} = this.state;
+    const{hasPermission, loaded, equipmentExerciseList} = this.state;
 
     if(hasPermission == null){
       return <View></View>
@@ -111,31 +165,56 @@ export default class CameraScreen extends Component {
     }else{
       return (
           <View style={{ flex: 1 }}>
-            
+            <Modal
+              animationType = {"slide"}
+              transparent = {true}
+              visible = {this.state.isVisible}
+              onRequestClose = {() => {
+                {this.displayModal()}
+              }}
+            >
+              <ScrollView>
+                <TouchableOpacity
+                  style = {styles.modalContainer}
+                  activeOpacity= {1}
+                  onPressOut={() => {this.displayModal()}}
+                >
+                  <TouchableWithoutFeedback>
+                    <View style ={styles.modalView}>
+                      <Text style={styles.modalText}>
+                        {equipmentExerciseList}
+                      </Text>
+                      <TouchableOpacity style={styles.button} onPress={() => {
+                          this.displayModal()
+                        }}>
+                          <Text style={styles.buttonText}>Close</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </TouchableOpacity>
+              </ScrollView>
+            </Modal>
+
             <NavigationEvents onWillFocus={payload => this.setState({loaded: true})} onDidBlur={payload => this.setState({loaded: false})}/>
             {loaded && <Camera style={{ flex: 1 }} type={this.state.cameraType} ref={ref => {this.camera = ref;}}>
-                    <View style ={{flex: 1, flexDirection: "row", justifyContent:'space-between', margin: 30}}>
+                      <View style ={{flex: 1, flexDirection: "row", justifyContent:'space-between', margin: 30}}>
 
-                    <TouchableOpacity onPress ={()=> this.pickImage()}
-                      style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}} >
-                      <Ionicons name = 'ios-photos' style = {{color: '#fff', fontSize : 40}}/>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress ={()=> this.pickImage()}
+                          style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}} >
+                          <Ionicons name = 'ios-photos' style = {{color: '#fff', fontSize : 40}}/>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.takePicture()}
-                      style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
-                      <FontAwesome name = 'camera' style = {{color: '#fff', fontSize : 40}}/>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.takePicture()}
+                          style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
+                          <FontAwesome name = 'camera' style = {{color: '#fff', fontSize : 40}}/>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
-                      <MaterialCommunityIcons name = 'camera-switch' style = {{color: '#fff', fontSize : 40}}/>
-                    </TouchableOpacity>
-
-                 
-              
-              
-                    </View>
-                     </Camera>}
-
+                        <TouchableOpacity style = {{alignSelf: 'flex-end', alignItems : 'center', backgroundColor : 'transparent',}}>
+                          <MaterialCommunityIcons name = 'camera-switch' style = {{color: '#fff', fontSize : 40}}/>
+                        </TouchableOpacity>
+                
+                      </View>
+                    </Camera>}
           </View>
         
       );
@@ -151,8 +230,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  modalContainer: {
+    padding: 25,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   cameraArea : {
     flex: 1,
     margin: 10
+  },
+  modalView: {
+    margin: 5,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    }
+  },
+  modalText: {
+    fontSize: 14,
+    marginBottom: 10,
+    padding: 1,
+  },
+  image: {
+    marginTop: 150,
+    marginBottom: 10,
+    width: '100%',
+    height: 350,
+  },
+  button: {
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#2AC062',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 20
   }
 })
