@@ -51,19 +51,36 @@ export default class CameraScreen extends Component {
   takePicture = async () =>{
     
     if(this.camera){
-      var photo = await this.camera.takePictureAsync();
-      console.log(photo);
-      MediaLibrary.saveToLibraryAsync(photo.uri);
-      
+      // var photo = await this.camera.takePictureAsync();
+      // console.log(photo);
+      // MediaLibrary.saveToLibraryAsync(photo.uri);
+      let image = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [3, 3],
+        quality: 0,
+        base64: true,
+      })
+      Alert.alert('Picture Selection', 'Use this picture?', [
+        {
+          text: 'Yes',
+          onPress: () => this.communicateWithServer(image)
+        },
+        {
+          text: 'No',
+          onPress: () => this.cancelledPicSelected()
+        }
+      ])
     }
   }
 
   communicateWithServer = (image)  =>{
-      fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
+    //http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict
+      fetch("http://192.168.0.101:5000/predict", {
         method: "POST",
         headers:{
           Accept: "application/json",
-          "Content-Type": "application/json",
+          'Content-Type': "application/json",
         },
         body: JSON.stringify({
           imgsource: image.base64
@@ -141,8 +158,6 @@ export default class CameraScreen extends Component {
   render() {
     
     const{hasPermission, loaded, equipmentExerciseList} = this.state;
-    
-    console.log(equipmentExerciseList)
 
     if(hasPermission == null){
       return <View></View>
