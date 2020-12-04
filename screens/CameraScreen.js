@@ -75,8 +75,7 @@ export default class CameraScreen extends Component {
   }
 
   communicateWithServer = (image)  =>{
-    //http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict
-      fetch("http://192.168.0.101:5000/predict", {
+      fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
         method: "POST",
         headers:{
           Accept: "application/json",
