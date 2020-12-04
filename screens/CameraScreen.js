@@ -138,7 +138,7 @@ export default class CameraScreen extends Component {
     //this here and in muscleselectorscreen
 
     exercises.forEach(exercise => {
-      if(exercise?.machine?.includes(equipment)){
+      if(exercise?.machine?.includes(equipment) && !exerciseList.includes(exercise.name)){
         exerciseList.push(exercise.name, "\n\n", exercise.description, "\n\n", exercise.imgurl, "\n\n");
       }
     })
