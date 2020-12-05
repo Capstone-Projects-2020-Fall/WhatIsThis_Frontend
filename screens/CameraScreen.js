@@ -142,7 +142,6 @@ export default class CameraScreen extends Component {
     exercises.forEach(exercise => {
       if(exercise?.machine?.includes(equipment) && !nameList.includes(exercise.name)){
         nameList.push(exercise.name)
-        console.log(exercise.imgurl)
         exerciseList.push({name: exercise.name, description: exercise.description, image: exercise.imgurl})
       }
     })
