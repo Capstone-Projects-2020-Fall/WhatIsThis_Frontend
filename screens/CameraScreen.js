@@ -1,7 +1,7 @@
 // Aboutscreen.js
 import React, { Component , useState, useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS, Modal, ScrollView, TouchableWithoutFeedback} from 'react-native';
+import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS, Modal, ScrollView, TouchableWithoutFeedback, Image} from 'react-native';
 import { createStackNavigator, createAppContainer, withNavigationFocus, NavigationEvents} from 'react-navigation';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -11,6 +11,7 @@ import { Toast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import {firestore} from 'firebase';
+import ExerciseModal from '../ExerciseModal';
 export default class CameraScreen extends Component {
 
   state = {
@@ -18,9 +19,8 @@ export default class CameraScreen extends Component {
     type: Camera.Constants.Type.back,
     loaded: true,
     exercises: [],
-    exerciseDiagramURL: [],
     isVisible: false,
-    equipmentExerciseList: []
+    exerciseModalList: [],
   }
  
   async componentDidMount(){
@@ -85,7 +85,7 @@ export default class CameraScreen extends Component {
           imgsource: image.base64
         }),
       })
-      .then(response => response.json())
+      .then(response => test = response.json())
         .then(responseJson => {
           let equipment = responseJson.equipment
           let probability = responseJson.probability
@@ -94,7 +94,16 @@ export default class CameraScreen extends Component {
           this.processEquipmentResponse(equipment, probability)
         })
         .catch((error) => {
-          console.error('Error: ', error);
+          // console.error('Error: ', error);
+          if(error){
+            Alert.alert(
+              "Image Issue",
+              "Sorry, it appears we can not detect the image. Please take it from another angle and ensure it is equipment.",
+              [
+                {text: "OK", onPress : () => console.log("Wrong image selected")}
+              ]
+            )
+          }
         });
   }
 
@@ -128,9 +137,11 @@ export default class CameraScreen extends Component {
     //Process the data received from the response from the server in the event a picture is taken
   processEquipmentResponse= (equipment, probability) => {
     //Check if the probability is greater than a certain amount?
-    const {exercises, equipmentExerciseList, isVisible} = this.state;
+    const {exercises, exerciseModalList, isVisible} = this.state;
 
     let exerciseList = []
+    let modalList = []
+    let nameList = []
     
     //Realistically, this should be refactored into an exercise class whcih should then be
     //pushed into the array. The class should contain the 
@@ -138,14 +149,19 @@ export default class CameraScreen extends Component {
     //this here and in muscleselectorscreen
 
     exercises.forEach(exercise => {
-      if(exercise?.machine?.includes(equipment) && !exerciseList.includes(exercise.name)){
-        exerciseList.push(exercise.name, "\n\n", exercise.description, "\n\n", exercise.imgurl, "\n\n");
+      if(exercise?.machine?.includes(equipment) && !nameList.includes(exercise.name)){
+        nameList.push(exercise.name)
+        exerciseList.push({name: exercise.name, description: exercise.description, image: exercise.imgurl})
       }
     })
+    // console.log(exerciseList)
+    // modalList = exerciseList.map((exercise, key) => {
+    //   <ExerciseModal key={key} name={exercise.name} description={exercise.description} image={exercise.image}/>
+    // })
 
     this.setState({
-      equipmentExerciseList: [...equipmentExerciseList, ...exerciseList],
-      isVisible: !isVisible
+      isVisible: !isVisible,
+      exerciseModalList: [...exerciseList]
     })
   }
 
@@ -156,7 +172,9 @@ export default class CameraScreen extends Component {
 
   render() {
     
-    const{hasPermission, loaded, equipmentExerciseList} = this.state;
+    const{hasPermission, loaded, exerciseModalList} = this.state;
+
+    console.log(exerciseModalList[0]?.image)
 
     if(hasPermission == null){
       return <View></View>
@@ -181,9 +199,16 @@ export default class CameraScreen extends Component {
                 >
                   <TouchableWithoutFeedback>
                     <View style ={styles.modalView}>
-                      <Text style={styles.modalText}>
-                        {equipmentExerciseList}
-                      </Text>
+                      {exerciseModalList.map((exercise, key) => {
+                        return <ExerciseModal key={key} name={exercise.name} description={exercise.description} image={exercise.image}/>
+                      })}
+                     
+                      {/* <Image
+                        style={{width: 200, height: 200}}
+                        source = {{
+                            uri: exerciseModalList[0]?.image
+                        }}
+                      /> */}
                       <TouchableOpacity style={styles.button} onPress={() => {
                           this.displayModal()
                         }}>
