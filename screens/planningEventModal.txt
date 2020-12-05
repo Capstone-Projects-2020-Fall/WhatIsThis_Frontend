@@ -1,0 +1,32 @@
+                Adding Events Modal
+
+    Date:___________________
+
+    Exercises:
+    
+    1._______________
+
+    2._______________
+
+    3._______________
+
+    4._______________
+
+
+    [   ADD    ]
+
+    [   CLOSE  ]
+
+
+
+
+
+                Removing/(Updating?) Events Modal
+
+                Exericse:
+
+                1._______________
+
+                [   REMOVE   ]      [   UPDATE   ]
+
+                            [    CLOSE    ]

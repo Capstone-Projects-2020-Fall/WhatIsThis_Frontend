@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { forEach } from 'lodash';
 import React, {Component} from 'react';
 import {
   Platform,
@@ -192,30 +192,29 @@ const exerciseArray = [
   ["Leg Press", "Deadlift"]
 ];
 
-const dateArray = ["2020-11-29", "2020-12-01"];
+//const dateArray = ["2020-11-29", "2020-12-01"];
+
+const dateStr1 = "2020-12-01";
+const exerciseArray1 = ["Running", "Bench Press"];
+const dateStr2 = "2020-12-03";
+const exerciseArray2 = ["Leg Press", "Deadlift"];
+//const exerciseArray = ["Leg Press", "Deadlift"]
 
 //{title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]}
 function addEventToArray(eventArray,date,exerciseArray) {
-  for(var i = 0; i < date.length; i++){
-    for(var j = 0; j < exerciseArray[i].length; j++){
-      eventArray.push({title: date[i], data: [{name: exerciseArray[i][j]}]});
-      
-    }
+  //console.log("\n\naddEventToArray\n");
+  for(var i = 0; i < exerciseArray.length; i++){
+    //console.log("var i: " + i);
+    eventArray.push({title: date, data: [{name: exerciseArray[i]}]});
+    //console.log("eventArray[" + i + "]")
   }
+  addEventsToFirestore(eventArray);
   return eventArray;
 }
 
-function printAddEventToArray(eventArray, date, exerciseArray){
-  for(var i = 0; i < date.length; i++){
-    for(var j = 0; j < exerciseArray[i].length; j++){
-      eventArray.push({title: date[i], data: [{name: exerciseArray[i][j]}]});
-      
-    }
-  }
-  return console.log(eventArray);
-}
 
-printAddEventToArray(items, date, exerciseArray);
+
+//printAddEventToArray(items, date, exerciseArray);
 
 
 var removedResult;
@@ -233,33 +232,8 @@ const arrayEvents = [
     ]
   }
   ];
-/*
-for(var i=0; i < arrayEvents.length; i++){
-  console.log("Iteratation i = " + i);
-  console.log(arrayEvents.length);
-  console.log("Length of data: " + arrayEvents[i].data.length);
-  //console.log("arrayEvents i = " + i + ":\n" + arrayEvents[i].data[1].name);
-  const result = arrayEvents[i];
-  console.log("result: " + arrayEvents[0].data[0].name);
-  for(var j=0; j < arrayEvents[i].data.length; j++){
-    //console.log(arrayEvents[i].data[j].name);
-    if(arrayEvents[i].data[j].name === "Deadlift"){
-      console.log("Iterate j");
-      //resultArray = arrayEvents[i].data[j].name
-      //arrayEvents.pop(arrayEvents[i].data[j].name);
-      console.log("Name of exercise: " + arrayEvents[i].data[j].name);
-      //console.log()
-      //break;
-    }
-  }
-}*/
 
 
-//console.log(arrayEvents[0].data[]);
-/*for(var i=0; i < arrayEvents.length; i++){
-  arrayEvents.pop(arrayEvents[i].data);
-  
-}*/
 console.log("Using values() function:");
 const valueOfEvents = arrayEvents.values();
 for(let eventValues of valueOfEvents){
@@ -304,49 +278,7 @@ const workoutEvents =[
     ]
   }
 ]; 
-//Doing splice with events
 
-/*const valuesOfWorkoutEvents = workoutEvents.values();
-for(let workoutEventsValues of valuesOfWorkoutEvents){
-  console.log(workoutEventsValues);
-}*/
-
-for(var i=0; i < workoutEvents.length; i++){
-  //for(var j=0; j <workoutEvents[i].data.length; j++){
-  console.log("i = " + i);
-  console.log("workout event date: " + workoutEvents[i].title);
-  for(var j=0; j < workoutEvents[i].data.length; j++){
-    if(workoutEvents[i].title == '2020-12-03' && workoutEvents[i].data[j].name === 'Running'){
-      console.log("Getting match date: " + workoutEvents[i].title);
-      console.log("Getting match exercise: " + workoutEvents[i].data[j].name);
-      workoutEvents[i].data.splice(j,1);
-      console.log(JSON.stringify(workoutEvents));
-    }
-  }
-  //}
-}
-
-//console.log("\n\nWorkout Events AFTER Splice:\n");
-//const valuesOfWorkoutEvents = workoutEvents.values();
-//for(let workoutEventsValues of valuesOfWorkoutEvents){
-//  console.log(workoutEventsValues);
-//}
-//arr.splice(ar.findIndex(matchesEl), 1);
-
-//function matchesEl(el) {
-//    return el.value === '14' && el.label === '7';
-//}
-//removeByAttr(arr, 'id', 1);   
-// [{id:2,name:'alfalfa'}, {id:3,name:'joe'}]
-
-//removeByAttr(arr, 'name', 'joe');
-// [{id:2,name:'alfalfa'}]
-
-
-//console.log(arrayEvents.length);
-//console.log("result array:");
-//console.log(resultArray);
-//console.log("ARRAY ARRAY ARRAY");
 
 
 
@@ -358,16 +290,6 @@ const exerciseName = "Deadlift";
 
 // Iterate through the array of events and pop of the exercise e.g. {name: "Running"}
 function removeEventFromArray(eventArray,dateString,exerciseName){
-  /*for(var i = 0; i < eventArray.length; i++){
-    for(var j = 0; j < eventArray[i].data.length; j++){
-      if (eventArray[i].data[j].name === exerciseName) {
-        console.log(eventArray[i].data[j].name);
-        break;
-      }
-    }
-  }
-  
-  return console.log(eventArray[i].data[j].name);*/
   for(var i=0; i < eventArray.length; i++){
     //for(var j=0; j <workoutEvents[i].data.length; j++){
     console.log("i = " + i);
@@ -380,7 +302,6 @@ function removeEventFromArray(eventArray,dateString,exerciseName){
         
       }
     }
-    //}
   }
   console.log(JSON.stringify(eventArray));
   return eventArray;
@@ -388,14 +309,12 @@ function removeEventFromArray(eventArray,dateString,exerciseName){
 
 //items = addEventToArray(items, dateArray, exerciseArray);
 
+
+
 function addEventsToFirestore(eventsArray){
-  //const user =  firebase.auth().currentUser;
-  //const workoutEvents = [];
-  //var index = 0;
-  //for (index = 0; index < eventsArray.length; index++) { 
-    //console.log(eventsArray[index]); 
-    //console.log(eventsArray[index][0]);
-  //}
+
+
+  const delimArray = jsonToArrayDelimiter(eventsArray); 
   
 // Checking the current user's ID. 
 // The document names are user ID in the user database in FireStore. 
@@ -405,25 +324,29 @@ function addEventsToFirestore(eventsArray){
       console.log("User is signed in.\n");
       console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        workoutEvents: firebase.firestore.FieldValue.arrayUnion("2020-11-15||Bench Press")});
+        //workoutEvents: firebase.firestore.FieldValue.arrayUnion({title:"2020-12-05", data:[{name: "Pull Ups"}, {name: "Yoga"}]})});
+        workoutEvents: firebase.firestore.FieldValue.arrayUnion(...delimArray)});
+        //workoutEvents: firebase.firestore.FieldValue.arrayUnion()}
+        //);
+        //});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
     }
-  }); 
-  
+  });
   return console.log("\n\n Added event to user's database \n\n");
 }
 
 
 function removeEventsFromFirestore(eventsArray) {
+  eventsArrayString = JSON.stringify(eventsArray);
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // User is signed in.
       console.log("User is signed in.\n");
       console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        workoutEvents: firebase.firestore.FieldValue.arrayRemove("2020-11-15||Leg Press")});
+        workoutEvents: firebase.firestore.FieldValue.arrayRemove(eventsArrayString)});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
@@ -433,11 +356,62 @@ function removeEventsFromFirestore(eventsArray) {
 }
 
 
-addEventsToFirestore(ITEMS);
+const workoutEventsFirestore =[
+  {
+    title: "2020-11-30", 
+    data: [
+      {name: 'Bent Over Row'}, 
+      {name: 'Bicep Curl with Dumbbells'}
+    ]
+  },
+  {
+    title: "2020-12-03",
+    data: [
+      {name: 'Running'},
+      {name:'Cycling'}
+    ]
+  }
+];
 
-removeEventsFromFirestore(ITEMS);
+function jsonToArrayDelimiter(eventArray){
+  const delimArray = [];
+  var eventString = "";
+  console.log("\n\njsonToArrayDelimiter function\n");
+  console.log("Length of eventArray: " + eventArray.length)
+  for(var i=0; i < eventArray.length; i++){
+    
+    console.log("var i = " + i);
+    console.log("event array date: " + eventArray[i].title);
+    //if(eventArray[i].title){
+    eventString = eventArray[i].title
+    //}
+    console.log("event array data length: " + eventArray[i].data.length);
+    for(var j =0; j < eventArray[i].data.length; j++){
+      console.log("Before: " + eventString)
+      eventString = eventString + '||' + eventArray[i].data[j].name
+      
+      console.log("event array exercises " + eventArray[i].data[j].name)
+      console.log(eventString)
+      console.log("var j = " + j);
+      delimArray.push(eventString);
+    }
+    //console.log(eventString)
+    //delimArray.push(eventString);
+  }
+  console.log(delimArray);
+  return delimArray;
+}
 
+function printSimpleArray(simpleArray){
+  console.log("\n\nprintSimpleArray function\n");
+  for(var i = 0; i < simpleArray.length; i++){
+    console.log(simpleArray[i]);
+  }
+}
 
+//const delimArray = jsonToArrayDelimiter(workoutEventsFirestore);
+//printSimpleArray(delimArray);
+//addEventsToFirestore(workoutEventsFirestore);
 
 
 export default class ExpandableCalendarScreen extends Component {
@@ -501,8 +475,10 @@ export default class ExpandableCalendarScreen extends Component {
     return marked;
   }
   
-  items = addEventToArray(items, dateArray, exerciseArray); 
-  items = removeEventFromArray(items, dateString, exerciseName);
+  //items = addEventToArray(items, dateArray, exerciseArray);
+  items = addEventToArray(items, dateStr1, exerciseArray1);
+  items = addEventToArray(items, dateStr2, exerciseArray2);
+  //items = removeEventFromArray(items, dateString, exerciseName);
 
 
   getTheme = () => {
