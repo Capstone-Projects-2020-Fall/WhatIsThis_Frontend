@@ -40,20 +40,26 @@ export default ExerciseModal;
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 18
+        paddingBottom: 5,
+        fontSize: 18,
+        fontWeight: 'bold'
     },
     description: {
+        paddingTop: 5,
+        paddingBottom:5,
         fontSize: 14
     },
     image: {
-        width: 200,
+        width: 250,
         height: 200
     },
     modalView: {
-        margin: 5,
+        paddingTop:30,
+        justifyContent: 'center',
+        marginTop: 10,
         backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
+        borderRadius: 10,
+        padding: 10,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
