@@ -85,7 +85,7 @@ export default class CameraScreen extends Component {
           imgsource: image.base64
         }),
       })
-      .then(response => response.json())
+      .then(response => test = response.json())
         .then(responseJson => {
           let equipment = responseJson.equipment
           let probability = responseJson.probability
@@ -94,7 +94,16 @@ export default class CameraScreen extends Component {
           this.processEquipmentResponse(equipment, probability)
         })
         .catch((error) => {
-          console.error('Error: ', error);
+          // console.error('Error: ', error);
+          if(error){
+            Alert.alert(
+              "Image Issue",
+              "Sorry, it appears we can not detect the image. Please take it from another angle and ensure it is equipment.",
+              [
+                {text: "OK", onPress : () => console.log("Wrong image selected")}
+              ]
+            )
+          }
         });
   }
 
