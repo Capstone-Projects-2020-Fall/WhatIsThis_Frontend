@@ -984,3 +984,44 @@ const ITEMS = [
 //.map(o => { return {name: o.name, id: o.id} })
 
 //const eventArrExercise = ITEMS.map(ITEMS => {return {date: ITEMS.title, exercise: ITEMS.data.title}});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+for(var i=0; i < arrayEvents.length; i++){
+  console.log("Iteratation i = " + i);
+  console.log(arrayEvents.length);
+  console.log("Length of data: " + arrayEvents[i].data.length);
+  //console.log("arrayEvents i = " + i + ":\n" + arrayEvents[i].data[1].name);
+  const result = arrayEvents[i];
+  console.log("result: " + arrayEvents[0].data[0].name);
+  for(var j=0; j < arrayEvents[i].data.length; j++){
+    //console.log(arrayEvents[i].data[j].name);
+    if(arrayEvents[i].data[j].name === "Deadlift"){
+      console.log("Iterate j");
+      //resultArray = arrayEvents[i].data[j].name
+      //arrayEvents.pop(arrayEvents[i].data[j].name);
+      console.log("Name of exercise: " + arrayEvents[i].data[j].name);
+      //console.log()
+      //break;
+    }
+  }
+}*/
+
+
+//console.log(arrayEvents[0].data[]);
+/*for(var i=0; i < arrayEvents.length; i++){
+  arrayEvents.pop(arrayEvents[i].data);
+  
+}*/
