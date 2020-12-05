@@ -86,7 +86,7 @@ class MuscleSelectorScreen extends Component {
     })
 
     this.setState({
-      exerciseModalList: [...exerciseModalList, ...muscleExerciseList]
+      exerciseModalList: [...muscleExerciseList]
     })
 
   }

@@ -152,7 +152,7 @@ export default class CameraScreen extends Component {
 
     this.setState({
       isVisible: !isVisible,
-      exerciseModalList: [...exerciseModalList, ...exerciseList]
+      exerciseModalList: [...exerciseList]
     })
   }
 
