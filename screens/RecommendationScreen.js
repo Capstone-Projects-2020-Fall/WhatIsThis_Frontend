@@ -22,29 +22,25 @@ class RecommendationScreen extends Component {
 		
 		this.state = {
 			exercises: [],
-			recentExerciseList: [],
+			recentWorkouts: [],
 			isVisible : false,
 			formalName: "blank" 
 		};
 	}
 	
 	componentDidMount(){
-	
-		firebase.auth().onAuthStateChanged(function(user) {
-			if (user) {
-				// User is signed in.
-				firestore()
-					.collection('user')
-					.doc(user.uid)
-					.get("workoutEvents")
-					.then(docSnapshot => {
-						console.log(docSnapshot);
-					});
-			} else {
-				// No user is signed in.
-				console.log("No user is signed in.\n");
-			}
-		});
+		firebase
+		.auth()
+		.onAuthStateChanged(user => {			
+			firestore()
+				.collection('user')
+				.doc(user.uid)
+				.get()
+				.then(docSnapshot => {
+					const workoutData = docSnapshot.get("workoutEvents");
+					this.setState({recentWorkouts: workoutData});
+				});		
+	});
 		
 		let queryRef = firestore()         
 					.collection('exercises')
@@ -52,39 +48,47 @@ class RecommendationScreen extends Component {
 					.then(querySnapshot => {
 						const data = querySnapshot.docs.map(doc => doc.data());
 						this.setState({exercises: data});
-					});
-		
+					});		
 	}
 	
 	
 	
 	
-    render() {
-		
+    render() {	
 		const {exercises} = this.state;
-		const {recentExerciseList} = this.state;
+		const {recentWorkouts} = this.state;
+		const recentExercises = [];
 		const unusedExercises = [];
+		const dates = [];
 		
 		function buildArray (){
-			exercises.forEach(exercise =>{
-				if (!recentExerciseList.includes(exercise.name)){
+			recentWorkouts.forEach(workout =>{
+				const parsed = workout.split("||");
+				dates.push(parsed[0]);
+				parsed.forEach((parsedExercise,index) => {
+						if(index == 0) return;
+						recentExercises.push(parsedExercise);
+				});
+			});
+			
+			exercises.forEach(exercise => {
+				if(!recentExercises.includes(exercise.name)){
 					unusedExercises.push(exercise.name);
 				}
 			});
 			
+			return recentExercises;
 		}
-		
-		
+
         return (
 			<View>
 				<Text>
 					Hello World!
+					{console.log(buildArray())}
 				</Text>
-			</View>
-           
+			</View>           
         );
     }
-
 };
 
 const styles = StyleSheet.create({
