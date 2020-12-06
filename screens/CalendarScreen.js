@@ -8,7 +8,11 @@ import {
   Text,
   TouchableOpacity,
   Button,
-  Image
+  Image,
+  Modal,
+  ScrollView,
+  TouchableWithoutFeedback,
+  TextInput
 } from 'react-native';
 import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 'react-native-calendars';
 
@@ -425,6 +429,24 @@ function printSimpleArray(simpleArray){
 
 export default class ExpandableCalendarScreen extends Component {
 
+  constructor(props){
+    super(props);
+
+    this.state = {
+      isVisible: false,
+      dateForm: null,
+      exerciseForm: null,
+      incorrectDate: false
+    };
+  }
+  
+  displayModal(){
+    const {isVisible} = this.state
+    this.setState({
+      isVisible: !isVisible
+    })
+  }
+
   onDateChanged = (/* date, updateSource */) => {
     // console.warn('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
     // fetch and set data for date + week ahead
@@ -528,7 +550,52 @@ export default class ExpandableCalendarScreen extends Component {
     };
   }
 
+  
+ handleExerciseForm = (text) => {
+  this.setState({
+    exerciseForm: text
+  });
+}
+
+handleDateForm =(text) =>{
+  this.setState({
+    dateForm: text
+  });
+}
+
+submitForm =() => {
+  const {dateForm, exerciseForm, isVisible} = this.state
+
+  console.log("EXERCISE FORM " + exerciseForm)
+  console.log("DATEFORM " + dateForm)
+
+  var dateRegex = RegExp('/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/') 
+
+  let correctDate = dateRegex.test(dateForm)
+
+  if(correctDate){
+    Alert.alert(
+      'Working',
+      "Working as Intended!",
+      [
+        {text: "OK", onPress : () => console.log("Wrong image selected")}
+      ]
+    )
+    this.displayModal()
+  }
+  else {
+    Alert.alert(
+      "Incorrect Date",
+      "Sorry, please enter the date in the MM/DD/YYYY format",
+      [
+        {text: "OK", onPress : () => console.log("Wrong image selected")}
+      ]
+    )
+  }
+}
+
   render() {
+    const {isVisible} = this.state
     return (
       <CalendarProvider
         date={items[0].title}
@@ -541,7 +608,7 @@ export default class ExpandableCalendarScreen extends Component {
         // }}
         // todayBottomMargin={16}
       >
-        
+         
         {this.props.weekView ?
           <WeekCalendar
             
@@ -572,15 +639,66 @@ export default class ExpandableCalendarScreen extends Component {
           renderItem={this.renderItem}
           // sectionStyle={styles.section}
         />
+        <Modal
+       animationType = {"slide"}
+       transparent={true}
+       visible={isVisible}
+       onRequestClose={() => {
+         //Alert.alert('Modal has now been closed.');
+         //onRequestClose={() => {this.setModalVisible(false)}}
+         {this.displayModal()
+         }}
+        }          
+        >
+          <ScrollView contentContainerStyle={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'}}>
+            <TouchableOpacity 
+              style={styles.container} 
+              activeOpacity={1} 
+              onPressOut={() => {this.displayModal()}}>
+            <TouchableWithoutFeedback>
+           
+           <View style={styles.modalView}>
+             <TextInput
+              style = {styles.textInput}
+              underlineColorAndroid = "transparent"
+              placeholder = "Exercise"
+              placeholderTextColor = "#9a73ef"
+              autoCapitalize = "none"
+              onChangeText = {this.handleExerciseForm}/>
+             
+             <TextInput 
+              style = {styles.textInput}
+              underlineColorAndroid = "transparent"
+              placeholder = "MM/DD/YYYY"
+              placeholderTextColor = "#9a73ef"
+              autoCapitalize = "none"
+              onChangeText = {this.handleDateForm}/>
+
+             <TouchableOpacity style={styles.modalButton} onPress={() => {
+               this.displayModal()
+               console.log("CLOSING")
+             }}>
+               <Text style={styles.buttonText}>Close</Text>
+           </TouchableOpacity>
+           <TouchableOpacity style={styles.modalButton} onPress={() => {
+               this.submitForm()
+             }}>
+               <Text style={styles.buttonText}>Submit</Text>
+           </TouchableOpacity>
+           </View>
+         </TouchableWithoutFeedback>
+         </TouchableOpacity>
+     </ScrollView>
+   </Modal>
         <TouchableOpacity
-          onPress={() =>
-            /*navigation.navigate('CreateTask', {
-            updateCurrentTask: this._updateCurrentTask,
-            currentDate,
-            createNewCalendar: this._createNewCalendar,
-            })*/
-            Alert.alert('Adding events button')
-          }
+          onPress={() => {
+            console.log("CLICKING")
+            this.displayModal()
+          }}
           style={styles.viewTask}
         >
           <Image
@@ -592,6 +710,7 @@ export default class ExpandableCalendarScreen extends Component {
           />
         </TouchableOpacity>
       </CalendarProvider>
+
     );
   }
 }
@@ -664,5 +783,43 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     elevation: 5,
     zIndex: 999,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 20
+  },
+  modalButton: {
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#2AC062',
+  },
+  modalView: {
+    margin: 5,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    }
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalContainer: {
+    padding: 25,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textInput : {
+    fontSize: 18,
+    paddingTop: 5,
+    paddingBottom: 5
   }
 });
