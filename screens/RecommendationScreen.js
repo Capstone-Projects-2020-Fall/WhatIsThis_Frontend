@@ -13,10 +13,7 @@ import {
 import firebase, {firestore} from 'firebase';
 import {firebaseConfig} from '../config';
 
-
-
-class RecommendationScreen extends Component {
-	
+class RecommendationScreen extends Component {	
 	constructor(props){
 		super(props);
 		
@@ -24,7 +21,7 @@ class RecommendationScreen extends Component {
 			exercises: [],
 			recentWorkouts: [],
 			isVisible : false,
-			formalName: "blank" 
+			formalName: "blank"
 		};
 	}
 	
@@ -40,7 +37,7 @@ class RecommendationScreen extends Component {
 					const workoutData = docSnapshot.get("workoutEvents");
 					this.setState({recentWorkouts: workoutData});
 				});		
-	});
+		});
 		
 		let queryRef = firestore()         
 					.collection('exercises')
@@ -50,10 +47,7 @@ class RecommendationScreen extends Component {
 						this.setState({exercises: data});
 					});		
 	}
-	
-	
-	
-	
+
     render() {	
 		const {exercises} = this.state;
 		const {recentWorkouts} = this.state;
@@ -61,13 +55,13 @@ class RecommendationScreen extends Component {
 		const unusedExercises = [];
 		const dates = [];
 		
-		function buildArray (){
+		function returnUnusedExercise (){
 			recentWorkouts.forEach(workout =>{
 				const parsed = workout.split("||");
 				dates.push(parsed[0]);
 				parsed.forEach((parsedExercise,index) => {
-						if(index == 0) return;
-						recentExercises.push(parsedExercise);
+					if(index == 0) return;
+					recentExercises.push(parsedExercise);
 				});
 			});
 			
@@ -77,16 +71,15 @@ class RecommendationScreen extends Component {
 				}
 			});
 			
-			return recentExercises;
+			return unusedExercises[Math.floor(Math.random()*unusedExercises.length)];
 		}
 
         return (
 			<View>
 				<Text>
-					Hello World!
-					{console.log(buildArray())}
+					{returnUnusedExercise()}
 				</Text>
-			</View>           
+			</View>  
         );
     }
 };

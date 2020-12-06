@@ -178,7 +178,7 @@ const DashboardTabNavigator = createBottomTabNavigator(
 	Recommendation: {
       screen: RecommendationScreen,
       navigationOptions: {
-        tabBarLabel: 'Recommendation',
+        tabBarLabel: 'Recommend',
         tabBarIcon: ({ tintColor }) => (
           <Icon name="account-question" color={tintColor} size={24}/>
         ),
