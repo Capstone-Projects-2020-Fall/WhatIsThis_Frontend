@@ -368,7 +368,6 @@ export default class ExpandableCalendarScreen extends Component {
       return this.renderEmptyItem();
     }
 
-    console.log("ITEM DATE AND NAME " + JSON.stringify(item))
     return (
       <TouchableOpacity
         onPress={() => this.itemPressed(item.name)}
@@ -384,6 +383,7 @@ export default class ExpandableCalendarScreen extends Component {
   }
 
   getMarkedDates = () => {
+    console.log("MARKED DATAAAAAAAAAAAAAAAAAAAAAAAAAAAA BEING CALLLELEEEDDDD")
     const marked = {};
     items.forEach(item => {
       // NOTE: only mark dates with data
@@ -395,6 +395,7 @@ export default class ExpandableCalendarScreen extends Component {
         //console.log("\n\n" + item.title + "\n\n");
       }
     });
+    console.log("MARKED DATESA" + marked)
     return marked;
   }
   
