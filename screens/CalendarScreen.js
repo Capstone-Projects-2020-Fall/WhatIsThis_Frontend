@@ -585,6 +585,7 @@ submitForm =() => {
     this.displayModal()
   }
   else {
+    //DATE FORM CONVERSION HERE AND CAKL THE NECESSARY METHODS NEEDED TO DISPLAY THE NEW EXERCISE/DATA ANd also store it in firsetore
     Alert.alert(
       "Incorrect Date",
       "Sorry, please enter the date in the MM/DD/YYYY format",
@@ -678,18 +679,19 @@ submitForm =() => {
               placeholderTextColor = "#9a73ef"
               autoCapitalize = "none"
               onChangeText = {this.handleDateForm}/>
-
-             <TouchableOpacity style={styles.modalButton} onPress={() => {
-               this.displayModal()
-               console.log("CLOSING")
-             }}>
-               <Text style={styles.buttonText}>Close</Text>
-           </TouchableOpacity>
-           <TouchableOpacity style={styles.modalButton} onPress={() => {
-               this.submitForm()
-             }}>
-               <Text style={styles.buttonText}>Submit</Text>
-           </TouchableOpacity>
+              <View>
+                <TouchableOpacity style={styles.modalButton} onPress={() => {
+                    this.submitForm()
+                  }}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={() => {
+                  this.displayModal()
+                  console.log("CLOSING")
+                }}>
+                  <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
            </View>
          </TouchableWithoutFeedback>
          </TouchableOpacity>
@@ -790,10 +792,13 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   modalButton: {
+    paddingTop: 15,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    backgroundColor: '#2AC062',
+    backgroundColor: '#00bfff',
+    marginTop: 20,
+    textAlign: 'center'
   },
   modalView: {
     margin: 5,
@@ -819,8 +824,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput : {
-    fontSize: 18,
-    paddingTop: 5,
-    paddingBottom: 5
-  }
+    fontSize:22,
+    paddingTop: 20,
+    paddingBottom: 20,
+    textAlign: 'center'
+  },
 });
