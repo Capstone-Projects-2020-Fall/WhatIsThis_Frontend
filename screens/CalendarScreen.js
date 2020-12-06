@@ -78,80 +78,9 @@ function getPastDate(days) {
   return new Date(Date.now() - (864e5 * days)).toISOString().split('T')[0];
 }
 
-// Pass in the date, something like 11/24/2020 or whatever format that works
-// then return the index number for that day for the date array.
-/*function countDates(days){
-  
-  return indexDay;
-}*/
 
-/**
- * The ITEMS array holds the events
-*/
-// Array -> Map(title, data->Array-> Map(name))
-
-const ITEMS = [
-  {title: dates[0], data: [{name: 'Bench Press'}]},
-  {title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]},
-  {title: dates[1], data: [{name: 'Cycling'}, {name: 'Deadlift'}]},
-  {title: dates[2], data: [{name: 'Bicep Curls with Barbell'}, {name: 'Chin Ups'}, {name: 'Crunches'}]},
-  {title: dates[3], data: [{name: 'Cycling'}]},
-  {title: dates[4], data: [{name: "Deadlift"}]},
-  {title: dates[5], data: [{name: 'Dips Between Two Benches'}, {name: 'Front Squats'}, {name: 'Jogging'}, {name: 'Kettlebell Clean & Press'}]},
-  {title: dates[6], data: [{name: 'Lateral Raises'}]},
-  //{title: dates[7], data: [{}]},
-  {title: dates[7], data: [{name: 'Leg Press'}]},
-  {title: dates[8], data: [{name: 'Leg Press(wide)'}, {name: 'Leg Raises, Lying'}, {name: 'Pull Ups'}, {name: 'Squats'}]},
-  {title: dates[9], data: [{name: 'Bench Press'}, {name: 'Bent Over Row'}, {name: 'Chin Ups'}]},
-  {title: dates[10], data: [{ name: 'Deadlift'}]}
-];
-//console.log("ITEMS ARRAY: " + ITEMS[2].title + ITEMS[2].data.forEach((element)=>{console.log(element.name);}));
-
-// store date string such as 2020-11-20
-const date = [];
-
-// ITEMS =[{title: date[0], data: [{name: 'Bench Press'}, {name: 'Deadlift'}]}]
 const items = [];
 
-/* Adding 
-
-Pressed "+" 
-[]
-
-
-*/
-
-/*
-const eventArrExercise = ITEMS.map(events => {
-  events.title,
-  events.data.map(itemEvent=> {itemEvent.name});
-});
-console.log(eventArrExercise);
-*/
-//const valuesOfITEMS = ITEMS.values();
-
-//console.log(valuesOfITEMS.next().value.title);
-//console.log("\n");
-//console.log(valuesOfITEMS.next().value);
-const valuesOfITEMS = ITEMS.values();
-
-//console.log(valuesOfITEMS.next().value.title);
-//console.log("\n");
-//console.log(valuesOfITEMS.next().value);
-//console.log("ITEMS values:\n");
-//console.log(valuesOfITEMS.next());
-//for(let valueITEMS of valuesOfITEMS){
-//  console.log(valueITEMS);
-//}
-/*
-const eventArrExercise = ITEMS.map(events => {
-  //console.log(events.title),
-  events.title,
-  events.data.map(itemEvent=> {
-    //console.log(itemEvent.name);
-    itemEvent.name
-  });
-});*/
 
 function parseArray(arrayOfMap){
   
@@ -163,41 +92,6 @@ function parseArray(arrayOfMap){
 
 console.log("\n\n");
 console.log();
-
-let names = ITEMS.reduce((str, itemEvents) => `${str} ${itemEvents.name}`, '||');
-//console.log(names);
-/*
-const authors = [ { id: 1, name: 'Steven'}, {id: 2, name: 'Nick'}]
-let names = authors.map( (a, i) => `${a.name} is cool`).join(' ');
-console.log(names);
-*/
-
-const workoutList = new Array();
-
-function buildArray(eventsArray){
-  ITEMS.forEach(itemEvent => {
-    if(itemEvent.data[0].name.includes('First Yoga')){
-        //muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
-        workoutList.push(itemEvent.data[0].name, "\n\n");
-    }
-  })
-  //console.log(workoutList);
-  return workoutList;
-  //return console.log(workoutList);
-}
-
-buildArray(ITEMS);
-
-
-
-//console.log(eventArrExercise);
-function retrieveEventsFromUserDatabase(){
-
-  return console.log("Retreive user information");
-}
-
-
-
 
 
 //This would have to be an array of an array of objects.
@@ -216,15 +110,16 @@ const exerciseArray1 = ["Running", "Bench Press"];
 const dateStr2 = "2020-12-03";
 const exerciseArray2 = ["Leg Press", "Deadlift"];
 //const exerciseArray = ["Leg Press", "Deadlift"]
-
+const emptyExerciseStr = "";
 //{title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]}
-function addEventToArray(eventArray,date,exerciseArray) {
+function addEventToArray(eventArray,date,exercise) {
   //console.log("\n\naddEventToArray\n");
-  for(var i = 0; i < exerciseArray.length; i++){
+  //for(var i = 0; i < exerciseArray.length; i++){
     //console.log("var i: " + i);
-    eventArray.push({title: date, data: [{name: exerciseArray[i]}]});
+    //eventArray.push({title: date, data: [{name: exerciseArray[i]}]});
     //console.log("eventArray[" + i + "]")
-  }
+  //}
+  eventArray.push({title:date, data:[{name:exercise}]})
   addEventsToFirestore(eventArray);
   console.log(eventArray);
   return eventArray;
@@ -370,15 +265,13 @@ const workoutEventsFirestore =[
   {
     title: "2020-11-30", 
     data: [
-      {name: 'Bent Over Row'}, 
-      {name: 'Bicep Curl with Dumbbells'}
+      {name: 'Bent Over Row'}
     ]
   },
   {
     title: "2020-12-03",
     data: [
-      {name: 'Running'},
-      {name:'Cycling'}
+      {name: 'Running'}
     ]
   }
 ];
@@ -505,13 +398,15 @@ export default class ExpandableCalendarScreen extends Component {
     return marked;
   }
   
+  
+  items = addEventToArray(items, todayEST, emptyExerciseStr);
   //items = addEventToArray(items, dateArray, exerciseArray);
-  items = addEventToArray(items, dateStr1, exerciseArray1);
+  //items = addEventToArray(items, dateStr1, exerciseArray1);
 
-  items = addEventToArray(items, dateStr2, exerciseArray2);
+  //items = addEventToArray(items, dateStr2, exerciseArray2);
 
-  items = removeEventFromArray(items, dateString, exerciseName);
-
+  //items = removeEventFromArray(items, dateString, exerciseName);
+  
 
   getTheme = () => {
     const disabledColor = 'grey';
@@ -575,6 +470,7 @@ submitForm =() => {
 
   if(correctDate && exerciseForm.length != 0){
       //DATE FORM CONVERSION HERE AND CAKL THE NECESSARY METHODS NEEDED TO DISPLAY THE NEW EXERCISE/DATA ANd also store it in firsetore
+    var formatDateString = formatDate(dateForm);
     Alert.alert(
       'Working',
       "Working as Intended!",
@@ -583,6 +479,8 @@ submitForm =() => {
       ]
     )
     //HERE ADD/DISPLAY
+    // Maybe use this.items?
+    addEventToArray(items, formatDateString, exerciseForm);
     this.displayModal()
   }
   else {
