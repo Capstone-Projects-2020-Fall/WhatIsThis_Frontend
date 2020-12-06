@@ -131,7 +131,7 @@ class MuscleSelectorScreen extends Component {
                 <TouchableOpacity style={styles.modalButton} onPress={() => {
                   this.displayModal(false)
                 }}>
-                  <Text style={styles.buttonText}>Close</Text>
+                  <Text style={styles.closeButtonText}>Close</Text>
               </TouchableOpacity>
               </View>
             </TouchableWithoutFeedback>
@@ -217,14 +217,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
+    marginTop: 2,
+    marginBottom: 2,
     display: 'flex',
     height: 60,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: '#2AC062',
-    shadowColor: '#2AC062',
+    backgroundColor: 'white',
+    shadowColor: '#00bfff',
+    borderWidth: 2,
+    borderColor: 'grey',
     shadowOpacity: 0.5,
     shadowOffset: { 
       height: 10, 
@@ -248,7 +252,11 @@ const styles = StyleSheet.create({
     shadowRadius: 25,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#00bfff',
+    fontSize: 22,
+  },
+  closeButtonText: {
+    color: 'white',
     fontSize: 22,
   },
   image: {
@@ -288,7 +296,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    backgroundColor: '#2AC062',
+    backgroundColor: '#00bfff',
+    borderWidth: 2,
+    borderColor: 'white'
   },
   centeredView: {
     flex: 1,
