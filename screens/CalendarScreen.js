@@ -36,7 +36,7 @@ todaysDate.setMinutes(todaysDate.getMinutes() - USA_EST_Offset);
 
 // Convert long date format (Sat Nov 14 2020...) to ISO date format (2020-11-14...)
 //const todayEST = new Date(dateToday).toISOString().split('T')[0]; 
-const todayEST = new Date(todaysDate).toISOString().split('T')[0];
+export const todayEST = new Date(todaysDate).toISOString().split('T')[0];
 
 console.log("Today in UTC: " + today);
 console.log("UTC Offset: " + UTCOffset);
@@ -105,12 +105,13 @@ console.log();
 
 //const dateArray = ["2020-11-29", "2020-12-01"];
 
+
 const dateStr1 = "2020-12-01";
 const exerciseArray1 = ["Running", "Bench Press"];
 const dateStr2 = "2020-12-03";
 const exerciseArray2 = ["Leg Press", "Deadlift"];
 //const exerciseArray = ["Leg Press", "Deadlift"]
-const emptyExerciseStr = "";
+const emptyExerciseStr = " ";
 //{title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]}
 function addEventToArray(eventArray,date,exercise) {
   //console.log("\n\naddEventToArray\n");
@@ -260,6 +261,13 @@ function removeEventsFromFirestore(eventsArray) {
   return console.log("\n\n Added event to user's database \n\n");
 }
 
+const readEventsArray = [];
+function readEventsFromFirestore(readEventsArray){
+  firebase.auth().onAuthStateChanged(function(user){
+    firestore().collection('user').doc(user.uid)
+  });
+  return readEventsArray;
+}
 
 const workoutEventsFirestore =[
   {
