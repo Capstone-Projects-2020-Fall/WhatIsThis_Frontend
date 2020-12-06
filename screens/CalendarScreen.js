@@ -284,14 +284,12 @@ const workoutEvents =[
     title: "2020-11-30", 
     data: [
       {name: 'Bent Over Row'}, 
-      {name: 'Bicep Curl with Dumbbells'}
     ]
   },
   {
     title: "2020-12-03",
     data: [
       {name: 'Running'},
-      {name:'Cycling'}
     ]
   }
 ]; 
@@ -477,6 +475,7 @@ export default class ExpandableCalendarScreen extends Component {
       return this.renderEmptyItem();
     }
 
+    console.log("ITEM DATE AND NAME " + JSON.stringify(item))
     return (
       <TouchableOpacity
         onPress={() => this.itemPressed(item.name)}
@@ -485,7 +484,7 @@ export default class ExpandableCalendarScreen extends Component {
       > 
     <Text style={styles.itemTitleText}>{item.name}</Text>
         <View style={styles.itemButtonContainer}>
-          <Button color={'grey'} title={'Info'} onPress={this.buttonPressed}/>
+          <Button color={'red'} title={'Delete'} onPress={this.buttonPressed}/>
         </View>
       </TouchableOpacity>
     );
@@ -497,7 +496,7 @@ export default class ExpandableCalendarScreen extends Component {
       // NOTE: only mark dates with data
       if (item.data && item.data.length > 0 && !_.isEmpty(item.data[0])) {
         marked[item.title] = {marked: true};
-        //console.log("\n\n" + item.title + "\n\n");
+        console.log("\n\n" + item.title + "\n\n");
       } else {
         marked[item.title] = {disabled: true};
         //console.log("\n\n" + item.title + "\n\n");
@@ -575,6 +574,7 @@ submitForm =() => {
   let correctDate = dateRegex.test(dateForm)
 
   if(correctDate && exerciseForm.length != 0){
+      //DATE FORM CONVERSION HERE AND CAKL THE NECESSARY METHODS NEEDED TO DISPLAY THE NEW EXERCISE/DATA ANd also store it in firsetore
     Alert.alert(
       'Working',
       "Working as Intended!",
@@ -582,10 +582,11 @@ submitForm =() => {
         {text: "OK", onPress : () => console.log("Wrong image selected")}
       ]
     )
+    //HERE ADD/DISPLAY
     this.displayModal()
   }
   else {
-    //DATE FORM CONVERSION HERE AND CAKL THE NECESSARY METHODS NEEDED TO DISPLAY THE NEW EXERCISE/DATA ANd also store it in firsetore
+  
     Alert.alert(
       "Incorrect Date",
       "Sorry, please enter the date in the MM/DD/YYYY format",
