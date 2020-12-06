@@ -8,7 +8,11 @@ import {
   Text,
   TouchableOpacity,
   Button,
-  Image
+  Image,
+  Modal,
+  ScrollView,
+  TouchableWithoutFeedback,
+  TextInput
 } from 'react-native';
 import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 'react-native-calendars';
 
@@ -280,14 +284,12 @@ const workoutEvents =[
     title: "2020-11-30", 
     data: [
       {name: 'Bent Over Row'}, 
-      {name: 'Bicep Curl with Dumbbells'}
     ]
   },
   {
     title: "2020-12-03",
     data: [
       {name: 'Running'},
-      {name:'Cycling'}
     ]
   }
 ]; 
@@ -425,6 +427,24 @@ function printSimpleArray(simpleArray){
 
 export default class ExpandableCalendarScreen extends Component {
 
+  constructor(props){
+    super(props);
+
+    this.state = {
+      isVisible: false,
+      dateForm: null,
+      exerciseForm: null,
+      incorrectDate: false
+    };
+  }
+  
+  displayModal(){
+    const {isVisible} = this.state
+    this.setState({
+      isVisible: !isVisible
+    })
+  }
+
   onDateChanged = (/* date, updateSource */) => {
     // console.warn('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
     // fetch and set data for date + week ahead
@@ -455,6 +475,7 @@ export default class ExpandableCalendarScreen extends Component {
       return this.renderEmptyItem();
     }
 
+    console.log("ITEM DATE AND NAME " + JSON.stringify(item))
     return (
       <TouchableOpacity
         onPress={() => this.itemPressed(item.name)}
@@ -463,7 +484,7 @@ export default class ExpandableCalendarScreen extends Component {
       > 
     <Text style={styles.itemTitleText}>{item.name}</Text>
         <View style={styles.itemButtonContainer}>
-          <Button color={'grey'} title={'Info'} onPress={this.buttonPressed}/>
+          <Button color={'red'} title={'Delete'} onPress={this.buttonPressed}/>
         </View>
       </TouchableOpacity>
     );
@@ -475,7 +496,7 @@ export default class ExpandableCalendarScreen extends Component {
       // NOTE: only mark dates with data
       if (item.data && item.data.length > 0 && !_.isEmpty(item.data[0])) {
         marked[item.title] = {marked: true};
-        //console.log("\n\n" + item.title + "\n\n");
+        console.log("\n\n" + item.title + "\n\n");
       } else {
         marked[item.title] = {disabled: true};
         //console.log("\n\n" + item.title + "\n\n");
@@ -528,7 +549,56 @@ export default class ExpandableCalendarScreen extends Component {
     };
   }
 
+  
+ handleExerciseForm = (text) => {
+   //Gonna have to overwrite state. Try inputing 'barbell' then doing so again, but leaving exercise field blank
+  this.setState({
+    exerciseForm: text
+  });
+}
+
+handleDateForm =(text) =>{
+  this.setState({
+    dateForm: text
+  });
+}
+
+submitForm =() => {
+  const {dateForm, exerciseForm, isVisible} = this.state
+
+  console.log("EXERCISE FORM " + typeof(exerciseForm))
+  console.log("DATEFORM" + dateForm)
+
+  var dateRegex = RegExp(/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/) 
+
+  let correctDate = dateRegex.test(dateForm)
+
+  if(correctDate && exerciseForm.length != 0){
+      //DATE FORM CONVERSION HERE AND CAKL THE NECESSARY METHODS NEEDED TO DISPLAY THE NEW EXERCISE/DATA ANd also store it in firsetore
+    Alert.alert(
+      'Working',
+      "Working as Intended!",
+      [
+        {text: "OK", onPress : () => console.log("Wrong image selected")}
+      ]
+    )
+    //HERE ADD/DISPLAY
+    this.displayModal()
+  }
+  else {
+  
+    Alert.alert(
+      "Incorrect Date",
+      "Sorry, please enter the date in the MM/DD/YYYY format",
+      [
+        {text: "OK", onPress : () => console.log("Wrong date entered")}
+      ]
+    )
+  }
+}
+
   render() {
+    const {isVisible} = this.state
     return (
       <CalendarProvider
         date={items[0].title}
@@ -541,7 +611,7 @@ export default class ExpandableCalendarScreen extends Component {
         // }}
         // todayBottomMargin={16}
       >
-        
+         
         {this.props.weekView ?
           <WeekCalendar
             
@@ -572,15 +642,67 @@ export default class ExpandableCalendarScreen extends Component {
           renderItem={this.renderItem}
           // sectionStyle={styles.section}
         />
+        <Modal
+       animationType = {"slide"}
+       transparent={true}
+       visible={isVisible}
+       onRequestClose={() => {
+         //Alert.alert('Modal has now been closed.');
+         //onRequestClose={() => {this.setModalVisible(false)}}
+         {this.displayModal()
+         }}
+        }          
+        >
+          <ScrollView contentContainerStyle={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'}}>
+            <TouchableOpacity 
+              style={styles.container} 
+              activeOpacity={1} 
+              onPressOut={() => {this.displayModal()}}>
+            <TouchableWithoutFeedback>
+           
+           <View style={styles.modalView}>
+             <TextInput
+              style = {styles.textInput}
+              underlineColorAndroid = "transparent"
+              placeholder = "Exercise"
+              placeholderTextColor = "#9a73ef"
+              autoCapitalize = "none"
+              onChangeText = {this.handleExerciseForm}/>
+             
+             <TextInput 
+              style = {styles.textInput}
+              underlineColorAndroid = "transparent"
+              placeholder = "MM/DD/YYYY"
+              placeholderTextColor = "#9a73ef"
+              autoCapitalize = "none"
+              onChangeText = {this.handleDateForm}/>
+              <View>
+                <TouchableOpacity style={styles.modalButton} onPress={() => {
+                    this.submitForm()
+                  }}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={() => {
+                  this.displayModal()
+                  console.log("CLOSING")
+                }}>
+                  <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+           </View>
+         </TouchableWithoutFeedback>
+         </TouchableOpacity>
+     </ScrollView>
+   </Modal>
         <TouchableOpacity
-          onPress={() =>
-            /*navigation.navigate('CreateTask', {
-            updateCurrentTask: this._updateCurrentTask,
-            currentDate,
-            createNewCalendar: this._createNewCalendar,
-            })*/
-            Alert.alert('Adding events button')
-          }
+          onPress={() => {
+            console.log("CLICKING")
+            this.displayModal()
+          }}
           style={styles.viewTask}
         >
           <Image
@@ -592,6 +714,7 @@ export default class ExpandableCalendarScreen extends Component {
           />
         </TouchableOpacity>
       </CalendarProvider>
+
     );
   }
 }
@@ -664,5 +787,47 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     elevation: 5,
     zIndex: 999,
-  }
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 20
+  },
+  modalButton: {
+    paddingTop: 15,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#00bfff',
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  modalView: {
+    margin: 5,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    }
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalContainer: {
+    padding: 25,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textInput : {
+    fontSize:22,
+    paddingTop: 20,
+    paddingBottom: 20,
+    textAlign: 'center'
+  },
 });
