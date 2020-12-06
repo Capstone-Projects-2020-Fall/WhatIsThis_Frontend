@@ -368,6 +368,7 @@ export default class ExpandableCalendarScreen extends Component {
       return this.renderEmptyItem();
     }
 
+    console.log(JSON.stringify(item))
     return (
       <TouchableOpacity
         onPress={() => this.itemPressed(item.name)}
@@ -376,15 +377,16 @@ export default class ExpandableCalendarScreen extends Component {
       > 
     <Text style={styles.itemTitleText}>{item.name}</Text>
         <View style={styles.itemButtonContainer}>
-          <Button color={'red'} title={'Delete'} onPress={this.buttonPressed}/>
+          <Button color={'grey'} title={'Info'} onPress={this.buttonPressed}/>
         </View>
       </TouchableOpacity>
     );
   }
 
   getMarkedDates = () => {
-    console.log("MARKED DATAAAAAAAAAAAAAAAAAAAAAAAAAAAA BEING CALLLELEEEDDDD")
     const marked = {};
+    const datesMarked = [];
+
     items.forEach(item => {
       // NOTE: only mark dates with data
       if (item.data && item.data.length > 0 && !_.isEmpty(item.data[0])) {
@@ -462,9 +464,6 @@ handleDateForm =(text) =>{
 submitForm =() => {
   const {dateForm, exerciseForm, isVisible} = this.state
 
-  console.log("EXERCISE FORM " + typeof(exerciseForm))
-  console.log("DATEFORM" + dateForm)
-
   var dateRegex = RegExp(/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/) 
 
   let correctDate = dateRegex.test(dateForm)
@@ -473,15 +472,49 @@ submitForm =() => {
       //DATE FORM CONVERSION HERE AND CAKL THE NECESSARY METHODS NEEDED TO DISPLAY THE NEW EXERCISE/DATA ANd also store it in firsetore
     var formatDateString = formatDate(dateForm);
     Alert.alert(
-      'Working',
-      "Working as Intended!",
+      'Accepted',
+      exerciseForm + " added on " + dateForm,
       [
-        {text: "OK", onPress : () => console.log("Wrong image selected")}
+        {text: "OK", onPress : () => console.log("Date and exercise added")}
       ]
     )
     //HERE ADD/DISPLAY
     // Maybe use this.items?
     addEventToArray(items, formatDateString, exerciseForm);
+    this.displayModal()
+  }
+  else {
+  
+    Alert.alert(
+      "Incorrect Date",
+      "Sorry, please enter the date in the MM/DD/YYYY format",
+      [
+        {text: "OK", onPress : () => console.log("Wrong date entered")}
+      ]
+    )
+  }
+}
+
+deleteForm = () => {
+  const {dateForm, exerciseForm} = this.state
+
+  var dateRegex = RegExp(/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/) 
+
+  let correctDate = dateRegex.test(dateForm)
+
+  if(correctDate && exerciseForm.length != 0){
+
+    var formatDateString = formatDate(dateForm);
+    Alert.alert(
+      'Deleted',
+      exerciseForm + " deleted on " + dateForm,
+      [
+        {text: "OK", onPress : () => console.log("Date and exercise added")}
+      ]
+    )
+    //HERE ADD/DISPLAY
+    // Maybe use this.items?
+    removeEventFromArray(items, formatDateString, exerciseForm);
     this.displayModal()
   }
   else {
@@ -580,14 +613,18 @@ submitForm =() => {
               autoCapitalize = "none"
               onChangeText = {this.handleDateForm}/>
               <View>
-                <TouchableOpacity style={styles.modalButton} onPress={() => {
+                <TouchableOpacity style={styles.modalSubmitButton} onPress={() => {
                     this.submitForm()
                   }}>
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.modalDeleteButton} onPress={() => {
+                    this.deleteForm()
+                  }}>
+                    <Text style={styles.buttonText}>Delete</Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={() => {
                   this.displayModal()
-                  console.log("CLOSING")
                 }}>
                   <Text style={styles.buttonText}>Close</Text>
               </TouchableOpacity>
@@ -697,6 +734,24 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     backgroundColor: '#00bfff',
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  modalDeleteButton: {
+    paddingTop: 15,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#dd0000',
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  modalSubmitButton: {
+    paddingTop: 15,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#008000',
     marginTop: 20,
     textAlign: 'center'
   },
