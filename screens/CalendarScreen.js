@@ -241,9 +241,6 @@ const delimArray = jsonToArrayDelimiter(eventsArray);
 }
 
 
-
-
-
 function removeEventsFromFirestore(eventsArray) {
   const delimArray = jsonToArrayDelimiter(eventsArray); 
   firebase.auth().onAuthStateChanged(function(user) {
@@ -264,10 +261,40 @@ function removeEventsFromFirestore(eventsArray) {
 const readEventsArray = [];
 function readEventsFromFirestore(readEventsArray){
   firebase.auth().onAuthStateChanged(function(user){
-    firestore().collection('user').doc(user.uid)
+    if(user){
+      const doc = firestore().collection('user').doc(user.uid).get();
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        console.log('Document data:', doc.data());
+      }
+    }
+    
   });
   return readEventsArray;
 }
+
+
+console.log("\n\nREADING FROM FIRESTORE HERE");
+
+/*firebase.auth().onAuthStateChanged((user) => {
+  if(user){
+    firestore().collection('user').get().then((snapshot) => {
+      //console.log(snapshot.docs);
+      snapshot.docs.forEach(docs => {
+        console.log(doc.data())
+      })
+    })
+  }
+  else{
+    console.log("User not logged in.");
+  }
+});*/
+
+console.log(firestore().collection('user').doc(firebase.auth().currentUser.uid));
+
+
+console.log("DONE READING FROM FIRESTORE HERE\n\n");
 
 const workoutEventsFirestore =[
   {
@@ -416,8 +443,8 @@ export default class ExpandableCalendarScreen extends Component {
 
   //items = addEventToArray(items, dateStr2, exerciseArray2);
 
-  //items = removeEventFromArray(items, dateString, exerciseName);
-  
+  items = removeEventFromArray(items, dateString, exerciseName);
+  //readEventsArray = readEventsFromFirestore(readEventsArray);
 
   getTheme = () => {
     const disabledColor = 'grey';
@@ -487,7 +514,6 @@ submitForm =() => {
       ]
     )
     //HERE ADD/DISPLAY
-    // Maybe use this.items?
     addEventToArray(items, formatDateString, exerciseForm);
     this.displayModal()
   }
@@ -521,7 +547,6 @@ deleteForm = () => {
       ]
     )
     //HERE ADD/DISPLAY
-    // Maybe use this.items?
     removeEventFromArray(items, formatDateString, exerciseForm);
     this.displayModal()
   }
