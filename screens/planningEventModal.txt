@@ -30,3 +30,16 @@
                 [   REMOVE   ]      [   UPDATE   ]
 
                             [    CLOSE    ]
+
+
+
+
+
+function formatDate(todayESTMMDDYYYY){
+  var formattedTodayEST = "";
+  todayFormatArray = todayESTMMDDYYYY.split("/");
+  formattedTodayEST = todayFormatArray[2] + "-" + todayFormatArray[0] + "-" + todayFormatArray[1]
+  return formattedTodayEST;
+}
+var formatTodayEST = formatDate(todayESTMMDDYYYY);
+console.log("FORMAT DATE: " + formatTodayEST);

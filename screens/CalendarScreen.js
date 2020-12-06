@@ -38,6 +38,17 @@ console.log("Today in UTC: " + today);
 console.log("UTC Offset: " + UTCOffset);
 console.log("Today in EST: " + todayEST + "\n\n");
 
+const todayESTMMDDYYYY = "12/05/2020";
+
+function formatDate(todayESTMMDDYYYY){
+  var formattedTodayEST = "";
+  todayFormatArray = todayESTMMDDYYYY.split("/");
+  formattedTodayEST = todayFormatArray[2] + "-" + todayFormatArray[0] + "-" + todayFormatArray[1]
+  return formattedTodayEST;
+}
+var formatTodayEST = formatDate(todayESTMMDDYYYY);
+console.log("FORMAT DATE: " + formatTodayEST);
+
 
 const pastDate = getPastDate(3);
 //console.log(pastDate)
@@ -187,10 +198,12 @@ function retrieveEventsFromUserDatabase(){
 
 //This would have to be an array of an array of objects.
 //Have an array of objects that the events get stored when creating them 
-const exerciseArray = [
-  ["Running", "Bench Press"], 
-  ["Leg Press", "Deadlift"]
-];
+
+
+//const exerciseArray = [
+//  ["Running", "Bench Press"], 
+//  ["Leg Press", "Deadlift"]
+//];
 
 //const dateArray = ["2020-11-29", "2020-12-01"];
 
@@ -209,13 +222,13 @@ function addEventToArray(eventArray,date,exerciseArray) {
     //console.log("eventArray[" + i + "]")
   }
   addEventsToFirestore(eventArray);
+  console.log(eventArray);
   return eventArray;
 }
 
 
-
 //printAddEventToArray(items, date, exerciseArray);
-
+const eventsItems = [];
 
 var removedResult;
 const resultArray = [];
@@ -279,31 +292,29 @@ const workoutEvents =[
   }
 ]; 
 
-
-
-
-
-
-const dateString = "2020-12-01";
+const dateString = "2020-12-03";
 const exerciseName = "Deadlift";
-
 
 // Iterate through the array of events and pop of the exercise e.g. {name: "Running"}
 function removeEventFromArray(eventArray,dateString,exerciseName){
+  removeEventsFromFirestore(eventArray);
+  //removeEventsFromFirestore(eventArray);
+  console.log("\n\nREMOVE EVENT FUNCTION\n")
   for(var i=0; i < eventArray.length; i++){
     //for(var j=0; j <workoutEvents[i].data.length; j++){
-    console.log("i = " + i);
-    console.log("event array date: " + eventArray[i].title);
-    for(var j=0; j < eventArray[i].data.length; j++){
-      if(eventArray[i].title == dateString && eventArray[i].data[j].name === exerciseName){
-        console.log("Getting match date: " + eventArray[i].title);
-        console.log("Getting match exercise: " + eventArray[i].data[j].name);
-        eventArray[i].data.splice(j,1);
-        
-      }
+    if(eventArray[i].title === dateString && eventArray[i].data[0].name === exerciseName){
+      console.log("Getting match date: " + eventArray[i].title);
+      console.log("Getting match exercise: " + eventArray[i].data[0].name);
+      eventArray.splice(i,1);
+      
     }
+    
   }
+  addEventsToFirestore(eventArray)
   console.log(JSON.stringify(eventArray));
+  //addEventsToFirestore(eventArray);
+  console.log()
+  console.log("\n\n");
   return eventArray;
 }
 
@@ -312,9 +323,7 @@ function removeEventFromArray(eventArray,dateString,exerciseName){
 
 
 function addEventsToFirestore(eventsArray){
-
-
-  const delimArray = jsonToArrayDelimiter(eventsArray); 
+const delimArray = jsonToArrayDelimiter(eventsArray); 
   
 // Checking the current user's ID. 
 // The document names are user ID in the user database in FireStore. 
@@ -324,11 +333,7 @@ function addEventsToFirestore(eventsArray){
       console.log("User is signed in.\n");
       console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        //workoutEvents: firebase.firestore.FieldValue.arrayUnion({title:"2020-12-05", data:[{name: "Pull Ups"}, {name: "Yoga"}]})});
         workoutEvents: firebase.firestore.FieldValue.arrayUnion(...delimArray)});
-        //workoutEvents: firebase.firestore.FieldValue.arrayUnion()}
-        //);
-        //});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
@@ -338,15 +343,18 @@ function addEventsToFirestore(eventsArray){
 }
 
 
+
+
+
 function removeEventsFromFirestore(eventsArray) {
-  eventsArrayString = JSON.stringify(eventsArray);
+  const delimArray = jsonToArrayDelimiter(eventsArray); 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // User is signed in.
       console.log("User is signed in.\n");
       console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        workoutEvents: firebase.firestore.FieldValue.arrayRemove(eventsArrayString)});
+        workoutEvents: firebase.firestore.FieldValue.arrayRemove(...delimArray)});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
@@ -376,29 +384,30 @@ const workoutEventsFirestore =[
 function jsonToArrayDelimiter(eventArray){
   const delimArray = [];
   var eventString = "";
-  console.log("\n\njsonToArrayDelimiter function\n");
-  console.log("Length of eventArray: " + eventArray.length)
+  //console.log("\n\njsonToArrayDelimiter function\n");
+  //console.log("Length of eventArray: " + eventArray.length)
   for(var i=0; i < eventArray.length; i++){
     
-    console.log("var i = " + i);
-    console.log("event array date: " + eventArray[i].title);
+    //console.log("var i = " + i);
+    //console.log("event array date: " + eventArray[i].title);
     //if(eventArray[i].title){
     eventString = eventArray[i].title
     //}
-    console.log("event array data length: " + eventArray[i].data.length);
+    //console.log("event array data length: " + eventArray[i].data.length);
+
+
     for(var j =0; j < eventArray[i].data.length; j++){
-      console.log("Before: " + eventString)
       eventString = eventString + '||' + eventArray[i].data[j].name
       
-      console.log("event array exercises " + eventArray[i].data[j].name)
-      console.log(eventString)
-      console.log("var j = " + j);
+      //console.log("event array exercises " + eventArray[i].data[j].name)
+      //console.log(eventString)
+      //console.log("var j = " + j);
       delimArray.push(eventString);
     }
     //console.log(eventString)
     //delimArray.push(eventString);
   }
-  console.log(delimArray);
+  //console.log(delimArray);
   return delimArray;
 }
 
@@ -477,8 +486,10 @@ export default class ExpandableCalendarScreen extends Component {
   
   //items = addEventToArray(items, dateArray, exerciseArray);
   items = addEventToArray(items, dateStr1, exerciseArray1);
+
   items = addEventToArray(items, dateStr2, exerciseArray2);
-  //items = removeEventFromArray(items, dateString, exerciseName);
+
+  items = removeEventFromArray(items, dateString, exerciseName);
 
 
   getTheme = () => {
