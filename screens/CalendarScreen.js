@@ -552,6 +552,7 @@ export default class ExpandableCalendarScreen extends Component {
 
   
  handleExerciseForm = (text) => {
+   //Gonna have to overwrite state. Try inputing 'barbell' then doing so again, but leaving exercise field blank
   this.setState({
     exerciseForm: text
   });
@@ -566,14 +567,14 @@ handleDateForm =(text) =>{
 submitForm =() => {
   const {dateForm, exerciseForm, isVisible} = this.state
 
-  console.log("EXERCISE FORM " + exerciseForm)
-  console.log("DATEFORM " + dateForm)
+  console.log("EXERCISE FORM " + typeof(exerciseForm))
+  console.log("DATEFORM" + dateForm)
 
-  var dateRegex = RegExp('/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/') 
+  var dateRegex = RegExp(/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/) 
 
   let correctDate = dateRegex.test(dateForm)
 
-  if(correctDate){
+  if(correctDate && exerciseForm.length != 0){
     Alert.alert(
       'Working',
       "Working as Intended!",
@@ -588,7 +589,7 @@ submitForm =() => {
       "Incorrect Date",
       "Sorry, please enter the date in the MM/DD/YYYY format",
       [
-        {text: "OK", onPress : () => console.log("Wrong image selected")}
+        {text: "OK", onPress : () => console.log("Wrong date entered")}
       ]
     )
   }
