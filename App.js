@@ -11,6 +11,7 @@ import HomeScreen from './screens/HomeScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import CameraScreen from './screens/CameraScreen';
 import CalendarScreen from './screens/CalendarScreen';
+import RecommendationScreen from './screens/RecommendationScreen';
 import MuscleSelectorScreen from './screens/MuscleSelectorScreen';
 import firebase from 'firebase';
 import {firebaseConfig} from './config';
@@ -96,6 +97,20 @@ const CalendarStack = createStackNavigator({
   }
 });
 
+const RecommendationStack = createStackNavigator({
+  Settings: {
+    screen: RecommendationScreen,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: 'Recommendation',
+        headerLeft: ()=> (
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
+        )
+      };
+    }
+  }
+});
+
 /*
 The Dashboard tab navigator allows users to easily switch between pages.
 The reason there is a tab navigator is because I couldn't seem to use the HomeStack as the
@@ -154,6 +169,20 @@ const DashboardTabNavigator = createBottomTabNavigator(
           <Icon name="calendar" color={tintColor} size={24}/>
         ),
         headerTitle: 'Calendar',
+        headerLeft: ()=> (
+          <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
+        )
+        
+      }
+    },
+	Recommendation: {
+      screen: RecommendationScreen,
+      navigationOptions: {
+        tabBarLabel: 'Recommend',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="account-question" color={tintColor} size={24}/>
+        ),
+        headerTitle: 'Recommendation Screen',
         headerLeft: ()=> (
           <Icon style={{ paddingLeft: 10 }} onPress={() => navigation.openDrawer()} name="menu" size={30} />
         )
