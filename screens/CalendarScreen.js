@@ -420,7 +420,7 @@ deleteForm = () => {
 			});
 			return firestoreEvents;
     }
-    buildArray();
+    //buildArray();
   
 
     function initialAddEventsFromFirestore(dates, firestoreExercises){
@@ -431,7 +431,7 @@ deleteForm = () => {
       }
     }
     
-    initialAddEventsFromFirestore(dates, firestoreExercises);
+    //initialAddEventsFromFirestore(dates, firestoreExercises);
 
 
     const {isVisible} = this.state
