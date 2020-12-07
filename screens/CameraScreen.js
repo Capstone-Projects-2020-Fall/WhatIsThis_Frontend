@@ -1,7 +1,7 @@
 // Aboutscreen.js
 import React, { Component , useState, useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS, Modal, ScrollView, TouchableWithoutFeedback, Image} from 'react-native';
+import { Button, View, Text , TouchableOpacity, StyleSheet, Platform, Alert, ToastAndroid, AlertIOS, Modal, ScrollView, TouchableWithoutFeedback, Image, Clipboard} from 'react-native';
 import { createStackNavigator, createAppContainer, withNavigationFocus, NavigationEvents} from 'react-navigation';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -12,6 +12,8 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import {firestore} from 'firebase';
 import ExerciseModal from '../ExerciseModal';
+
+
 export default class CameraScreen extends Component {
 
   state = {
@@ -61,6 +63,7 @@ export default class CameraScreen extends Component {
         quality: 0,
         base64: true,
       })
+
       Alert.alert('Picture Selection', 'Use this picture?', [
         {
           text: 'Yes',
@@ -75,6 +78,7 @@ export default class CameraScreen extends Component {
   }
 
   communicateWithServer = (image)  =>{
+      //http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict
       fetch("http://whatisthisbackend.us-east-2.elasticbeanstalk.com/predict", {
         method: "POST",
         headers:{
@@ -85,17 +89,20 @@ export default class CameraScreen extends Component {
           imgsource: image.base64
         }),
       })
-      .then(response => test = response.json())
+      .then(response => response.json())
         .then(responseJson => {
+          // console.log(responseJson)
           let equipment = responseJson.equipment
           let probability = responseJson.probability
           console.log(equipment)
           console.log(probability)
+          
           this.processEquipmentResponse(equipment, probability)
         })
         .catch((error) => {
           // console.error('Error: ', error);
           if(error){
+            // console.error('Error: ', error);
             Alert.alert(
               "Image Issue",
               "Sorry, it appears we can not detect the image. Please take it from another angle and ensure it is equipment.",
@@ -137,32 +144,43 @@ export default class CameraScreen extends Component {
     //Process the data received from the response from the server in the event a picture is taken
   processEquipmentResponse= (equipment, probability) => {
     //Check if the probability is greater than a certain amount?
-    const {exercises, exerciseModalList, isVisible} = this.state;
+    if(Number.parseInt(probability,10) < 45 ){
+      Alert.alert(
+        "Image Issue",
+        "Sorry, it appears we can not detect the image. Please take it from another angle and ensure it is equipment.",
+        [
+          {text: "OK", onPress : () => console.log("Wrong image selected")}
+        ]
+      )
+    }
+    else {
+      const {exercises, exerciseModalList, isVisible} = this.state;
 
-    let exerciseList = []
-    let modalList = []
-    let nameList = []
-    
-    //Realistically, this should be refactored into an exercise class whcih should then be
-    //pushed into the array. The class should contain the 
-    //various fields. This would make it much cleaner and better practice. If time allows, refactor
-    //this here and in muscleselectorscreen
+      let exerciseList = []
+      let modalList = []
+      let nameList = []
+      
+      //Realistically, this should be refactored into an exercise class whcih should then be
+      //pushed into the array. The class should contain the 
+      //various fields. This would make it much cleaner and better practice. If time allows, refactor
+      //this here and in muscleselectorscreen
 
-    exercises.forEach(exercise => {
-      if(exercise?.machine?.includes(equipment) && !nameList.includes(exercise.name)){
-        nameList.push(exercise.name)
-        exerciseList.push({name: exercise.name, description: exercise.description, image: exercise.imgurl})
-      }
-    })
-    // console.log(exerciseList)
-    // modalList = exerciseList.map((exercise, key) => {
-    //   <ExerciseModal key={key} name={exercise.name} description={exercise.description} image={exercise.image}/>
-    // })
+      exercises.forEach(exercise => {
+        if(exercise?.machine?.includes(equipment) && !nameList.includes(exercise.name)){
+          nameList.push(exercise.name)
+          exerciseList.push({name: exercise.name, description: exercise.description, image: exercise.imgurl})
+        }
+      })
+      // console.log(exerciseList)
+      // modalList = exerciseList.map((exercise, key) => {
+      //   <ExerciseModal key={key} name={exercise.name} description={exercise.description} image={exercise.image}/>
+      // })
 
-    this.setState({
-      isVisible: !isVisible,
-      exerciseModalList: [...exerciseList]
-    })
+      this.setState({
+        isVisible: !isVisible,
+        exerciseModalList: [...exerciseList]
+      })
+    }
   }
 
   displayModal(){
