@@ -187,23 +187,23 @@ export default class CalendarScreen extends Component {
   }
   
 
-  componentDidMount(){
-		firebase
-		.auth()
-		.onAuthStateChanged(user => {			
-			firestore()
-				.collection('user')
-				.doc(user.uid)
-				.get()
-				.then(docSnapshot => {
-					const workoutData = docSnapshot.get("workoutEvents");
-          this.setState({firestoreEvents: workoutData});
-          console.log("\n\nREAD EVENTS FROM FIRESTORE HERE")
-          console.log(workoutData);
+  // componentDidMount(){
+	// 	firebase
+	// 	.auth()
+	// 	.onAuthStateChanged(user => {			
+	// 		firestore()
+	// 			.collection('user')
+	// 			.doc(user.uid)
+	// 			.get()
+	// 			.then(docSnapshot => {
+	// 				const workoutData = docSnapshot.get("workoutEvents");
+  //         this.setState({firestoreEvents: workoutData});
+  //         console.log("\n\nREAD EVENTS FROM FIRESTORE HERE")
+  //         console.log(workoutData);
 
-        });
-    });
-  }
+  //       });
+  //   });
+  // }
 
   
   
