@@ -24,10 +24,53 @@ class RecommendationScreen extends Component {
 		this.state = {
 			exercises: [],
 			recentWorkouts: [],
-			isVisible : true,
+			toDisplay: {},
+			isVisible : false,
 			formalName: "blank"
 		};
 	}
+	
+		
+	returnUnusedExercise(){
+		const recentExercises = [];
+		const unusedExercises = [];
+		const dates = [];
+		const {recentWorkouts} = this.state;
+		const {exercises} = this.state;
+		
+		recentWorkouts.forEach(workout =>{
+			const parsed = workout.split("||");
+			dates.push(parsed[0]);
+			parsed.forEach((parsedExercise,index) => {
+				if(index == 0) return;
+				recentExercises.push(parsedExercise);
+			});
+		});
+			
+		exercises.forEach(exercise => {
+			if(!recentExercises.includes(exercise.name)){
+				unusedExercises.push(exercise.name);
+			}
+		});
+		const randomChoice = unusedExercises[Math.floor(Math.random()*unusedExercises.length)];
+		return randomChoice;
+	}
+		
+	buildExerciseObj= () =>{
+		const {exercises} = this.state;
+		let exerciseObj = {};
+		const chosenExercise = this.returnUnusedExercise();
+		console.log(chosenExercise);
+		exercises.forEach(exercise =>{
+			if(exercise.name == chosenExercise) {
+				exerciseObj = {name: exercise.name, description: exercise.description, image: exercise.imgurl}; 
+				this.setState({toDisplay: exerciseObj});
+				return;
+			}
+		});
+	}
+	
+	
 	
 	componentDidMount(){
 		firebase
@@ -57,41 +100,19 @@ class RecommendationScreen extends Component {
 		this.setState({isVisible: !isVisible})
 	}
 
-    render() {	
-		const {exercises} = this.state;
-		const {recentWorkouts} = this.state;
-		const recentExercises = [];
-		const unusedExercises = [];
-		const dates = [];
-		
-		function returnUnusedExercise (){
-			recentWorkouts.forEach(workout =>{
-				const parsed = workout.split("||");
-				dates.push(parsed[0]);
-				parsed.forEach((parsedExercise,index) => {
-					if(index == 0) return;
-					recentExercises.push(parsedExercise);
-				});
-			});
-			
-			exercises.forEach(exercise => {
-				if(!recentExercises.includes(exercise.name)){
-					unusedExercises.push(exercise.name);
-				}
-			});
-			
-			return unusedExercises[Math.floor(Math.random()*unusedExercises.length)];
-		}
-		
-		function returnExerciseInfo(){
-			const chosenExercise = returnUnusedExercise();
-			exercises.forEach(exercise =>{
-				if(exercise.name = chosenExercise) return exercise;
-			});
-		}
 
+    render() {	
+		const {toDisplay} = this.state;
+		
         return (
 			<View style={{ flex: 1 }}>
+				<Text style={styles.headertext}>Based on your recent workouts:</Text>
+				<TouchableOpacity style={styles.openbutton} onPress={() => {
+					this.buildExerciseObj()
+					this.displayModal()
+				}}>
+					<Text style={styles.buttonText}>Get Recommendation</Text>
+				</TouchableOpacity>
 				<Modal
 				  animationType = {"slide"}
 				  transparent = {true}
@@ -108,8 +129,7 @@ class RecommendationScreen extends Component {
 					>
 					  <TouchableWithoutFeedback>
 						<View style ={styles.modalView}>
-						  <ExerciseModal  name={"Bench Press"} description={"Test"} image={"https://firebasestorage.googleapis.com/v0/b/fir-react-native-b2fff.appspot.com/o/diagrams%2Fbench.png?alt=media&token=22438c6f-7e1b-40bf-83db-5a43479f1036"}/>
-						  
+							<ExerciseModal  name={toDisplay.name} description={toDisplay.description} image={toDisplay.image}/>
 						 
 						  <TouchableOpacity style={styles.button} onPress={() => {
 							  this.displayModal()
@@ -131,6 +151,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  headertext: {
+	color: '#000000',
+    fontSize: 16,
+	marginLeft: 80,
+	marginTop: 250,
   },
   modalContainer: {
     padding: 25,
@@ -169,6 +195,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
+	alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00bfff',
+  },
+  openbutton: {
+	width: 300,
+	marginLeft: 50,
+	marginTop: 20,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+	alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#00bfff',
   },
   buttonText: {
