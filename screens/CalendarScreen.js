@@ -34,15 +34,13 @@ const USA_EST_Offset = 5*60; //UTCOffset = 300
 //dateToday.setMinutes(dateToday.getMinutes() - USA_EST_Offset);
 todaysDate.setMinutes(todaysDate.getMinutes() - USA_EST_Offset);
 
-// Convert long date format (Sat Nov 14 2020...) to ISO date format (2020-11-14...)
-//const todayEST = new Date(dateToday).toISOString().split('T')[0]; 
-export const todayEST = new Date(todaysDate).toISOString().split('T')[0];
 
-console.log("Today in UTC: " + today);
-console.log("UTC Offset: " + UTCOffset);
-console.log("Today in EST: " + todayEST + "\n\n");
+/*
+Get the today's date with EST timezone. 
+Used in the placeholder object in items array with empty string.
+*/
+const todayEST = new Date(todaysDate).toISOString().split('T')[0];
 
-const todayESTMMDDYYYY = "12/05/2020";
 
 function formatDate(todayESTMMDDYYYY){
   var formattedTodayEST = "";
@@ -50,173 +48,62 @@ function formatDate(todayESTMMDDYYYY){
   formattedTodayEST = todayFormatArray[2] + "-" + todayFormatArray[0] + "-" + todayFormatArray[1]
   return formattedTodayEST;
 }
-var formatTodayEST = formatDate(todayESTMMDDYYYY);
-console.log("FORMAT DATE: " + formatTodayEST);
-
-
-const pastDate = getPastDate(3);
-//console.log(pastDate)
-const futureDates = getFutureDates(9);
-const dates = [pastDate, todayEST].concat(futureDates);
-//console.log(dates)
 
 const themeColor = '#00AAAF';
 const lightThemeColor = '#EBF9F9';
 
 
-function getFutureDates(days) {
-  const array = [];
-  for (let index = 1; index <= days; index++) {
-    const date = new Date(Date.now() + (864e5 * index)); // 864e5 == 86400000 == 24*60*60*1000
-    const dateString = date.toISOString().split('T')[0];
-    array.push(dateString);
-  }
-  return array;
-}
+/*
+The constant items array is the array that will hold the
+event objects in the calendar.
+  - Events pushed in will show up on the agenda list 
+  - Events removed from the array will not be shown on the agenda list 
 
-function getPastDate(days) {
-  return new Date(Date.now() - (864e5 * days)).toISOString().split('T')[0];
-}
-
-
+*/
 const items = [];
 
+/* 
+Placeholder empty string since the code requires at least one object
+in the calendar items array. 
 
-function parseArray(arrayOfMap){
-  
-  
-  return parsedArray;
-}
-
-
-
-console.log("\n\n");
-console.log();
-
-
-//This would have to be an array of an array of objects.
-//Have an array of objects that the events get stored when creating them 
-
-
-//const exerciseArray = [
-//  ["Running", "Bench Press"], 
-//  ["Leg Press", "Deadlift"]
-//];
-
-//const dateArray = ["2020-11-29", "2020-12-01"];
-
-
-const dateStr1 = "2020-12-01";
-const exerciseArray1 = ["Running", "Bench Press"];
-const dateStr2 = "2020-12-03";
-const exerciseArray2 = ["Leg Press", "Deadlift"];
-//const exerciseArray = ["Leg Press", "Deadlift"]
+*/
 const emptyExerciseStr = " ";
-//{title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]}
+
+
+/*
+The date and exercise both get added to the object for items array.
+The function to add the event to Firestore is then called.
+*/
 function addEventToArray(eventArray,date,exercise) {
-  //console.log("\n\naddEventToArray\n");
-  //for(var i = 0; i < exerciseArray.length; i++){
-    //console.log("var i: " + i);
-    //eventArray.push({title: date, data: [{name: exerciseArray[i]}]});
-    //console.log("eventArray[" + i + "]")
-  //}
+  
   eventArray.push({title:date, data:[{name:exercise}]})
   addEventsToFirestore(eventArray);
-  console.log(eventArray);
+  // console.log(eventArray);
   return eventArray;
 }
 
 
-//printAddEventToArray(items, date, exerciseArray);
-const eventsItems = [];
-
-var removedResult;
-const resultArray = [];
-const arrayEvents = [
-  {
-    title: "2020-12-25", 
-    data: [
-      {
-        name: 'Cycling'
-      }, 
-      {
-        name: 'Deadlift'
-      }
-    ]
-  }
-  ];
 
 
-console.log("Using values() function:");
-const valueOfEvents = arrayEvents.values();
-for(let eventValues of valueOfEvents){
-  console.log(eventValues);
-}
-console.log("Using JSON stringify:");
-const stringJSONEvents = JSON.stringify(arrayEvents); 
-console.log("stringJSONEvents: " + stringJSONEvents);
+/*
+Iterate through the array of events and pop of the exercise e.g. {name: "Running"}.
+The 
 
-console.log("\nStringify JSON, remove name object, then use values():");
-
-
-
-var ar = [{"value":"14","label":"7"},{"value":"14","label":"7"},{"value":"18","label":"7"}];
-console.log("ar length BEFORE splice: " + ar.length);
-for(var i=0; i < ar.length; i++) {
-   if(ar[i].value == "14" && ar[i].label == "7")
-   {
-      var arrayAR = ar.splice(i,1);
-   }
-}
-console.log("\nar length AFTER splice: " + ar.length);
-console.log("\nar: " + JSON.stringify(ar));
-console.log("ar[1]: " + ar[1].value);
-const valuesOfAr = ar.values();
-for(let arValues of valuesOfAr){
-  console.log(arValues);
-}
-const workoutEvents =[
-  {
-    title: "2020-11-30", 
-    data: [
-      {name: 'Bent Over Row'}, 
-    ]
-  },
-  {
-    title: "2020-12-03",
-    data: [
-      {name: 'Running'},
-    ]
-  }
-]; 
-
-const dateString = "2020-12-03";
-const exerciseName = "Deadlift";
-
-// Iterate through the array of events and pop of the exercise e.g. {name: "Running"}
+*/
 function removeEventFromArray(eventArray,dateString,exerciseName){
   removeEventsFromFirestore(eventArray);
-  //removeEventsFromFirestore(eventArray);
   console.log("\n\nREMOVE EVENT FUNCTION\n")
   for(var i=0; i < eventArray.length; i++){
-    //for(var j=0; j <workoutEvents[i].data.length; j++){
     if(eventArray[i].title === dateString && eventArray[i].data[0].name === exerciseName){
-      console.log("Getting match date: " + eventArray[i].title);
-      console.log("Getting match exercise: " + eventArray[i].data[0].name);
-      eventArray.splice(i,1);
-      
+      eventArray.splice(i,1); 
     }
     
   }
   addEventsToFirestore(eventArray)
   console.log(JSON.stringify(eventArray));
-  //addEventsToFirestore(eventArray);
-  console.log()
-  console.log("\n\n");
   return eventArray;
 }
 
-//items = addEventToArray(items, dateArray, exerciseArray);
 
 
 
@@ -258,86 +145,22 @@ function removeEventsFromFirestore(eventsArray) {
   return console.log("\n\n Added event to user's database \n\n");
 }
 
-const readEventsArray = [];
-function readEventsFromFirestore(readEventsArray){
-  firebase.auth().onAuthStateChanged(function(user){
-    if(user){
-      const doc = firestore().collection('user').doc(user.uid).get();
-      if (!doc.exists) {
-        console.log('No such document!');
-      } else {
-        console.log('Document data:', doc.data());
-      }
-    }
-    
-  });
-  return readEventsArray;
-}
 
-
-console.log("\n\nREADING FROM FIRESTORE HERE");
-
-/*firebase.auth().onAuthStateChanged((user) => {
-  if(user){
-    firestore().collection('user').get().then((snapshot) => {
-      //console.log(snapshot.docs);
-      snapshot.docs.forEach(docs => {
-        console.log(doc.data())
-      })
-    })
-  }
-  else{
-    console.log("User not logged in.");
-  }
-});*/
-
-console.log(firestore().collection('user').doc(firebase.auth().currentUser.uid));
-
-
-console.log("DONE READING FROM FIRESTORE HERE\n\n");
-
-const workoutEventsFirestore =[
-  {
-    title: "2020-11-30", 
-    data: [
-      {name: 'Bent Over Row'}
-    ]
-  },
-  {
-    title: "2020-12-03",
-    data: [
-      {name: 'Running'}
-    ]
-  }
-];
 
 function jsonToArrayDelimiter(eventArray){
   const delimArray = [];
   var eventString = "";
-  //console.log("\n\njsonToArrayDelimiter function\n");
-  //console.log("Length of eventArray: " + eventArray.length)
-  for(var i=0; i < eventArray.length; i++){
-    
-    //console.log("var i = " + i);
-    //console.log("event array date: " + eventArray[i].title);
-    //if(eventArray[i].title){
-    eventString = eventArray[i].title
-    //}
-    //console.log("event array data length: " + eventArray[i].data.length);
 
+  for(var i=0; i < eventArray.length; i++){
+
+    eventString = eventArray[i].title
 
     for(var j =0; j < eventArray[i].data.length; j++){
       eventString = eventString + '||' + eventArray[i].data[j].name
-      
-      //console.log("event array exercises " + eventArray[i].data[j].name)
-      //console.log(eventString)
-      //console.log("var j = " + j);
+
       delimArray.push(eventString);
     }
-    //console.log(eventString)
-    //delimArray.push(eventString);
   }
-  //console.log(delimArray);
   return delimArray;
 }
 
@@ -348,12 +171,8 @@ function printSimpleArray(simpleArray){
   }
 }
 
-//const delimArray = jsonToArrayDelimiter(workoutEventsFirestore);
-//printSimpleArray(delimArray);
-//addEventsToFirestore(workoutEventsFirestore);
 
-
-export default class ExpandableCalendarScreen extends Component {
+export default class CalendarScreen extends Component {
 
   constructor(props){
     super(props);
@@ -362,9 +181,32 @@ export default class ExpandableCalendarScreen extends Component {
       isVisible: false,
       dateForm: null,
       exerciseForm: null,
-      incorrectDate: false
+      incorrectDate: false,
+      firestoreEvents: []
     };
   }
+  
+
+  componentDidMount(){
+		firebase
+		.auth()
+		.onAuthStateChanged(user => {			
+			firestore()
+				.collection('user')
+				.doc(user.uid)
+				.get()
+				.then(docSnapshot => {
+					const workoutData = docSnapshot.get("workoutEvents");
+          this.setState({firestoreEvents: workoutData});
+          console.log("\n\nREAD EVENTS FROM FIRESTORE HERE")
+          console.log(workoutData);
+
+        });
+    });
+  }
+
+  
+  
   
   displayModal(){
     const {isVisible} = this.state
@@ -432,7 +274,7 @@ export default class ExpandableCalendarScreen extends Component {
         //console.log("\n\n" + item.title + "\n\n");
       }
     });
-    console.log("MARKED DATESA" + marked)
+    //console.log("MARKED DATESA" + marked)
     return marked;
   }
   
@@ -443,7 +285,7 @@ export default class ExpandableCalendarScreen extends Component {
 
   //items = addEventToArray(items, dateStr2, exerciseArray2);
 
-  items = removeEventFromArray(items, dateString, exerciseName);
+  //items = removeEventFromArray(items, dateString, exerciseName);
   //readEventsArray = readEventsFromFirestore(readEventsArray);
 
   getTheme = () => {
@@ -543,7 +385,7 @@ deleteForm = () => {
       'Deleted',
       exerciseForm + " deleted on " + dateForm,
       [
-        {text: "OK", onPress : () => console.log("Date and exercise added")}
+        {text: "OK", onPress : () => console.log("Date and exercise deleted")}
       ]
     )
     //HERE ADD/DISPLAY
@@ -563,6 +405,35 @@ deleteForm = () => {
 }
 
   render() {
+    const {firestoreEvents} = this.state;
+    
+		const firestoreExercises = [];
+		const dates = [];
+    function buildArray (){
+			firestoreEvents.forEach(workout =>{
+				const parsed = workout.split("||");
+				dates.push(parsed[0]);
+				parsed.forEach((parsedExercise,index) => {
+						if(index == 0) return;
+						firestoreExercises.push(parsedExercise);
+				});
+			});
+			return firestoreEvents;
+    }
+    buildArray();
+  
+
+    function initialAddEventsFromFirestore(dates, firestoreExercises){
+      console.log("DATES LENGTH: " + dates.length);
+      console.log("EXERCISE LENGTH: " + firestoreExercises.length);
+      for(var i = 0; i < dates.length; i++){
+        addEventToArray(items, dates[i], firestoreExercises[i]);
+      }
+    }
+    
+    initialAddEventsFromFirestore(dates, firestoreExercises);
+
+
     const {isVisible} = this.state
     return (
       <CalendarProvider
@@ -817,4 +688,4 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     textAlign: 'center'
   },
-});
+})

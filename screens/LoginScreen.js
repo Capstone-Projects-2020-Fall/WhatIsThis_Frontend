@@ -5,7 +5,6 @@ import firebase, {firestore} from 'firebase';
 import {Container, Content, Header, Input, Item, Button, Label, Form} from 'native-base';
 import DismissKeyboard from '../DismissKeyboard';
 import GoogleIcon from '../icons/googleLogo';
-import {todayEST} from './CalendarScreen';
 class LoginScreen extends Component {
 
     isUserEqual = (googleUser, firebaseUser) => {
@@ -52,12 +51,10 @@ class LoginScreen extends Component {
                 //if(result.additionalUserInfo.isNewUser){
                 const userID = result.user.uid
                 const userEmail = result.user.email
-                const intialEventString = todayEST + '||' + " ";
-                const workoutEvents = [intialEventString];
                 firestore().collection('user').doc(userID).set({
                     email: userEmail,
                     id: userID,
-                    workoutEvents: workoutEvents,
+                    workoutEvents: [],
                 })
                 //}
             })
