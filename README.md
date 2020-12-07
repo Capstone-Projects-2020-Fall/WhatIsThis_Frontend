@@ -67,4 +67,9 @@ node_modules and the lockfile (package-lock.json / yarn.lock) 2) Removing react-
 3) run `yarn or npm install` 4) run `expo install react-native-safe-area-context` 
 
 ## Link to Expo Project Page (NOTE: iOS does not support sharing of Expo QR code)
-https://expo.io/@mant642/firebase-react-native
+https://expo.io/@whatisthis/firebase-react-native
+
+### For iOS users
+Log in to Expo with shared project account credentials:
+Username: whatisthis
+Password: temple2020
