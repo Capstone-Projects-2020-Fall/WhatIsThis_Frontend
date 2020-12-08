@@ -51,11 +51,10 @@ class LoginScreen extends Component {
                 //if(result.additionalUserInfo.isNewUser){
                 const userID = result.user.uid
                 const userEmail = result.user.email
-                const workoutEvents = [];
                 firestore().collection('user').doc(userID).set({
                     email: userEmail,
                     id: userID,
-                    workoutEvents: workoutEvents,
+                    workoutEvents: [],
                 })
                 //}
             })

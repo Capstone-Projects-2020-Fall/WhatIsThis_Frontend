@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { forEach } from 'lodash';
 import React, {Component} from 'react';
 import {
   Platform,
@@ -7,7 +7,12 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Button
+  Button,
+  Image,
+  Modal,
+  ScrollView,
+  TouchableWithoutFeedback,
+  TextInput
 } from 'react-native';
 import {ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar} from 'react-native-calendars';
 
@@ -18,7 +23,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-
+// Original today data variable -> UTC -> EST (Philly)
 const today = new Date().toISOString().split('T')[0];
 
 const todaysDate = new Date();
@@ -29,137 +34,81 @@ const USA_EST_Offset = 5*60; //UTCOffset = 300
 //dateToday.setMinutes(dateToday.getMinutes() - USA_EST_Offset);
 todaysDate.setMinutes(todaysDate.getMinutes() - USA_EST_Offset);
 
-// Convert long date format (Sat Nov 14 2020...) to ISO date format (2020-11-14...)
-//const todayEST = new Date(dateToday).toISOString().split('T')[0]; 
+
+/*
+Get the today's date with EST timezone. 
+Used in the placeholder object in items array with empty string.
+*/
 const todayEST = new Date(todaysDate).toISOString().split('T')[0];
 
-console.log("Today in UTC: " + today);
-console.log("UTC Offset: " + UTCOffset);
-console.log("Today in EST: " + todayEST + "\n\n");
 
+function formatDate(todayESTMMDDYYYY){
+  var formattedTodayEST = "";
+  todayFormatArray = todayESTMMDDYYYY.split("/");
+  formattedTodayEST = todayFormatArray[2] + "-" + todayFormatArray[0] + "-" + todayFormatArray[1]
+  return formattedTodayEST;
+}
 
-const fastDate = getPastDate(3);
-const futureDates = getFutureDates(9);
-const dates = [fastDate, todayEST].concat(futureDates);
 const themeColor = '#00AAAF';
 const lightThemeColor = '#EBF9F9';
 
 
-function getFutureDates(days) {
-  const array = [];
-  for (let index = 1; index <= days; index++) {
-    const date = new Date(Date.now() + (864e5 * index)); // 864e5 == 86400000 == 24*60*60*1000
-    const dateString = date.toISOString().split('T')[0];
-    array.push(dateString);
-  }
-  return array;
-}
+/*
+The constant items array is the array that will hold the
+event objects in the calendar.
+  - Events pushed in will show up on the agenda list 
+  - Events removed from the array will not be shown on the agenda list 
 
-function getPastDate(days) {
-  return new Date(Date.now() - (864e5 * days)).toISOString().split('T')[0];
-}
-
-// Pass in the date, something like 11/24/2020 or whatever format that works
-// then return the index number for that day for the date array.
-/*function countDates(days){
-  
-  return indexDay;
-}*/
-
-/**
- * The ITEMS array holds the events
 */
+const items = [];
 
-const ITEMS = [
-  {title: dates[0], data: [{name: 'Bench Press'}]},
-  {title: dates[1], data: [{name: 'Bent Over Row'}, {name: 'Bicep Curl with Dumbbells'}]},
-  {title: dates[2], data: [{name: 'Bicep Curls with Barbell'}, {name: 'Chin Ups'}, {name: 'Crunches'}]},
-  {title: dates[3], data: [{name: 'Cycling'}]},
-  {title: dates[4], data: [{name: "Deadlift"}]},
-  {title: dates[5], data: [{name: 'Dips Between Two Benches'}, {name: 'Front Squats'}, {name: 'Jogging'}, {name: 'Kettlebell Clean & Press'}]},
-  {title: dates[6], data: [{name: 'Lateral Raises'}]},
-  //{title: dates[7], data: [{}]},
-  {title: dates[7], data: [{name: 'Leg Press'}]},
-  {title: dates[8], data: [{name: 'Leg Press(wide)'}, {name: 'Leg Raises, Lying'}, {name: 'Pull Ups'}, {name: 'Squats'}]},
-  {title: dates[9], data: [{name: 'Bench Press'}, {name: 'Bent Over Row'}, {name: 'Chin Ups'}]},
-  {title: dates[10], data: [{ name: 'Deadlift'}]}
-];
+/* 
+Placeholder empty string since the code requires at least one object
+in the calendar items array. 
+
+*/
+const emptyExerciseStr = " ";
+
 
 /*
-const eventArrExercise = ITEMS.map(events => {
-  events.title,
-  events.data.map(itemEvent=> {itemEvent.name});
-});
-console.log(eventArrExercise);
+The date and exercise both get added to the object for items array.
+The function to add the event to Firestore is then called.
 */
-const valuesOfITEMS = ITEMS.values();
-
-console.log(valuesOfITEMS.next().value.title);
-console.log("\n");
-console.log(valuesOfITEMS.next().value);
-
-/*
-const eventArrExercise = ITEMS.map(events => {
-  //console.log(events.title),
-  events.title,
-  events.data.map(itemEvent=> {
-    //console.log(itemEvent.name);
-    itemEvent.name
-  });
-});*/
-
-function parseArray(arrayOfMap){
+function addEventToArray(eventArray,date,exercise) {
   
-  
-  return parsedArray;
+  eventArray.push({title:date, data:[{name:exercise}]})
+  addEventsToFirestore(eventArray);
+  // console.log(eventArray);
+  return eventArray;
 }
 
 
 
-console.log("\n\n");
-console.log();
 
-let names = ITEMS.reduce((str, itemEvents) => `${str} ${itemEvents.name}`, '||');
-//console.log(names);
 /*
-const authors = [ { id: 1, name: 'Steven'}, {id: 2, name: 'Nick'}]
-let names = authors.map( (a, i) => `${a.name} is cool`).join(' ');
-console.log(names);
+Iterate through the array of events and pop of the exercise e.g. {name: "Running"}.
+The 
+
 */
-
-const workoutList = new Array();
-
-function buildArray(eventsArray){
-  ITEMS.forEach(itemEvent => {
-    if(itemEvent.data[0].name.includes('First Yoga')){
-        //muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n\n");
-        workoutList.push(itemEvent.data[0].name, "\n\n");
+function removeEventFromArray(eventArray,dateString,exerciseName){
+  removeEventsFromFirestore(eventArray);
+  console.log("\n\nREMOVE EVENT FUNCTION\n")
+  for(var i=0; i < eventArray.length; i++){
+    if(eventArray[i].title === dateString && eventArray[i].data[0].name === exerciseName){
+      eventArray.splice(i,1); 
     }
-  })
-  console.log(workoutList);
-  return workoutList;
-  //return console.log(workoutList);
+    
+  }
+  addEventsToFirestore(eventArray)
+  console.log(JSON.stringify(eventArray));
+  return eventArray;
 }
 
-buildArray(ITEMS);
 
-console.log("\n\nhello world \n\n")
-
-//console.log(eventArrExercise);
-function retrieveEventsFromUserDatabase(){
-
-  return console.log("Retreive user information");
-}
 
 
 function addEventsToFirestore(eventsArray){
-  //const user =  firebase.auth().currentUser;
-  //const workoutEvents = [];
-  //var index = 0;
-  //for (index = 0; index < eventsArray.length; index++) { 
-    //console.log(eventsArray[index]); 
-    //console.log(eventsArray[index][0]);
-  //}
+const delimArray = jsonToArrayDelimiter(eventsArray); 
   
 // Checking the current user's ID. 
 // The document names are user ID in the user database in FireStore. 
@@ -169,25 +118,25 @@ function addEventsToFirestore(eventsArray){
       console.log("User is signed in.\n");
       console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        workoutEvents: firebase.firestore.FieldValue.arrayUnion("2020-11-15||Bench Press")});
+        workoutEvents: firebase.firestore.FieldValue.arrayUnion(...delimArray)});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
     }
-  }); 
-  
+  });
   return console.log("\n\n Added event to user's database \n\n");
 }
 
 
 function removeEventsFromFirestore(eventsArray) {
+  const delimArray = jsonToArrayDelimiter(eventsArray); 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // User is signed in.
       console.log("User is signed in.\n");
       console.log("Current User ID: " + user.uid);
       firestore().collection('user').doc(user.uid).update({
-        workoutEvents: firebase.firestore.FieldValue.arrayRemove("2020-11-15||Bench Press")});
+        workoutEvents: firebase.firestore.FieldValue.arrayRemove(...delimArray)});
     } else {
       // No user is signed in.
       console.log("No user is signed in.\n");
@@ -197,14 +146,74 @@ function removeEventsFromFirestore(eventsArray) {
 }
 
 
-addEventsToFirestore(ITEMS);
 
-removeEventsFromFirestore(ITEMS);
+function jsonToArrayDelimiter(eventArray){
+  const delimArray = [];
+  var eventString = "";
+
+  for(var i=0; i < eventArray.length; i++){
+
+    eventString = eventArray[i].title
+
+    for(var j =0; j < eventArray[i].data.length; j++){
+      eventString = eventString + '||' + eventArray[i].data[j].name
+
+      delimArray.push(eventString);
+    }
+  }
+  return delimArray;
+}
+
+function printSimpleArray(simpleArray){
+  console.log("\n\nprintSimpleArray function\n");
+  for(var i = 0; i < simpleArray.length; i++){
+    console.log(simpleArray[i]);
+  }
+}
 
 
+export default class CalendarScreen extends Component {
 
+  constructor(props){
+    super(props);
 
-export default class ExpandableCalendarScreen extends Component {
+    this.state = {
+      isVisible: false,
+      dateForm: null,
+      exerciseForm: null,
+      incorrectDate: false,
+      firestoreEvents: []
+    };
+  }
+  
+
+  // componentDidMount(){
+	// 	firebase
+	// 	.auth()
+	// 	.onAuthStateChanged(user => {			
+	// 		firestore()
+	// 			.collection('user')
+	// 			.doc(user.uid)
+	// 			.get()
+	// 			.then(docSnapshot => {
+	// 				const workoutData = docSnapshot.get("workoutEvents");
+  //         this.setState({firestoreEvents: workoutData});
+  //         console.log("\n\nREAD EVENTS FROM FIRESTORE HERE")
+  //         console.log(workoutData);
+
+  //       });
+  //   });
+  // }
+
+  
+  
+  
+  displayModal(){
+    const {isVisible} = this.state
+    this.setState({
+      isVisible: !isVisible
+    })
+  }
 
   onDateChanged = (/* date, updateSource */) => {
     // console.warn('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
@@ -236,13 +245,13 @@ export default class ExpandableCalendarScreen extends Component {
       return this.renderEmptyItem();
     }
 
+    console.log(JSON.stringify(item))
     return (
       <TouchableOpacity
         onPress={() => this.itemPressed(item.name)}
         style={styles.item}
-        
-      >
-      
+        /*ITEMS = [{title: date}, data:{name: "Running"}] */
+      > 
     <Text style={styles.itemTitleText}>{item.name}</Text>
         <View style={styles.itemButtonContainer}>
           <Button color={'grey'} title={'Info'} onPress={this.buttonPressed}/>
@@ -253,18 +262,31 @@ export default class ExpandableCalendarScreen extends Component {
 
   getMarkedDates = () => {
     const marked = {};
-    ITEMS.forEach(item => {
+    const datesMarked = [];
+
+    items.forEach(item => {
       // NOTE: only mark dates with data
       if (item.data && item.data.length > 0 && !_.isEmpty(item.data[0])) {
         marked[item.title] = {marked: true};
-        //console.log("\n\n" + item.title + "\n\n");
+        console.log("\n\n" + item.title + "\n\n");
       } else {
         marked[item.title] = {disabled: true};
         //console.log("\n\n" + item.title + "\n\n");
       }
     });
+    //console.log("MARKED DATESA" + marked)
     return marked;
   }
+  
+  
+  items = addEventToArray(items, todayEST, emptyExerciseStr);
+  //items = addEventToArray(items, dateArray, exerciseArray);
+  //items = addEventToArray(items, dateStr1, exerciseArray1);
+
+  //items = addEventToArray(items, dateStr2, exerciseArray2);
+
+  //items = removeEventFromArray(items, dateString, exerciseName);
+  //readEventsArray = readEventsFromFirestore(readEventsArray);
 
   getTheme = () => {
     const disabledColor = 'grey';
@@ -302,10 +324,120 @@ export default class ExpandableCalendarScreen extends Component {
     };
   }
 
+  
+ handleExerciseForm = (text) => {
+   //Gonna have to overwrite state. Try inputing 'barbell' then doing so again, but leaving exercise field blank
+  this.setState({
+    exerciseForm: text
+  });
+}
+
+handleDateForm =(text) =>{
+  this.setState({
+    dateForm: text
+  });
+}
+
+submitForm =() => {
+  const {dateForm, exerciseForm, isVisible} = this.state
+
+  var dateRegex = RegExp(/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/) 
+
+  let correctDate = dateRegex.test(dateForm)
+
+  if(correctDate && exerciseForm.length != 0){
+      //DATE FORM CONVERSION HERE AND CAKL THE NECESSARY METHODS NEEDED TO DISPLAY THE NEW EXERCISE/DATA ANd also store it in firsetore
+    var formatDateString = formatDate(dateForm);
+    Alert.alert(
+      'Accepted',
+      exerciseForm + " added on " + dateForm,
+      [
+        {text: "OK", onPress : () => console.log("Date and exercise added")}
+      ]
+    )
+    //HERE ADD/DISPLAY
+    addEventToArray(items, formatDateString, exerciseForm);
+    this.displayModal()
+  }
+  else {
+  
+    Alert.alert(
+      "Incorrect Date",
+      "Sorry, please enter the date in the MM/DD/YYYY format",
+      [
+        {text: "OK", onPress : () => console.log("Wrong date entered")}
+      ]
+    )
+  }
+}
+
+deleteForm = () => {
+  const {dateForm, exerciseForm} = this.state
+
+  var dateRegex = RegExp(/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/) 
+
+  let correctDate = dateRegex.test(dateForm)
+
+  if(correctDate && exerciseForm.length != 0){
+
+    var formatDateString = formatDate(dateForm);
+    Alert.alert(
+      'Deleted',
+      exerciseForm + " deleted on " + dateForm,
+      [
+        {text: "OK", onPress : () => console.log("Date and exercise deleted")}
+      ]
+    )
+    //HERE ADD/DISPLAY
+    removeEventFromArray(items, formatDateString, exerciseForm);
+    this.displayModal()
+  }
+  else {
+  
+    Alert.alert(
+      "Incorrect Date",
+      "Sorry, please enter the date in the MM/DD/YYYY format",
+      [
+        {text: "OK", onPress : () => console.log("Wrong date entered")}
+      ]
+    )
+  }
+}
+
   render() {
+    const {firestoreEvents} = this.state;
+    
+		const firestoreExercises = [];
+		const dates = [];
+    function buildArray (){
+			firestoreEvents.forEach(workout =>{
+				const parsed = workout.split("||");
+				dates.push(parsed[0]);
+				parsed.forEach((parsedExercise,index) => {
+						if(index == 0) return;
+						firestoreExercises.push(parsedExercise);
+				});
+			});
+			return firestoreEvents;
+    }
+    //buildArray();
+  
+
+    function initialAddEventsFromFirestore(dates, firestoreExercises){
+      console.log("DATES LENGTH: " + dates.length);
+      console.log("EXERCISE LENGTH: " + firestoreExercises.length);
+      for(var i = 0; i < dates.length; i++){
+        addEventToArray(items, dates[i], firestoreExercises[i]);
+      }
+    }
+    
+    //initialAddEventsFromFirestore(dates, firestoreExercises);
+
+
+    const {isVisible} = this.state
     return (
       <CalendarProvider
-        date={ITEMS[0].title}
+        date={items[0].title}
         onDateChanged={this.onDateChanged}
         onMonthChange={this.onMonthChange}
         showTodayButton
@@ -315,7 +447,7 @@ export default class ExpandableCalendarScreen extends Component {
         // }}
         // todayBottomMargin={16}
       >
-        
+         
         {this.props.weekView ?
           <WeekCalendar
             
@@ -341,12 +473,88 @@ export default class ExpandableCalendarScreen extends Component {
           />
         }
         <AgendaList
-          sections={ITEMS}
+          sections={items}
           extraData={this.state}
           renderItem={this.renderItem}
           // sectionStyle={styles.section}
         />
+        <Modal
+       animationType = {"slide"}
+       transparent={true}
+       visible={isVisible}
+       onRequestClose={() => {
+         //Alert.alert('Modal has now been closed.');
+         //onRequestClose={() => {this.setModalVisible(false)}}
+         {this.displayModal()
+         }}
+        }          
+        >
+          <ScrollView contentContainerStyle={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'}}>
+            <TouchableOpacity 
+              style={styles.container} 
+              activeOpacity={1} 
+              onPressOut={() => {this.displayModal()}}>
+            <TouchableWithoutFeedback>
+           
+           <View style={styles.modalView}>
+             <TextInput
+              style = {styles.textInput}
+              underlineColorAndroid = "transparent"
+              placeholder = "Exercise"
+              placeholderTextColor = "#9a73ef"
+              autoCapitalize = "none"
+              onChangeText = {this.handleExerciseForm}/>
+             
+             <TextInput 
+              style = {styles.textInput}
+              underlineColorAndroid = "transparent"
+              placeholder = "MM/DD/YYYY"
+              placeholderTextColor = "#9a73ef"
+              autoCapitalize = "none"
+              onChangeText = {this.handleDateForm}/>
+              <View>
+                <TouchableOpacity style={styles.modalSubmitButton} onPress={() => {
+                    this.submitForm()
+                  }}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalDeleteButton} onPress={() => {
+                    this.deleteForm()
+                  }}>
+                    <Text style={styles.buttonText}>Delete</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={() => {
+                  this.displayModal()
+                }}>
+                  <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+           </View>
+         </TouchableWithoutFeedback>
+         </TouchableOpacity>
+     </ScrollView>
+   </Modal>
+        <TouchableOpacity
+          onPress={() => {
+            console.log("CLICKING")
+            this.displayModal()
+          }}
+          style={styles.viewTask}
+        >
+          <Image
+            source={require('../assets/plus.png')}
+            style={{
+              height: 30,
+              width: 30,
+            }}
+          />
+        </TouchableOpacity>
       </CalendarProvider>
+
     );
   }
 }
@@ -397,5 +605,87 @@ const styles = StyleSheet.create({
   emptyItemText: {
     color: 'lightgrey',
     fontSize: 14
-  }
-});
+  },
+  viewTask: {
+    position: 'absolute',
+    bottom: 40,
+    right: 17,
+    height: 60,
+    width: 60,
+    //backgroundColor: '#2E66E7',
+    backgroundColor: '#00acee',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //shadowColor: '#2E66E7',
+    shadowColor: '#00acee',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowRadius: 30,
+    shadowOpacity: 0.5,
+    elevation: 5,
+    zIndex: 999,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 20
+  },
+  modalButton: {
+    paddingTop: 15,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#00bfff',
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  modalDeleteButton: {
+    paddingTop: 15,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#dd0000',
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  modalSubmitButton: {
+    paddingTop: 15,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#008000',
+    marginTop: 20,
+    textAlign: 'center'
+  },
+  modalView: {
+    margin: 5,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    }
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalContainer: {
+    padding: 25,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textInput : {
+    fontSize:22,
+    paddingTop: 20,
+    paddingBottom: 20,
+    textAlign: 'center'
+  },
+})

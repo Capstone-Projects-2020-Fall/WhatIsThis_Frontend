@@ -4,7 +4,7 @@ import { Button, View, Text, Alert, Image, ImageBackground, Modal, TouchableOpac
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import {firestore, storage} from 'firebase';
 import {testReturn, getExerciseArrayByMuscle, getExerciseArrayFromFirestore, returnExerciseList, returnMuscleExerciseList} from '../helpers';
-
+import ExerciseModal from '../ExerciseModal';
 /*
 //import {workoutInfoByMachine,workoutInfoByMuscle} from '../helpers';
 export default class MuscleSelectorScreen extends Component {
@@ -38,8 +38,9 @@ class MuscleSelectorScreen extends Component {
 		this.state = {
       exercises: [],
 			exerciseDiagramURL: [],
-			  isVisible : false,
-			  formalName: "blank" 
+			isVisible : false,
+      formalName: "blank", 
+      exerciseModalList: []
 		};
 	}
 	
@@ -54,12 +55,12 @@ class MuscleSelectorScreen extends Component {
   displayModalMod(show, chosenMuscle){
     this.setState({isVisible: show})
     this.setState({formalName: chosenMuscle})
+    this.createExerciseList(chosenMuscle)
     // console.log(this.num)
     // console.log(this.isVisible)
   }
   
   componentDidMount(){
-	  
 	  
   let queryRef = firestore()
           
@@ -68,34 +69,29 @@ class MuscleSelectorScreen extends Component {
 					.then(querySnapshot => {
 						const data = querySnapshot.docs.map(doc => doc.data());
 						this.setState({exercises: data});
-					});
-	
-				
+					});			
   }
    
+  createExerciseList = (muscleId) => {
+    const {exercises, exerciseModalList} = this.state;
 
+    let muscleExerciseList = []
+
+    exercises.forEach(exercise => {
+      if(exercise?.muscle?.includes(muscleId)){
+        console.log(exercise.imgurl);
+        muscleExerciseList.push({name: exercise.name, description: exercise.description, image: exercise.imgurl});
+    
+      }
+    })
+
+    this.setState({
+      exerciseModalList: [...muscleExerciseList]
+    })
+
+  }
   render() {
-    const {exercises} = this.state;
-	
-	
-	const exerciseNames = new Array();
-    const exerciseDes = new Array();
-    const exerciseMuscle = new Array();
-    const exerciseMachine = new Array();
-
-    const muscleExerciseList = new Array();
-      const imageArray = new Array();
-    function buildArray(muscleID){
-      exercises.forEach(exercise => {
-        if(exercise.muscle.includes(muscleID)){
-			console.log(exercise.imgurl);
-            muscleExerciseList.push(exercise.name, "\n\n",exercise.description, "\n\n", exercise.imgurl, "\n\n");
-			
-        }
-      })
-      return muscleExerciseList;
-    }
-
+    const {exerciseModalList} = this.state;
 
     /**
     var res = [];
@@ -127,39 +123,18 @@ class MuscleSelectorScreen extends Component {
             
             <TouchableWithoutFeedback>
                 
-                <View style={styles.modalView}>
-                <Text 
-                style={styles.modelText}
-                
-              >
-             
-                {buildArray(this.state.formalName)}
-                
-                
-              </Text>
-              
-              
-                </View>
-              
-              </TouchableWithoutFeedback>
+              <View style={styles.modalView}>
+                {exerciseModalList.map((exercise, key) => {
+                    return <ExerciseModal key={key} name={exercise.name} description={exercise.description} image={exercise.image}/>
+                })}
 
-            
-              <Image
-              
-              style = {styles.image}
-              //source ={}
-              
-             
-              />
-
-
-              <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => {
-                    this.displayModal(false)
-                  }}>
-                  <Text style={styles.buttonText}>Close</Text>
+                <TouchableOpacity style={styles.modalButton} onPress={() => {
+                  this.displayModal(false)
+                }}>
+                  <Text style={styles.closeButtonText}>Close</Text>
               </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
             </TouchableOpacity>
             </ScrollView>
           </Modal>
@@ -242,14 +217,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
+    marginTop: 2,
+    marginBottom: 2,
     display: 'flex',
     height: 60,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: '#2AC062',
-    shadowColor: '#2AC062',
+    backgroundColor: 'white',
+    shadowColor: '#00bfff',
+    borderWidth: 2,
+    borderColor: 'grey',
     shadowOpacity: 0.5,
     shadowOffset: { 
       height: 10, 
@@ -273,7 +252,11 @@ const styles = StyleSheet.create({
     shadowRadius: 25,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#00bfff',
+    fontSize: 22,
+  },
+  closeButtonText: {
+    color: 'white',
     fontSize: 22,
   },
   image: {
@@ -308,6 +291,14 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2
     }
+  },
+  modalButton:{
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: '#00bfff',
+    borderWidth: 2,
+    borderColor: 'white'
   },
   centeredView: {
     flex: 1,
