@@ -49,7 +49,7 @@
 ![MuscleSelectorModal](./muscle_selector.jpg)
 5) Recommendation Feature - Recommend to the user a possible exercise based on exercises they have in their calendar.
 ![RecommendationButton](./recommendation_button.jpg)
-![Recommendation](./recommendation.jpg)
+![Recommendation](./recommendation1.jpg)
 
 ## Version Control
 For the course of this project, the branching strategy will involve using [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
