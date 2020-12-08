@@ -31,6 +31,12 @@
 9. On your device, a home screen like this should appear
     ![LoginScreenshot](https://user-images.githubusercontent.com/54753472/99623739-bc247200-29fa-11eb-980f-b0ec59baa860.jpg)
 
+## Connecting to the server
+1. If the URL of your server is different from the production URL, then you will need to change that in the code. The URL can be found in the camera screen inside the fetch call.
+2. You can change this to your localhost if you are running the docker container locally.
+3. Remember, when runnign the expo app on yourt phone, and the server locally, you must add your ip to the address.
+4. For example, if your ip is 111.000.0.1 and the port the server is running on is port 5000 then the URL will look like http://111.000.0.1:5000/predict
+
 ## Version Control
 For the course of this project, the branching strategy will involve using [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 
