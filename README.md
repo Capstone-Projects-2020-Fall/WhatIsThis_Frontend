@@ -28,8 +28,9 @@
     ![ScrrenExample](https://github.com/annguyen2790/firebase-reactnative/blob/master/screenEx.PNG)
     
 8. Click on Run Android/emulator, or any other option of your devices, etc.
-9. On your device, a home screen like this should appear
-    ![LoginScreenshot](https://user-images.githubusercontent.com/54753472/99623739-bc247200-29fa-11eb-980f-b0ec59baa860.jpg)
+9. On your device, a Log In/Sign Up screen like this should appear.
+
+![LoginScreenshot](./LoginScreenshot.jpg)
 
 ## Connecting to the server
 1. If the URL of your server is different from the production URL, then you will need to change that in the code. The URL can be found in the camera screen inside the fetch call.
@@ -40,16 +41,26 @@
 
 ## Features
 1) Allow the user to sign up for the application.
+
 2) Calendar Feature - Allows the user to add workouts to calendar
+
 ![Calendar](./calendar.jpg)
+
 3) Image Recognition - Allow the user to take a photo, or choose from their library, workout equipment. The user then receives a suggestion of possible exercises.
+
 ![ImageRecognition](./image_recognition.jpg)
+
 4) Muscle Selector Feature - Allows the user to select a muscle group and get exercises they can do
+
 ![MuscleSelectorList](./muscle_selector_list.jpg)
+
 ![MuscleSelectorModal](./muscle_selector.jpg)
+
 5) Recommendation Feature - Recommend to the user a possible exercise based on exercises they have in their calendar.
+
 ![RecommendationButton](./recommendation_button.jpg)
-![Recommendation](./recommendation1.jpg)
+
+![Recommendation](./recommendation.jpg)
 
 ## Version Control
 For the course of this project, the branching strategy will involve using [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
